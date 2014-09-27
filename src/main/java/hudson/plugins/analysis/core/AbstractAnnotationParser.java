@@ -98,6 +98,6 @@ public abstract class AbstractAnnotationParser implements AnnotationParser {
      * @throws IOException if the contents of the file could not be read
      */
     protected int createContextHashCode(final String fileName, final int line) throws IOException {
-        return new ContextHashCode().create(fileName, line, defaultEncoding);
+        return new ContextHashCode().create(fileName, defaultEncoding, line);
     }
 }

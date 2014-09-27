@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -88,7 +89,25 @@ public class EncodingValidator {
      */
     public static LineIterator readFile(final String fileName, @CheckForNull final String encoding)
             throws IOException {
-        FileInputStream stream = new FileInputStream(new File(fileName));
+        return readStream(new FileInputStream(new File(fileName)), encoding);
+    }
+
+    /**
+     * Reads the specified file with the given encoding.
+     *
+     * @param stream
+     *            the input stream
+     * @param encoding
+     *            the encoding of the file, if <code>null</code> or empty then
+     *            the default encoding of the platform is used
+     * @return the line iterator
+     * @throws FileNotFoundException
+     *             Indicates that the file is not found.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred during reading of
+     *             the file.
+     */
+    public static LineIterator readStream(final InputStream stream, final String encoding) throws IOException {
         if (StringUtils.isNotBlank(encoding)) {
             return IOUtils.lineIterator(stream, encoding);
         }
