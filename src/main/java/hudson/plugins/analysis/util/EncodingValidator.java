@@ -35,7 +35,7 @@ public final class EncodingValidator {
                     .availableCharsets().keySet()));
         }
         // CHECKSTYLE:OFF
-        catch (Exception exception) {
+        catch (Exception exception) { // NOPMD
             allCharacterSets = Collections.emptySet();
         }
         // CHECKSTYLE:ON

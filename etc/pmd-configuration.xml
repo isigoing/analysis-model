@@ -154,7 +154,11 @@
    <rule ref="rulesets/java/android.xml/CallSuperFirst"/>
    <rule ref="rulesets/java/android.xml/CallSuperLast"/>
    <rule ref="rulesets/java/android.xml/DoNotHardCodeSDCard"/>
-   <rule ref="rulesets/java/empty.xml/EmptyCatchBlock"/>
+   <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
+     <properties>
+       <property name="allowCommentedBlocks" value="true" />
+     </properties>
+   </rule>
    <rule ref="rulesets/java/empty.xml/EmptyIfStmt"/>
    <rule ref="rulesets/java/empty.xml/EmptyWhileStmt"/>
    <rule ref="rulesets/java/empty.xml/EmptyTryBlock"/>
