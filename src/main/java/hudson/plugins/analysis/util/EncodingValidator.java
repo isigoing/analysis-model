@@ -17,6 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Validates a file encoding. The encoding must be an encoding ID supported by
  * the underlying Java platform.
@@ -103,6 +105,7 @@ public final class EncodingValidator {
      *             Signals that an I/O exception has occurred during reading of
      *             the file.
      */
+    @SuppressFBWarnings("DM")
     public static LineIterator readStream(final InputStream stream, @CheckForNull final String encoding) throws IOException {
         if (StringUtils.isNotBlank(encoding)) {
             return IOUtils.lineIterator(stream, encoding);

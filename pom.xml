@@ -74,7 +74,7 @@
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
+      <artifactId>annotations</artifactId>
       <version>${jsr305.version}</version>
     </dependency>
     <dependency>

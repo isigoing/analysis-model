@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A container for annotations.
  *
@@ -165,7 +167,7 @@ public abstract class AnnotationContainer implements AnnotationProvider, Seriali
      *
      * @return the created object
      */
-    @SuppressWarnings("Se")
+    @SuppressFBWarnings("Se")
     private Object readResolve() {
         rebuildMappings();
         return this;

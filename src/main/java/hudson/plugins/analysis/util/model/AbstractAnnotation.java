@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ImmutableList;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import hudson.plugins.analysis.util.TreeString;
 import hudson.plugins.analysis.util.TreeStringBuilder;
 
@@ -83,7 +85,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      * @param type
      *            the type of the annotation
      */
-    @SuppressWarnings("ST")
+    @SuppressFBWarnings("ST")
     public AbstractAnnotation(final String message, final int start, final int end, final String category, final String type) {
         this.message = TreeString.of(StringUtils.strip(StringEscapeUtils.escapeXml11(message)));
         this.category = StringUtils.defaultString(category);
@@ -126,7 +128,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      * @param copy
      *            the annotation to copy the values from
      */
-    @SuppressWarnings("ST")
+    @SuppressFBWarnings("ST")
     public AbstractAnnotation(final FileAnnotation copy) {
         key = currentKey++;
 
@@ -154,7 +156,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      *
      * @return this
      */
-    @SuppressWarnings("SE")
+    @SuppressFBWarnings("SE")
     private Object readResolve() {
         if (origin != null) {
             origin = origin.intern();
