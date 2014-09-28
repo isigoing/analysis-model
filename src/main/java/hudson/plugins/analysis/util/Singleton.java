@@ -27,13 +27,12 @@ public final class Singleton {
         if (!iterator.hasNext()) {
             throw new NoSuchElementException("Collection is empty");
         }
-        if (iterator.hasNext()) {
-            throw new IllegalArgumentException("Collection size != 1");
-        }
-
         T element = iterator.next();
         if (element == null) {
             throw new NullPointerException("Collection element is null"); // NOPMD
+        }
+        if (iterator.hasNext()) {
+            throw new IllegalArgumentException("Collection size != 1");
         }
 
         return element;
