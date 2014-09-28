@@ -28,7 +28,7 @@ public class CsharpNamespaceDetectorTest {
 
         try {
             assertEquals("Wrong namespace name guessed.", "Avaloq.SmartClient.Utilities",
-                    classifier.detectPackageName(stream));
+                    classifier.detectPackageName(stream, "UTF-8"));
         }
         finally {
             IOUtils.closeQuietly(stream);
@@ -48,7 +48,7 @@ public class CsharpNamespaceDetectorTest {
 
         try {
             assertEquals("Wrong namespace name guessed.", "Avaloq.SmartClient.Utilities",
-                    classifier.detectPackageName(stream));
+                    classifier.detectPackageName(stream, "UTF-8"));
         }
         finally {
             IOUtils.closeQuietly(stream);
@@ -67,7 +67,7 @@ public class CsharpNamespaceDetectorTest {
         InputStream stream = CsharpNamespaceDetectorTest.class.getResourceAsStream(fileName);
 
         try {
-            assertEquals("Wrong namespace name guessed.", "-", classifier.detectPackageName(stream));
+            assertEquals("Wrong namespace name guessed.", "-", classifier.detectPackageName(stream, "UTF-8"));
         }
         finally {
             IOUtils.closeQuietly(stream);

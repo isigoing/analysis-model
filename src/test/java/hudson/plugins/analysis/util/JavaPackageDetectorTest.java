@@ -25,7 +25,7 @@ public class JavaPackageDetectorTest {
     public void checkPackage() throws IOException {
         InputStream stream;
         stream = JavaPackageDetectorTest.class.getResourceAsStream("MavenJavaTest.txt");
-        String packageName = classifier.detectPackageName(stream);
+        String packageName = classifier.detectPackageName(stream, "UTF-8");
 
         try {
             assertEquals("Wrong package name guessed.", "hudson.plugins.tasks.util", packageName);
@@ -47,7 +47,7 @@ public class JavaPackageDetectorTest {
         InputStream stream = JavaPackageDetectorTest.class.getResourceAsStream(fileName);
 
         try {
-            assertEquals("Wrong namespace name guessed.", "-", classifier.detectPackageName(stream));
+            assertEquals("Wrong namespace name guessed.", "-", classifier.detectPackageName(stream, "UTF-8"));
         }
         finally {
             IOUtils.closeQuietly(stream);
@@ -67,7 +67,7 @@ public class JavaPackageDetectorTest {
 
         try {
             assertEquals("Wrong namespace name guessed.", "hudson.plugins.findbugs.util",
-                    classifier.detectPackageName(stream));
+                    classifier.detectPackageName(stream, "UTF-8"));
         }
         finally {
             IOUtils.closeQuietly(stream);

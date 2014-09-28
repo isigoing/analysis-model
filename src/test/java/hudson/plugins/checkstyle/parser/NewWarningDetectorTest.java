@@ -21,7 +21,7 @@ import hudson.plugins.analysis.util.model.FileAnnotation;
  */
 public class NewWarningDetectorTest {
     /**
-     * Verifies that the insertion of a new line above the warning fails.
+     * Verifies that the insertion of a new line above the warning does produce a different hashCode.
      */
     @Test
     public void testInsertLineAboveWarning() {
@@ -34,7 +34,7 @@ public class NewWarningDetectorTest {
         int beforeCode = createHashCode("before/InsertLine.java", 7);
         int afterCode = createHashCode("after/InsertLine.java", 8);
 
-        assertEquals("Hash codes do not match: ", beforeCode, afterCode);
+        assertNotEquals("Hash codes do not match: ", beforeCode, afterCode);
     }
 
     /**

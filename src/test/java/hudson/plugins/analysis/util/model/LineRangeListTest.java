@@ -1,8 +1,8 @@
 package hudson.plugins.analysis.util.model;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link LineRangeList}.

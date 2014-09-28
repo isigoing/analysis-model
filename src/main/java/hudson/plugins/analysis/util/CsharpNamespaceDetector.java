@@ -21,9 +21,9 @@ public class CsharpNamespaceDetector extends AbstractPackageDetector {
 
     /** {@inheritDoc}*/
     @Override
-    public String detectPackageName(final InputStream stream) {
+    public String detectPackageName(final InputStream stream, final String encoding) {
         try {
-            LineIterator iterator = IOUtils.lineIterator(stream, "UTF-8");
+            LineIterator iterator = EncodingValidator.readStream(stream, encoding);
             while (iterator.hasNext()) {
                 String line = iterator.nextLine();
                 if (line.matches("^namespace .*$")) {

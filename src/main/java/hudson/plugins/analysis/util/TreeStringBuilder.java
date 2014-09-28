@@ -22,7 +22,7 @@ import java.util.Map;
 @SuppressWarnings({"PMD", "all"})
 //CHECKSTYLE:OFF
 public class TreeStringBuilder {
-    Child root = new Child(new TreeString());
+    private Child root = new Child(new TreeString());
 
     private static class Child {
         private final TreeString node;

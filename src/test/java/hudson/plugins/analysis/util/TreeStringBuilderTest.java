@@ -1,12 +1,12 @@
 package hudson.plugins.analysis.util;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the class {@link TreeStringBuilder}.

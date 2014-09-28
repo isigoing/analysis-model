@@ -27,7 +27,7 @@ public final class PackageDetectors {
     public static String detectPackageName(final String fileName) {
         for (PackageDetector detector : DETECTORS) {
             if (detector.accepts(fileName)) {
-                return detector.detectPackageName(fileName);
+                return detector.detectPackageName(fileName, "UTF-8");
             }
         }
         return UNDEFINED_PACKAGE;

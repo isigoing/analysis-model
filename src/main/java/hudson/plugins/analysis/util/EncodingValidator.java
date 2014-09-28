@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -107,12 +108,12 @@ public class EncodingValidator {
      *             Signals that an I/O exception has occurred during reading of
      *             the file.
      */
-    public static LineIterator readStream(final InputStream stream, final String encoding) throws IOException {
+    public static LineIterator readStream(final InputStream stream, @CheckForNull final String encoding) throws IOException {
         if (StringUtils.isNotBlank(encoding)) {
             return IOUtils.lineIterator(stream, encoding);
         }
         else {
-            return IOUtils.lineIterator(stream, null);
+            return IOUtils.lineIterator(new InputStreamReader(stream));
         }
     }
 
@@ -130,5 +131,9 @@ public class EncodingValidator {
             return encoding;
         }
         return Charset.defaultCharset().name();
+    }
+
+    private EncodingValidator() {
+        // prevents instantiation
     }
 }

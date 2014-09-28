@@ -16,12 +16,12 @@ public abstract class AbstractPackageDetector implements PackageDetector {
     protected static final String UNKNOWN_PACKAGE = "-";
 
     @Override
-    public String detectPackageName(final String fileName) {
+    public String detectPackageName(final String fileName, final String encoding) {
         FileInputStream input = null;
         try {
             if (accepts(fileName)) {
                 input = new FileInputStream(new File(fileName));
-                return detectPackageName(input);
+                return detectPackageName(input, encoding);
             }
         }
         catch (FileNotFoundException exception) {
