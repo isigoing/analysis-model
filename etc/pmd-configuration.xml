@@ -249,7 +249,6 @@
    <rule ref="rulesets/java/naming.xml/NoPackage"/>
    <rule ref="rulesets/java/naming.xml/PackageCase"/>
    <rule ref="rulesets/java/naming.xml/MisleadingVariableName"/>
-   <rule ref="rulesets/java/naming.xml/ShortClassName"/>
    <rule ref="rulesets/java/naming.xml/GenericsNaming"/>
    <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
    <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength"/>
