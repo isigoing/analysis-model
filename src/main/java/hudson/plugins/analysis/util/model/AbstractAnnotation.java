@@ -27,6 +27,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     public static final String WORKSPACE_FILES = "workspace-files";
     /** Unique identifier of this class. */
     private static final long serialVersionUID = -1092014926477547148L;
+    private static final String NO_PACKAGE = "-";
     /** Current key of this annotation. */
     private static long currentKey;
 
@@ -258,7 +259,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
         String actualPackageName = StringUtils.trim(TreeString.toString(packageName));
 
         return StringUtils.isNotBlank(actualPackageName)
-                && !StringUtils.equals(actualPackageName, "-");
+                && !StringUtils.equals(actualPackageName, NO_PACKAGE);
     }
 
     /**
@@ -534,7 +535,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     @Override
     public String getShortFileName() {
         if (isInConsoleLog()) {
-            return "-";
+            return NO_PACKAGE;
         }
         return FilenameUtils.getName(TreeString.toString(fileName));
     }

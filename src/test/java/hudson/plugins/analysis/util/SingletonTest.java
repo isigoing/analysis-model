@@ -1,4 +1,4 @@
-package edu.hm.hafner.util;
+package hudson.plugins.analysis.util;
 
 import java.util.HashSet;
 import java.util.NoSuchElementException;

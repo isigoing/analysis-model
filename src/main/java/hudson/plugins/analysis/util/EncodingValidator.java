@@ -3,7 +3,6 @@ package hudson.plugins.analysis.util;
 import javax.annotation.CheckForNull;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ulli Hafner
  */
-public class EncodingValidator {
+public final class EncodingValidator {
     /** All available character sets. */
     private static Set<String> allCharacterSets;
 
@@ -82,8 +81,6 @@ public class EncodingValidator {
      *            the encoding of the file, if <code>null</code> or empty then
      *            the default encoding of the platform is used
      * @return the line iterator
-     * @throws FileNotFoundException
-     *             Indicates that the file is not found.
      * @throws IOException
      *             Signals that an I/O exception has occurred during reading of
      *             the file.
@@ -102,8 +99,6 @@ public class EncodingValidator {
      *            the encoding of the file, if <code>null</code> or empty then
      *            the default encoding of the platform is used
      * @return the line iterator
-     * @throws FileNotFoundException
-     *             Indicates that the file is not found.
      * @throws IOException
      *             Signals that an I/O exception has occurred during reading of
      *             the file.
