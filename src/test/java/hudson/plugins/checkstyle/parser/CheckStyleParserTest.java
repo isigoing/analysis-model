@@ -1,5 +1,13 @@
 package hudson.plugins.checkstyle.parser;
 
+import static org.junit.Assert.*;
+import hudson.plugins.analysis.core.ParserResult;
+import hudson.plugins.analysis.util.model.FileAnnotation;
+import hudson.plugins.analysis.util.model.MavenModule;
+import hudson.plugins.analysis.util.model.Priority;
+import hudson.plugins.analysis.util.model.WorkspaceFile;
+import hudson.plugins.checkstyle.rules.CheckStyleRules;
+
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -8,15 +16,6 @@ import java.util.Iterator;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.core.ParserResult;
-import hudson.plugins.analysis.util.model.FileAnnotation;
-import hudson.plugins.analysis.util.model.MavenModule;
-import hudson.plugins.analysis.util.model.Priority;
-import hudson.plugins.analysis.util.model.WorkspaceFile;
-import hudson.plugins.checkstyle.rules.CheckStyleRules;
 
 /**
  *  Tests the extraction of Checkstyle analysis results.
@@ -89,7 +88,7 @@ public class CheckStyleParserTest {
                         "Checks that classes are designed for extension."));
                 assertEquals(
                         "Wrong message detected.",
-                        StringEscapeUtils.escapeXml("Die Methode 'detectPackageName' ist nicht fr Vererbung entworfen - muss abstract, final oder leer sein."),
+                        StringEscapeUtils.escapeXml11("Die Methode 'detectPackageName' ist nicht fr Vererbung entworfen - muss abstract, final oder leer sein."),
                         warning.getMessage());
                 hasChecked = true;
             }

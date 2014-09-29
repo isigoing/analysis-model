@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>analysis-model</artifactId>
@@ -38,6 +39,8 @@
     <jsr305.version>2.0.2</jsr305.version>
 
     <!-- Maven plug-in versions -->
+    <compiler.maven.plugin>3.1</compiler.maven.plugin>
+    <jdt.plexus.compiler.version>2.2</jdt.plexus.compiler.version>
     <animal-sniffer-maven-plugin.version>1.11</animal-sniffer-maven-plugin.version>
     <cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
     <jacoco-maven-plugin.version>0.6.3.201306030806</jacoco-maven-plugin.version>
@@ -102,6 +105,28 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler.maven.plugin}</version>
+        <configuration>
+          <compilerId>eclipse</compilerId>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <testSource>${java.version}</testSource>
+          <testTarget>${java.version}</testTarget>
+          <compilerArguments>
+            <properties>.settings/org.eclipse.jdt.core.prefs</properties>
+            <enableJavadoc/>
+          </compilerArguments>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-compiler-eclipse</artifactId>
+            <version>${jdt.plexus.compiler.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
