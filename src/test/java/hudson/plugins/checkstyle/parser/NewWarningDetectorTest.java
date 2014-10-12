@@ -1,18 +1,27 @@
 package hudson.plugins.checkstyle.parser;
 
+import static org.junit.Assert.*;
+import hudson.plugins.analysis.util.ContextHashCode;
+import hudson.plugins.analysis.util.Singleton;
+import hudson.plugins.analysis.util.model.FileAnnotation;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.regex.Matcher;
+
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
+
+import com.puppycrawl.tools.checkstyle.TreeWalker;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.FileContents;
+import com.puppycrawl.tools.checkstyle.api.FileText;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import hudson.plugins.analysis.util.ContextHashCode;
-import hudson.plugins.analysis.util.Singleton;
-import hudson.plugins.analysis.util.model.FileAnnotation;
 
 /**
  * Test cases for the new warnings detector.
@@ -52,6 +61,83 @@ public class NewWarningDetectorTest {
         int afterCode = createHashCode("after/InsertLine2.java", 8);
 
         assertEquals("Hash codes do not match: ", beforeCode, afterCode);
+    }
+
+    /**
+     * Verifies that the insertion of a new line above the warning doesn't change the AST.
+     */
+    @Test
+    public void testInsertLineAboveWarningWithAST() {
+        try {
+            assertTrue("AST do not match", getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine.java", false)));
+        }
+        catch (RecognitionException exception) {
+            exception.printStackTrace();
+        }
+        catch (TokenStreamException exception) {
+            exception.printStackTrace();
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Verifies that the insertion of a new line before the package declaration does not change the AST.
+     */
+    @Test
+    public void testInsertLineBeforePackageWithAST() {
+        try {
+            assertTrue("AST do not match", getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine2.java", false)));
+        }
+        catch (RecognitionException exception) {
+            exception.printStackTrace();
+        }
+        catch (TokenStreamException exception) {
+            exception.printStackTrace();
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Verifies that two different Java-Source-Files has different AST.
+     */
+    @Test
+    public void testDifferentSourceFilesShowsDifferentAST() {
+        try {
+            assertFalse("AST do match", getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine3.java", false)));
+        }
+        catch (RecognitionException exception) {
+            exception.printStackTrace();
+        }
+        catch (TokenStreamException exception) {
+            exception.printStackTrace();
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private DetailAST getASTFromFile(final String filename, final boolean before) throws RecognitionException, TokenStreamException, IOException {
+        String workspace = System.getProperty("user.dir");
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+");
+
+        if (before) {
+            stringBuilder.append("before+");
+        }
+        else {
+            stringBuilder.append("after+");
+        }
+        stringBuilder.append(filename);
+
+        String fileSeparator = System.getProperty("file.separator");
+        String path = stringBuilder.toString().replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
+
+        return TreeWalker.parse(new FileContents(new FileText(new File(path), "UTF-8")));
     }
 
     private int createHashCode(final String fileName, final int line) {
