@@ -58,8 +58,16 @@ public final class Test {
         DetailAST ast = TreeWalker.parse(new FileContents(new FileText(new File(pathBefore), "UTF-8")));
         DetailAST ast2 = TreeWalker.parse(new FileContents(new FileText(new File(pathAfter), "UTF-8")));
 
+        System.out.println(ast.getNextSibling().getText());
+        System.out.println(ast.getFirstChild().getText());
+
         System.out.println("Gleicher AST: " + isEqualAST(ast, ast2));
         System.out.println("Anzahl Methoden:" + getMethods(ast2).size());
+
+        DetailAST a = getClassDef(ast);
+        System.out.println("Zeile: " + a.getLineNo());
+        System.out.println("---");
+        runThroughAST(ast);
     }
 
     /**
@@ -190,5 +198,23 @@ public final class Test {
      */
     public static boolean isEqualAST(final DetailAST ast1, final DetailAST ast2) {
         return ast1.equalsTree(ast2);
+    }
+
+    /**
+     * Runs through the AST.
+     * TODO
+     * @param root The AST which is run through
+     */
+    public static void runThroughAST(final DetailAST root) {
+        if (root != null) {
+            if (root.getFirstChild() != null) {
+                System.out.println(root.getText());
+                runThroughAST(root.getFirstChild());
+            }
+            else if (root.getNextSibling() != null) {
+                System.out.println(root.getText());
+                runThroughAST(root.getNextSibling());
+            }
+        }
     }
 }
