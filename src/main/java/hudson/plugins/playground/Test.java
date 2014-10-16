@@ -202,17 +202,17 @@ public final class Test {
 
     /**
      * Runs through the AST.
-     * TODO
-     * @param root The AST which is run through
+     *
+     * @param root
+     *            Expects the root of the AST which is run through
      */
     public static void runThroughAST(final DetailAST root) {
         if (root != null) {
+            System.out.println(root.getText());
             if (root.getFirstChild() != null) {
-                System.out.println(root.getText());
                 runThroughAST(root.getFirstChild());
             }
-            else if (root.getNextSibling() != null) {
-                System.out.println(root.getText());
+            if (root.getNextSibling() != null) {
                 runThroughAST(root.getNextSibling());
             }
         }
