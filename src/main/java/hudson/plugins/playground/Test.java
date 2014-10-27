@@ -1,6 +1,5 @@
 package hudson.plugins.playground;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +8,13 @@ import java.util.regex.Matcher;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.FileContents;
-import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 /**
  * Klasse zum reinen Ausprobieren.
  *
- * @author <a href="mailto:moestl@hm.edu">Christian M&ouml;stl</a>
+ * @author Christian M&ouml;stl
  */
 public final class Test {
 
@@ -55,85 +51,15 @@ public final class Test {
         pathBefore = pathBefore.replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
         pathAfter = pathAfter.replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
 
-        DetailAST ast = TreeWalker.parse(new FileContents(new FileText(new File(pathBefore), "UTF-8")));
-        DetailAST ast2 = TreeWalker.parse(new FileContents(new FileText(new File(pathAfter), "UTF-8")));
+        /*
+         * TODO: IDEE: AST ast; switch(category) case "javadoc": ast = new JavadocAST(filename, linenumber); break; case
+         * "whitespace": ast = new WhitespaceAST(filename, linenumber); break; ...
+         */
+        AST ast = new JavadocAST(pathBefore, 7);
 
-        System.out.println(ast.getNextSibling().getText());
-        System.out.println(ast.getFirstChild().getText());
-
-        System.out.println("Gleicher AST: " + isEqualAST(ast, ast2));
-        System.out.println("Anzahl Methoden:" + getMethods(ast2).size());
-
-        DetailAST a = getClassDef(ast);
-        System.out.println("Zeile: " + a.getLineNo());
-        System.out.println("---");
-        runThroughAST(ast);
-    }
-
-    /**
-     * Returns the DetailAST from {@link com.puppycrawl.tools.checkstyle.api.TokenTypes#CLASS_DEF TokenTypes.CLASS_DEF}.
-     *
-     * @param root
-     *            The root of the ast.
-     * @return DetailAST from CLASS_DEF.
-     */
-    private static DetailAST getClassDef(final DetailAST root) {
-        for (DetailAST a = root; a != null; a = a.getNextSibling()) {
-            if (a.getType() == TokenTypes.CLASS_DEF) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns the DetailAST from {@link com.puppycrawl.tools.checkstyle.api.TokenTypes#OBJBLOCK TokenTypes.OBJBLOCK}.
-     * TODO: OBJBLOCK könnte nicht nur CLASS_DEF als Parent haben...
-     *
-     * @param root
-     *            The root of the ast.
-     * @return DetailAST from OBJBLOCK.
-     */
-    private static DetailAST getOBJBLOCK(final DetailAST root) {
-        DetailAST classDef = getClassDef(root).getFirstChild();
-        if (classDef == null) {
-            return null;
-        }
-        else {
-            for (DetailAST a = classDef; a != null; a = a.getNextSibling()) {
-                if (a.getType() == TokenTypes.OBJBLOCK) {
-                    return a;
-                }
-            }
-            return null;
-        }
-    }
-
-    /**
-     * Returns a list of methods in AST-data-structure.
-     *
-     * @param root
-     *            The root of the ast.
-     * @return The list of methods in AST-data-structure.
-     */
-    public static List<DetailAST> getMethods(final DetailAST root) {
-        List<DetailAST> methods = new ArrayList<DetailAST>();
-        DetailAST objBlock = getOBJBLOCK(root);
-
-        if (objBlock == null) {
-            return null;
-        }
-        else {
-            DetailAST firstElement = objBlock.getFirstChild();
-            // Bemerkung: objBlock muss immer mind. 2 Kinder haben (Die geschweiften Klammern).
-            for (DetailAST ast = firstElement; ast != null; ast = ast.getNextSibling()) {
-                if (ast.getType() == TokenTypes.METHOD_DEF) {
-                    methods.add(ast);
-                }
-            }
-        }
-
-        return methods;
+        ast.runThroughAST(ast.getAbstractSyntaxTree());
+        System.out.println("--+--");
+        ast.printList(ast.getElementsInSameLine());
     }
 
     /**
@@ -161,7 +87,7 @@ public final class Test {
      * @param list
      *            List which should be printed.
      */
-    public static void printList(final List<DetailAST> list) {
+    public void printList(final List<DetailAST> list) {
         if (list != null) {
             for (DetailAST ast : list) {
                 System.out.println(ast.getText() + ", " + TokenTypes.getTokenName(ast.getType()));
@@ -170,20 +96,6 @@ public final class Test {
         else {
             System.out.println("Keine Elemente...");
         }
-    }
-
-    /**
-     * Returns true, if the ast contains the other ast.
-     *
-     * @param bigAST
-     *            The ast in that is searched.
-     * @param part
-     *            the ast which is searched in the bigAST.
-     * @return <code>true</code>, if the ast contains the other ast, otherwise <code>false</code>
-     */
-    public static boolean findAST(final DetailAST bigAST, final DetailAST part) {
-        // TODO
-        return true;
     }
 
     /**
@@ -206,15 +118,34 @@ public final class Test {
      * @param root
      *            Expects the root of the AST which is run through
      */
-    public static void runThroughAST(final DetailAST root) {
+    public static void runThroughAST(final DetailAST root, final int line) {
         if (root != null) {
-            System.out.println(root.getText());
+            if (root.getLineNo() == line) {
+                System.out.println(root.getText());
+            }
             if (root.getFirstChild() != null) {
-                runThroughAST(root.getFirstChild());
+                runThroughAST(root.getFirstChild(), line);
             }
             if (root.getNextSibling() != null) {
-                runThroughAST(root.getNextSibling());
+                runThroughAST(root.getNextSibling(), line);
             }
         }
     }
+
+    public long calcHashcode(final List<DetailAST> list) {
+        if (list == null) {
+            return 0;
+        }
+        else {
+            long primenumber = 7;
+            long hashCode = 0;
+
+            for (DetailAST element : list) {
+                hashCode = (hashCode + element.getType()) * primenumber;
+            }
+
+            return hashCode;
+        }
+    }
+
 }
