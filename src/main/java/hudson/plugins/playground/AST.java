@@ -2,6 +2,8 @@ package hudson.plugins.playground;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +149,6 @@ public abstract class AST {
     public void runThroughAST(final DetailAST root, final int line) {
         if (root != null) {
             if (root.getLineNo() == line) {
-                System.out.println(TokenTypes.getTokenName(root.getType()));
                 elementsInSameLine.add(root);
             }
             if (root.getFirstChild() != null) {
@@ -225,4 +226,36 @@ public abstract class AST {
      * @return the Area
      */
     public abstract List<DetailAST> chooseArea();
+
+    /**
+     * Calculates the Hashcode (SHA-1) for the list.
+     *
+     * @param list
+     *            the list.
+     * @return the hashcode
+     */
+    public String calcSHA1(final List<DetailAST> list) {
+        try {
+            if (list != null) {
+                MessageDigest md = MessageDigest.getInstance("SHA-1");
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (int i = 0; i < list.size(); i++) {
+                    stringBuilder.append(TokenTypes.getTokenName(list.get(i).getType()));
+                    stringBuilder.append(" ");
+                }
+
+                byte[] digest = md.digest(stringBuilder.toString().getBytes());
+                stringBuilder.setLength(0);
+                for (byte b : digest) {
+                    stringBuilder.append(String.format("%02x", b));
+                }
+                return stringBuilder.toString();
+            }
+        }
+        catch (NoSuchAlgorithmException exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
 }

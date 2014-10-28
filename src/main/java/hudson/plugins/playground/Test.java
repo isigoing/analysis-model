@@ -37,7 +37,7 @@ public final class Test {
     public static void main(final String[] args) throws RecognitionException, TokenStreamException, IOException {
         String workspace = System.getProperty("user.dir");
         String filenameBefore = "InsertLine.java";
-        String filenameAfter = "InsertLine3.java";
+        String filenameAfter = "InsertLine2.java";
 
         StringBuilder stringBuilder = new StringBuilder();
         String path = stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+")
@@ -60,6 +60,13 @@ public final class Test {
         ast.runThroughAST(ast.getAbstractSyntaxTree());
         System.out.println("--+--");
         ast.printList(ast.getElementsInSameLine());
+
+        String s = ast.calcSHA1(ast.getElementsInSameLine());
+        System.out.println("----");
+        System.out.println("Hash = " + s);
+
+        AST ast2 = new JavadocAST(pathAfter, 8);
+        System.out.println("Hash2 = " + ast2.calcSHA1(ast2.getElementsInSameLine()));
     }
 
     /**

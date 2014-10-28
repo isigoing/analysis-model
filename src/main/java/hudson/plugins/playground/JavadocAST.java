@@ -35,6 +35,7 @@ public class JavadocAST extends AST {
         // Package Javadoc?
 
         // Method Javadoc?
+        // Komplette SLIST anschauen...
 
         // Style Javadoc?
 
