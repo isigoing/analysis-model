@@ -1,5 +1,7 @@
 package hudson.plugins.playground;
 
+import hudson.plugins.analysis.util.model.FileAnnotation;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -29,19 +31,22 @@ public abstract class AST {
 
     private List<DetailAST> elementsInSameLine;
 
+    private FileAnnotation fileAnnotation;
+
     /**
      * Creates a new instance of {@link AST}.
      *
      * @param filename
      *            the filename
-     * @param lineOfWarning
-     *            the linenumber
+     * @param fileAnnotation
+     *            the FileAnnotation
      */
-    public AST(final String filename, final int lineOfWarning) {
+    public AST(final String filename, final FileAnnotation fileAnnotation) {
         this.filename = filename;
         abstractSyntaxTree = createAST(filename);
         elementsInSameLine = new ArrayList<DetailAST>();
-        runThroughAST(abstractSyntaxTree, lineOfWarning);
+        this.fileAnnotation = fileAnnotation;
+        runThroughAST(abstractSyntaxTree, fileAnnotation.getPrimaryLineNumber());
     }
 
     /**
@@ -99,6 +104,24 @@ public abstract class AST {
      */
     public List<DetailAST> getElementsInSameLine() {
         return elementsInSameLine;
+    }
+
+    /**
+     * Sets the fileAnnotation to the specified value.
+     *
+     * @param fileAnnotation the value to set
+     */
+    public void setFileAnnotation(final FileAnnotation fileAnnotation) {
+        this.fileAnnotation = fileAnnotation;
+    }
+
+    /**
+     * Returns the fileAnnotation.
+     *
+     * @return the fileAnnotation
+     */
+    public FileAnnotation getFileAnnotation() {
+        return fileAnnotation;
     }
 
     /**
@@ -221,7 +244,7 @@ public abstract class AST {
     }
 
     /**
-     * Choose the Area around the warning
+     * Choose the Area around the warning.
      *
      * @return the Area
      */

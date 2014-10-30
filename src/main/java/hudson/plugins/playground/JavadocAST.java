@@ -1,5 +1,7 @@
 package hudson.plugins.playground;
 
+import hudson.plugins.analysis.util.model.FileAnnotation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,11 @@ public class JavadocAST extends AST {
      *
      * @param filename
      *            the file
-     * @param lineOfWarning
-     *            the linenumber
+     * @param fileAnnotation
+     *            the FileAnnotation
      */
-    public JavadocAST(final String filename, final int lineOfWarning) {
-        super(filename, lineOfWarning);
+    public JavadocAST(final String filename, final FileAnnotation fileAnnotation) {
+        super(filename, fileAnnotation);
     }
 
     @Override
