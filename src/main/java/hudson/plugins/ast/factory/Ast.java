@@ -4,6 +4,7 @@ import hudson.plugins.analysis.util.model.FileAnnotation;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public abstract class Ast {
     private List<DetailAST> elementsInSameLine;
 
     private FileAnnotation fileAnnotation;
+
+    private static final String DELIMITER = " ";
+    private static final String CHARSET = "UTF-8";
 
     /**
      * Creates a new instance of {@link Ast}.
@@ -133,7 +137,7 @@ public abstract class Ast {
      */
     private DetailAST createAst(final String file) {
         try {
-            return TreeWalker.parse(new FileContents(new FileText(new File(file), "UTF-8")));
+            return TreeWalker.parse(new FileContents(new FileText(new File(file), CHARSET)));
         }
         catch (RecognitionException exception) {
             exception.printStackTrace();
@@ -236,20 +240,21 @@ public abstract class Ast {
     public String calcSha1(final List<DetailAST> list) {
         try {
             if (list != null) {
-                MessageDigest md = MessageDigest.getInstance("SHA-1");
-                StringBuilder stringBuilder = new StringBuilder();
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+                StringBuilder astElements = new StringBuilder();
+                StringBuilder result = new StringBuilder();
 
                 for (int i = 0; i < list.size(); i++) {
-                    stringBuilder.append(TokenTypes.getTokenName(list.get(i).getType()));
-                    stringBuilder.append(" ");
+                    astElements.append(TokenTypes.getTokenName(list.get(i).getType()));
+                    astElements.append(DELIMITER);
                 }
 
-                byte[] digest = md.digest(stringBuilder.toString().getBytes());
-                stringBuilder.setLength(0);
+                byte[] digest = messageDigest.digest(astElements.toString().getBytes(Charset.forName(CHARSET)));
+
                 for (byte b : digest) {
-                    stringBuilder.append(String.format("%02x", b));
+                    result.append(String.format("%02x", b));
                 }
-                return stringBuilder.toString();
+                return result.toString();
             }
         }
         catch (NoSuchAlgorithmException exception) {
