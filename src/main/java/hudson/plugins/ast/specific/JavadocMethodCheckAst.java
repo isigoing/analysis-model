@@ -1,6 +1,7 @@
-package hudson.plugins.playground;
+package hudson.plugins.ast.specific;
 
 import hudson.plugins.analysis.util.model.FileAnnotation;
+import hudson.plugins.ast.factory.Ast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,21 +9,21 @@ import java.util.List;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 /**
- * Abstract Syntax Tree for analyzing Javadoc-warnings.
+ * Abstract Syntax Tree for analyzing JavadocMethodCheck-warnings.
  *
  * @author Christian M&ouml;stl
  */
-public class JavadocAST extends AST {
+public class JavadocMethodCheckAst extends Ast {
 
     /**
-     * Creates a new instance of {@link JavadocAST}.
+     * Creates a new instance of {@link JavadocMethodCheckAst}.
      *
      * @param filename
      *            the file
      * @param fileAnnotation
-     *            the FileAnnotation
+     *            the fileAnnotation
      */
-    public JavadocAST(final String filename, final FileAnnotation fileAnnotation) {
+    public JavadocMethodCheckAst(final String filename, final FileAnnotation fileAnnotation) {
         super(filename, fileAnnotation);
     }
 
@@ -32,20 +33,6 @@ public class JavadocAST extends AST {
         List<DetailAST> elementsInLine = getElementsInSameLine();
 
         List<DetailAST> chosenElements = new ArrayList<DetailAST>();
-
-
-        // Package Javadoc?
-
-        // Method Javadoc?
-        // Komplette SLIST anschauen...
-
-        // Style Javadoc?
-
-        // Type Javadoc?
-
-        // Variable Javadoc?
-
-        // Write tag?
 
         return chosenElements;
     }

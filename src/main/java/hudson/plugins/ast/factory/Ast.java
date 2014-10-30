@@ -1,4 +1,4 @@
-package hudson.plugins.playground;
+package hudson.plugins.ast.factory;
 
 import hudson.plugins.analysis.util.model.FileAnnotation;
 
@@ -23,7 +23,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  *
  * @author Christian M&ouml;stl
  */
-public abstract class AST {
+public abstract class Ast {
 
     private DetailAST abstractSyntaxTree;
 
@@ -34,16 +34,16 @@ public abstract class AST {
     private FileAnnotation fileAnnotation;
 
     /**
-     * Creates a new instance of {@link AST}.
+     * Creates a new instance of {@link Ast}.
      *
      * @param filename
      *            the filename
      * @param fileAnnotation
      *            the FileAnnotation
      */
-    public AST(final String filename, final FileAnnotation fileAnnotation) {
+    public Ast(final String filename, final FileAnnotation fileAnnotation) {
         this.filename = filename;
-        abstractSyntaxTree = createAST(filename);
+        abstractSyntaxTree = createAst(filename);
         elementsInSameLine = new ArrayList<DetailAST>();
         this.fileAnnotation = fileAnnotation;
         runThroughAST(abstractSyntaxTree, fileAnnotation.getPrimaryLineNumber());
@@ -131,7 +131,7 @@ public abstract class AST {
      *            the filename
      * @return the DetailAST
      */
-    private DetailAST createAST(final String file) {
+    private DetailAST createAst(final String file) {
         try {
             return TreeWalker.parse(new FileContents(new FileText(new File(file), "UTF-8")));
         }
@@ -203,30 +203,6 @@ public abstract class AST {
     }
 
     /**
-     * Calculates the Hashcode.
-     *
-     * @param list
-     *            nodes of the AST.
-     * @return the hashcode.
-     */
-    // TODO: Parameter von Warning miteinbeziehen...
-    public long calcHashcode(final List<DetailAST> list) {
-        if (list == null) {
-            return 0;
-        }
-        else {
-            long primenumber = 7;
-            long hashCode = 0;
-
-            for (DetailAST element : list) {
-                hashCode += element.getType() * primenumber;
-            }
-
-            return hashCode;
-        }
-    }
-
-    /**
      * Prints the list.
      *
      * @param list
@@ -257,7 +233,7 @@ public abstract class AST {
      *            the list.
      * @return the hashcode
      */
-    public String calcSHA1(final List<DetailAST> list) {
+    public String calcSha1(final List<DetailAST> list) {
         try {
             if (list != null) {
                 MessageDigest md = MessageDigest.getInstance("SHA-1");

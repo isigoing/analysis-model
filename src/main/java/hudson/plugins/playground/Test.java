@@ -1,7 +1,16 @@
 package hudson.plugins.playground;
 
+import hudson.plugins.analysis.util.Singleton;
+import hudson.plugins.analysis.util.model.FileAnnotation;
+import hudson.plugins.ast.factory.Ast;
+import hudson.plugins.ast.factory.AstFactory;
+import hudson.plugins.checkstyle.parser.CheckStyleParser;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -51,22 +60,35 @@ public final class Test {
         pathBefore = pathBefore.replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
         pathAfter = pathAfter.replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
 
-        /*
-         * TODO: IDEE: AST ast; switch(category) case "javadoc": ast = new JavadocAST(filename, linenumber); break; case
-         * "whitespace": ast = new WhitespaceAST(filename, linenumber); break; ...
-         */
-        AST ast = new JavadocAST(pathBefore, 7);
+        FileAnnotation beforeWarning = readWarning("before/InsertLine.xml");
+        Ast ast = AstFactory.getInstance(pathBefore, beforeWarning);
 
         ast.runThroughAST(ast.getAbstractSyntaxTree());
         System.out.println("--+--");
         ast.printList(ast.getElementsInSameLine());
 
-        String s = ast.calcSHA1(ast.getElementsInSameLine());
+        String s = ast.calcSha1(ast.getElementsInSameLine());
         System.out.println("----");
         System.out.println("Hash = " + s);
 
-        AST ast2 = new JavadocAST(pathAfter, 8);
-        System.out.println("Hash2 = " + ast2.calcSHA1(ast2.getElementsInSameLine()));
+//        Ast ast2 = new JavadocMethodCheckAst(pathAfter, 8);
+//        System.out.println("Hash2 = " + ast2.calcSha1(ast2.getElementsInSameLine()));
+    }
+
+    private static FileAnnotation readWarning(final String fileName) {
+        try {
+            CheckStyleParser parser = new CheckStyleParser();
+            Collection<FileAnnotation> warnings = null;
+            warnings = parser.parse(read(fileName), "-");
+            return Singleton.get(warnings);
+        }
+        catch (InvocationTargetException e) {
+            throw new RuntimeException("Can't read CheckStyle file " + fileName, e);
+        }
+    }
+
+    private static InputStream read(final String fileName) {
+        return Test.class.getResourceAsStream(fileName);
     }
 
     /**
