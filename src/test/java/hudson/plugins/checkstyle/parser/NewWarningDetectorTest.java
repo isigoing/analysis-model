@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import hudson.plugins.analysis.util.ContextHashCode;
 import hudson.plugins.analysis.util.Singleton;
 import hudson.plugins.analysis.util.model.FileAnnotation;
+import hudson.plugins.ast.factory.Ast;
+import hudson.plugins.ast.factory.AstFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,7 +71,8 @@ public class NewWarningDetectorTest {
     @Test
     public void testInsertLineAboveWarningWithAST() {
         try {
-            assertTrue("AST do not match", getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine.java", false)));
+            assertTrue("AST do not match",
+                    getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine.java", false)));
         }
         catch (RecognitionException exception) {
             exception.printStackTrace();
@@ -88,7 +91,8 @@ public class NewWarningDetectorTest {
     @Test
     public void testInsertLineBeforePackageWithAST() {
         try {
-            assertTrue("AST do not match", getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine2.java", false)));
+            assertTrue("AST do not match",
+                    getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine2.java", false)));
         }
         catch (RecognitionException exception) {
             exception.printStackTrace();
@@ -107,7 +111,8 @@ public class NewWarningDetectorTest {
     @Test
     public void testDifferentSourceFilesShowsDifferentAST() {
         try {
-            assertFalse("AST do match", getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine3.java", false)));
+            assertFalse("AST do match",
+                    getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine3.java", false)));
         }
         catch (RecognitionException exception) {
             exception.printStackTrace();
@@ -120,7 +125,8 @@ public class NewWarningDetectorTest {
         }
     }
 
-    private DetailAST getASTFromFile(final String filename, final boolean before) throws RecognitionException, TokenStreamException, IOException {
+    private DetailAST getASTFromFile(final String filename, final boolean before) throws RecognitionException,
+            TokenStreamException, IOException {
         String workspace = System.getProperty("user.dir");
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -140,6 +146,7 @@ public class NewWarningDetectorTest {
         return TreeWalker.parse(new FileContents(new FileText(new File(path), "UTF-8")));
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     private int createHashCode(final String fileName, final int line) {
         try {
             ContextHashCode hashCode = new ContextHashCode();
@@ -170,5 +177,54 @@ public class NewWarningDetectorTest {
 
     private InputStream read(final String fileName) {
         return NewWarningDetectorTest.class.getResourceAsStream(fileName);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode as given for a missing Method-Javadoc.
+     */
+    @Test
+    public void testJavadocMethodCheck() {
+        String hashBefore = calcHashcode("InsertLine.java", "InsertLine.xml", true);
+        String hashAfter = calcHashcode("InsertLine.java", "InsertLine.xml", false);
+
+        compareHashcode(hashBefore, hashAfter);
+    }
+
+    private void compareHashcode(final String hashBefore, final String hashAfter) {
+        assertNotNull("Hash code isn't not null", hashBefore);
+        assertEquals("Hash codes don't match: ", hashBefore, hashAfter);
+    }
+
+    private String calcHashcode(final String javaFile, final String xml, final boolean before) {
+        Ast ast;
+        if (before) {
+            ast = getAst(javaFile, "before/" + xml, true);
+        }
+        else {
+            ast = getAst(javaFile, "after/" + xml, false);
+        }
+
+        return ast.calcSha1(ast.chooseArea());
+    }
+
+    private Ast getAst(final String filename, final String xmlFile, final boolean before) {
+        String workspace = System.getProperty("user.dir");
+        FileAnnotation fileAnnotation = readWarning(xmlFile);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+");
+
+        if (before) {
+            stringBuilder.append("before+");
+        }
+        else {
+            stringBuilder.append("after+");
+        }
+        stringBuilder.append(filename);
+
+        String fileSeparator = System.getProperty("file.separator");
+        String path = stringBuilder.toString().replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
+
+        return AstFactory.getInstance(path, fileAnnotation);
     }
 }

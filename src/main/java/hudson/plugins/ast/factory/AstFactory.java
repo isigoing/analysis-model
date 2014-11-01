@@ -30,7 +30,7 @@ public final class AstFactory {
         Ast ast;
         // Notiz: switch case statement erst ab Java 1.7
 
-        if ("com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck".equals(type)) {
+        if ("JavadocMethodCheck".equals(type)) {
             ast = new JavadocMethodCheckAst(filename, fileAnnotation);
         }/*
         else if ("com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck".equals(type)) {

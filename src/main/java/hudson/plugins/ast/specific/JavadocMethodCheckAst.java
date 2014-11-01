@@ -34,6 +34,6 @@ public class JavadocMethodCheckAst extends Ast {
 
         List<DetailAST> chosenElements = new ArrayList<DetailAST>();
 
-        return chosenElements;
+        return elementsInLine;
     }
 }
