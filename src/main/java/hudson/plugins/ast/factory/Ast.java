@@ -36,6 +36,7 @@ public abstract class Ast {
 
     private static final String DELIMITER = " ";
     private static final String CHARSET = "UTF-8";
+    private static final String HASH_ALGORITHM = "SHA-1";
 
     /**
      * Creates a new instance of {@link Ast}.
@@ -113,7 +114,8 @@ public abstract class Ast {
     /**
      * Sets the fileAnnotation to the specified value.
      *
-     * @param fileAnnotation the value to set
+     * @param fileAnnotation
+     *            the value to set
      */
     public void setFileAnnotation(final FileAnnotation fileAnnotation) {
         this.fileAnnotation = fileAnnotation;
@@ -175,6 +177,7 @@ public abstract class Ast {
      */
     public void runThroughAST(final DetailAST root, final int line) {
         if (root != null) {
+            System.out.println(TokenTypes.getTokenName(root.getType()));
             if (root.getLineNo() == line) {
                 elementsInSameLine.add(root);
             }
@@ -237,16 +240,29 @@ public abstract class Ast {
      *            the list.
      * @return the hashcode
      */
-    public String calcSha1(final List<DetailAST> list) {
+    public String calcSha(final List<DetailAST> list) {
         try {
             if (list != null) {
-                MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+                MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
                 StringBuilder astElements = new StringBuilder();
                 StringBuilder result = new StringBuilder();
 
+                int type;
+                List<DetailAST> children;
                 for (int i = 0; i < list.size(); i++) {
-                    astElements.append(TokenTypes.getTokenName(list.get(i).getType()));
-                    astElements.append(DELIMITER);
+                    type = list.get(i).getType();
+                    if (type == TokenTypes.TYPE) {
+                        // Kinderelemente von TYPE zu astElements adden
+                        children = getChildren(list.get(i));
+                        for (DetailAST child : children) {
+                            astElements.append(child.getText());
+                            astElements.append(DELIMITER);
+                        }
+                    }
+                    else {
+                        astElements.append(TokenTypes.getTokenName(type));
+                        astElements.append(DELIMITER);
+                    }
                 }
 
                 byte[] digest = messageDigest.digest(astElements.toString().getBytes(Charset.forName(CHARSET)));
@@ -260,6 +276,18 @@ public abstract class Ast {
         catch (NoSuchAlgorithmException exception) {
             exception.printStackTrace();
         }
+        return null;
+    }
+
+    /**
+     * Returns the children of the element.
+     *
+     * @param element
+     *            the parent of the children
+     * @return children of element
+     */
+    protected List<DetailAST> getChildren(final DetailAST element) {
+        // FIXME
         return null;
     }
 }

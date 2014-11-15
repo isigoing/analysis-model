@@ -204,7 +204,7 @@ public class NewWarningDetectorTest {
             ast = getAst(javaFile, "after/" + xml, false);
         }
 
-        return ast.calcSha1(ast.chooseArea());
+        return ast.calcSha(ast.chooseArea());
     }
 
     private Ast getAst(final String filename, final String xmlFile, final boolean before) {
