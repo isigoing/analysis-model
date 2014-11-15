@@ -1,9 +1,23 @@
 package hudson.plugins.ast.factory;
 
 import hudson.plugins.analysis.util.model.FileAnnotation;
+import hudson.plugins.ast.specific.ClassAst;
 import hudson.plugins.ast.specific.DefaultAst;
+import hudson.plugins.ast.specific.EnvironmentAst;
+import hudson.plugins.ast.specific.FileAst;
+import hudson.plugins.ast.specific.InstancevariableAst;
 import hudson.plugins.ast.specific.JavadocMethodCheckAst;
-import hudson.plugins.ast.specific.StrictDuplicateCodeCheckAst;
+import hudson.plugins.ast.specific.MethodAst;
+import hudson.plugins.ast.specific.MethodOrClassAst;
+import hudson.plugins.ast.specific.NameClassAst;
+import hudson.plugins.ast.specific.NameEnvironmentAst;
+import hudson.plugins.ast.specific.NameInstancevariableAst;
+import hudson.plugins.ast.specific.NameMethodAst;
+import hudson.plugins.ast.specific.NamePackageAst;
+
+import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Factory for abstract syntax trees.
@@ -35,18 +49,12 @@ public final class AstFactory {
             "JavadocStyle", "MissingDeprecated", "ModifierOrder", "RedundantModifier", "VisibilityModifier"};
     private static final String[] INSTANCEVARIABLE_AST = new String[]{"ConstantName", "ExplicitInitialization",
             "JavadocVariable"};
-
     private static final String[] NAME_ENVIRONMENT_AST = new String[]{"LocalFinalVariableName", "LocalVariableName"};
-
     private static final String[] NAME_INSTANCEVARIABLE_AST = new String[]{"MemberName", "StaticVariableName"};
-
     private static final String[] NAME_METHOD_AST = new String[]{"MethodName", "MethodTypeParameterName",
             "ParameterName"};
-
     private static final String[] NAME_CLASS_AST = new String[]{"ClassTypeParameterName", "TypeName"};
-
     private static final String[] NAME_PACKAGE_AST = new String[]{"PackageName"};
-
     private static final String[] QUESTION = new String[]{"FileContentsHolder", "PackageAnnotation"};
 
     /**
@@ -58,24 +66,53 @@ public final class AstFactory {
      *            the {@link FileAnnotation}
      * @return the specific ast. TODO:
      */
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     public static Ast getInstance2(final String filename, final FileAnnotation fileAnnotation) {
         String type = fileAnnotation.getType();
         Ast ast;
-        // Notiz: switch case statement erst ab Java 1.7
+        String checkstyleModulName = StringUtils.removeEnd(type, "Check");
 
-        if ("JavadocMethodCheck".equals(type)) {
-            ast = new JavadocMethodCheckAst(filename, fileAnnotation);
-        }/*
-          * else if ("com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck".equals(type)) { /* Vergleiche
-          * nur(!) Klassennamen im Package. (ohne AST lösen...) Wenn Klasse hinzugefügt wird, wird Warning
-          * fälschlicherweise als neu deklariert. TODO }
-          */
-        else if ("com.puppycrawl.tools.checkstyle.checks.duplicates.StrictDuplicateCodeCheck".equals(type)) {
-            ast = new StrictDuplicateCodeCheckAst(filename, fileAnnotation);
+        if (Arrays.asList(METHOD_AST).contains(checkstyleModulName)) {
+            ast = new MethodAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(ENVIRONMENT_AST).contains(checkstyleModulName)) {
+            ast = new EnvironmentAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(FILE_AST).contains(checkstyleModulName)) {
+            ast = new FileAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(CLASS_AST).contains(checkstyleModulName)) {
+            ast = new ClassAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(METHOD_OR_CLASS_AST).contains(checkstyleModulName)) {
+            ast = new MethodOrClassAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(INSTANCEVARIABLE_AST).contains(checkstyleModulName)) {
+            ast = new InstancevariableAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(NAME_ENVIRONMENT_AST).contains(checkstyleModulName)) {
+            ast = new NameEnvironmentAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(NAME_INSTANCEVARIABLE_AST).contains(checkstyleModulName)) {
+            ast = new NameInstancevariableAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(NAME_METHOD_AST).contains(checkstyleModulName)) {
+            ast = new NameMethodAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(NAME_CLASS_AST).contains(checkstyleModulName)) {
+            ast = new NameClassAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(NAME_PACKAGE_AST).contains(checkstyleModulName)) {
+            ast = new NamePackageAst(filename, fileAnnotation);
+        }
+        else if (Arrays.asList(QUESTION).contains(checkstyleModulName)) {
+            // TODO Einordnung?
+            ast = null;
         }
         else {
             ast = new DefaultAst(filename, fileAnnotation);
         }
+
         return ast;
     }
 
@@ -100,9 +137,6 @@ public final class AstFactory {
           * nur(!) Klassennamen im Package. (ohne AST lösen...) Wenn Klasse hinzugefügt wird, wird Warning
           * fälschlicherweise als neu deklariert. TODO }
           */
-        else if ("com.puppycrawl.tools.checkstyle.checks.duplicates.StrictDuplicateCodeCheck".equals(type)) {
-            ast = new StrictDuplicateCodeCheckAst(filename, fileAnnotation);
-        }
         else {
             ast = new DefaultAst(filename, fileAnnotation);
         }

@@ -8,19 +8,20 @@ import java.util.List;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 /**
- * FIXME: Document type StrictDuplicateCodeCheckAst.
+ * FIXME: Document type InstancevariableAst.
  *
  * @author Christian M&ouml;stl
  */
-public class StrictDuplicateCodeCheckAst extends Ast {
+public class InstancevariableAst extends Ast {
 
     /**
-     * Creates a new instance of {@link StrictDuplicateCodeCheckAst}.
+     * Creates a new instance of {@link InstancevariableAst}.
      * @param filename
      * @param fileAnnotation
      */
-    public StrictDuplicateCodeCheckAst(final String filename, final FileAnnotation fileAnnotation) {
+    public InstancevariableAst(final String filename, final FileAnnotation fileAnnotation) {
         super(filename, fileAnnotation);
+        // FIXME Auto-generated constructor stub
     }
 
     @Override
