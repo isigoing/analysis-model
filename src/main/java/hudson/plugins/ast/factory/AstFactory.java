@@ -6,7 +6,6 @@ import hudson.plugins.ast.specific.DefaultAst;
 import hudson.plugins.ast.specific.EnvironmentAst;
 import hudson.plugins.ast.specific.FileAst;
 import hudson.plugins.ast.specific.InstancevariableAst;
-import hudson.plugins.ast.specific.JavadocMethodCheckAst;
 import hudson.plugins.ast.specific.MethodAst;
 import hudson.plugins.ast.specific.MethodOrClassAst;
 import hudson.plugins.ast.specific.NameClassAst;
@@ -67,7 +66,7 @@ public final class AstFactory {
      * @return the specific ast. TODO:
      */
     @SuppressWarnings("PMD.CyclomaticComplexity")
-    public static Ast getInstance2(final String filename, final FileAnnotation fileAnnotation) {
+    public static Ast getInstance(final String filename, final FileAnnotation fileAnnotation) {
         String type = fileAnnotation.getType();
         Ast ast;
         String checkstyleModulName = StringUtils.removeEnd(type, "Check");
@@ -113,33 +112,6 @@ public final class AstFactory {
             ast = new DefaultAst(filename, fileAnnotation);
         }
 
-        return ast;
-    }
-
-    /**
-     * Creates an instance of a specific {@link Ast}.
-     *
-     * @param filename
-     *            the file
-     * @param fileAnnotation
-     *            the {@link FileAnnotation}
-     * @return the specific ast.
-     */
-    public static Ast getInstance(final String filename, final FileAnnotation fileAnnotation) {
-        String type = fileAnnotation.getType();
-        Ast ast;
-        // Notiz: switch case statement erst ab Java 1.7
-
-        if ("JavadocMethodCheck".equals(type)) {
-            ast = new JavadocMethodCheckAst(filename, fileAnnotation);
-        }/*
-          * else if ("com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck".equals(type)) { /* Vergleiche
-          * nur(!) Klassennamen im Package. (ohne AST lösen...) Wenn Klasse hinzugefügt wird, wird Warning
-          * fälschlicherweise als neu deklariert. TODO }
-          */
-        else {
-            ast = new DefaultAst(filename, fileAnnotation);
-        }
         return ast;
     }
 }
