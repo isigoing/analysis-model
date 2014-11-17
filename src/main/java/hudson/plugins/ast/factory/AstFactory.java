@@ -75,7 +75,7 @@ public final class AstFactory {
             ast = new MethodAst(filename, fileAnnotation);
         }
         else if (Arrays.asList(ENVIRONMENT_AST).contains(checkstyleModulName)) {
-            ast = new EnvironmentAst(filename, fileAnnotation);
+            ast = new EnvironmentAst(filename, fileAnnotation, 3/*TODO*/);
         }
         else if (Arrays.asList(FILE_AST).contains(checkstyleModulName)) {
             ast = new FileAst(filename, fileAnnotation);
