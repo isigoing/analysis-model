@@ -16,19 +16,20 @@ public class FileAst extends Ast {
 
     /**
      * Creates a new instance of {@link FileAst}.
+     *
      * @param filename
+     *            The filename
      * @param fileAnnotation
+     *            the fileAnnotation
      */
     public FileAst(final String filename, final FileAnnotation fileAnnotation) {
         super(filename, fileAnnotation);
-        // FIXME Auto-generated constructor stub
     }
 
     @Override
     public List<DetailAST> chooseArea() {
-        // FIXME Auto-generated method stub
-        return null;
+        runThroughAST(getAbstractSyntaxTree());
+
+        return getAllElements();
     }
-
 }
-

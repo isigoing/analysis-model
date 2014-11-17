@@ -36,6 +36,8 @@ public abstract class Ast {
 
     private List<DetailAST> children = new ArrayList<DetailAST>();
 
+    private final List<DetailAST> allElements = new ArrayList<DetailAST>();
+
     private static final String DELIMITER = " ";
     private static final String CHARSET = "UTF-8";
     private static final String HASH_ALGORITHM = "SHA-1";
@@ -130,6 +132,15 @@ public abstract class Ast {
      */
     public FileAnnotation getFileAnnotation() {
         return fileAnnotation;
+    }
+
+    /**
+     * Returns the allElements.
+     *
+     * @return the allElements
+     */
+    public List<DetailAST> getAllElements() {
+        return allElements;
     }
 
     /**
@@ -231,6 +242,7 @@ public abstract class Ast {
     public void runThroughAST(final DetailAST root) {
         if (root != null) {
             System.out.println(TokenTypes.getTokenName(root.getType()));
+            allElements.add(root);
 
             if (root.getFirstChild() != null) {
                 runThroughAST(root.getFirstChild());
