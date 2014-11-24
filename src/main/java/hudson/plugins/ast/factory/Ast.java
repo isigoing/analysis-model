@@ -321,4 +321,33 @@ public abstract class Ast {
         }
         return null;
     }
+
+    private DetailAST objBlock;
+
+    /**
+     * Returns the objBlock of the abstract syntax tree.
+     *
+     * @param topRoot
+     *            the highest root of the ast
+     * @return the objblock
+     */
+    protected DetailAST getObjBlock(final DetailAST topRoot) {
+        help(topRoot);
+
+        return objBlock;
+    }
+
+    private void help(final DetailAST topRoot) {
+        if (topRoot != null) {
+            if (topRoot.getType() == TokenTypes.OBJBLOCK) {
+                objBlock = topRoot;
+            }
+            if (topRoot.getFirstChild() != null) {
+                help(topRoot.getFirstChild());
+            }
+            if (topRoot.getNextSibling() != null) {
+                help(topRoot.getNextSibling());
+            }
+        }
+    }
 }
