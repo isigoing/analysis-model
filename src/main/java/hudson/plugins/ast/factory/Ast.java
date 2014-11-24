@@ -332,21 +332,21 @@ public abstract class Ast {
      * @return the objblock
      */
     protected DetailAST getObjBlock(final DetailAST topRoot) {
-        help(topRoot);
+        calcObjBlock(topRoot);
 
         return objBlock;
     }
 
-    private void help(final DetailAST topRoot) {
+    private void calcObjBlock(final DetailAST topRoot) {
         if (topRoot != null) {
             if (topRoot.getType() == TokenTypes.OBJBLOCK) {
                 objBlock = topRoot;
             }
             if (topRoot.getFirstChild() != null) {
-                help(topRoot.getFirstChild());
+                calcObjBlock(topRoot.getFirstChild());
             }
             if (topRoot.getNextSibling() != null) {
-                help(topRoot.getNextSibling());
+                calcObjBlock(topRoot.getNextSibling());
             }
         }
     }
