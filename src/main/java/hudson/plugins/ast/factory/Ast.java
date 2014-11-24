@@ -173,6 +173,9 @@ public abstract class Ast {
         return children;
     }
 
+    /**
+     * Clears the children.
+     */
     public void clear() {
         children.clear();
     }
@@ -290,6 +293,28 @@ public abstract class Ast {
      */
     public abstract List<DetailAST> chooseArea();
 
+    /** Necessary for ASTs with name. */
+    private String name = "";
+
+    /**
+     * Sets the name to the specified value.
+     *
+     * @param name
+     *            the value to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
+     * Returns the name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
     /**
      * Calculates the Hashcode (SHA-1) for the list.
      *
@@ -298,6 +323,19 @@ public abstract class Ast {
      * @return the hashcode
      */
     public String calcSha(final List<DetailAST> list) {
+        return calcSha(list, getName());
+    }
+
+    /**
+     * Calculates the Hashcode (SHA-1) for the list.
+     *
+     * @param list
+     *            the list.
+     * @param nameParam
+     *            the name
+     * @return the hashcode
+     */
+    public String calcSha(final List<DetailAST> list, final String nameParam) {
         try {
             if (list != null) {
                 MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
@@ -320,6 +358,9 @@ public abstract class Ast {
                         astElements.append(TokenTypes.getTokenName(type));
                         astElements.append(DELIMITER);
                     }
+                }
+                if (nameParam != null) {
+                    astElements.append(name);
                 }
                 byte[] digest = messageDigest.digest(astElements.toString().getBytes(Charset.forName(CHARSET)));
 
