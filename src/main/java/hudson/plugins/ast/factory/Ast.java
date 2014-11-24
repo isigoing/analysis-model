@@ -173,6 +173,19 @@ public abstract class Ast {
         return children;
     }
 
+    public void clear() {
+        children.clear();
+    }
+
+    /**
+     * Returns the children.
+     *
+     * @return the children
+     */
+    public List<DetailAST> getChildren() {
+        return children;
+    }
+
     /**
      * Creates the DetailAST of the specified Java-source-file.
      *
@@ -332,21 +345,22 @@ public abstract class Ast {
      * @return the objblock
      */
     protected DetailAST getObjBlock(final DetailAST topRoot) {
-        calcObjBlock(topRoot);
+        calcObjBlock(topRoot, 0);
 
         return objBlock;
     }
 
-    private void calcObjBlock(final DetailAST topRoot) {
+    private void calcObjBlock(final DetailAST topRoot, int counter) {
         if (topRoot != null) {
-            if (topRoot.getType() == TokenTypes.OBJBLOCK) {
+            if (topRoot.getType() == TokenTypes.OBJBLOCK && counter == 0) {
                 objBlock = topRoot;
+                counter++;
             }
             if (topRoot.getFirstChild() != null) {
-                calcObjBlock(topRoot.getFirstChild());
+                calcObjBlock(topRoot.getFirstChild(), counter);
             }
             if (topRoot.getNextSibling() != null) {
-                calcObjBlock(topRoot.getNextSibling());
+                calcObjBlock(topRoot.getNextSibling(), counter);
             }
         }
     }
