@@ -129,6 +129,7 @@ public class NewWarningDetectorTest {
             TokenStreamException, IOException {
         String workspace = System.getProperty("user.dir");
 
+        @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+");
 
@@ -163,6 +164,7 @@ public class NewWarningDetectorTest {
         assertEquals("Wrong line", fileName, FilenameUtils.getName(before.getFileName()));
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     private FileAnnotation readWarning(final String fileName) {
         try {
             CheckStyleParser parser = new CheckStyleParser();
@@ -211,6 +213,7 @@ public class NewWarningDetectorTest {
         String workspace = System.getProperty("user.dir");
         FileAnnotation fileAnnotation = readWarning(xmlFile);
 
+        @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+");
 
