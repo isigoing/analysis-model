@@ -23,7 +23,9 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Christian M&ouml;stl
  */
+//CHECKSTYLE:OFF
 public final class AstFactory {
+//CHECKSTYLE:ON
 
     private AstFactory() {
         // prevents initialization
@@ -54,7 +56,7 @@ public final class AstFactory {
             "ParameterName"};
     private static final String[] NAME_CLASS_AST = new String[]{"ClassTypeParameterName", "TypeName"};
     private static final String[] NAME_PACKAGE_AST = new String[]{"PackageName"};
-    private static final String[] QUESTION = new String[]{"FileContentsHolder", "PackageAnnotation"};
+//    private static final String[] QUESTION = new String[]{"FileContentsHolder", "PackageAnnotation"};
 
     /**
      * Creates an instance of a specific {@link Ast}.
@@ -90,7 +92,7 @@ public final class AstFactory {
             ast = new InstancevariableAst(filename, fileAnnotation);
         }
         else if (Arrays.asList(NAME_ENVIRONMENT_AST).contains(checkstyleModulName)) {
-            ast = new NameEnvironmentAst(filename, fileAnnotation);
+            ast = new NameEnvironmentAst(filename, fileAnnotation, 3/*TODO*/);
         }
         else if (Arrays.asList(NAME_INSTANCEVARIABLE_AST).contains(checkstyleModulName)) {
             ast = new NameInstancevariableAst(filename, fileAnnotation);
@@ -104,10 +106,10 @@ public final class AstFactory {
         else if (Arrays.asList(NAME_PACKAGE_AST).contains(checkstyleModulName)) {
             ast = new NamePackageAst(filename, fileAnnotation);
         }
-        else if (Arrays.asList(QUESTION).contains(checkstyleModulName)) {
-            // TODO Einordnung?
-            ast = null;
-        }
+//        else if (Arrays.asList(QUESTION).contains(checkstyleModulName)) {
+//            // TODO Einordnung?
+//            ast = null;
+//        }
         else {
             ast = new DefaultAst(filename, fileAnnotation);
         }
