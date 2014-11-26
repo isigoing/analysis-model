@@ -15,6 +15,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  */
 public class NameMethodAst extends Ast {
 
+    private DetailAST ident;
+
     /**
      * Creates a new instance of {@link NameMethodAst}.
      *
@@ -30,18 +32,15 @@ public class NameMethodAst extends Ast {
     @Override
     public List<DetailAST> chooseArea() {
         Ast ast = new MethodAst(getFilename(), getFileAnnotation());
-
         List<DetailAST> chosenArea = ast.chooseArea();
-
         DetailAST first = chosenArea.get(0).getFirstChild();
+
         calcMethodName(first, 0);
 
         ast.setName(ident.getText());
 
         return chosenArea;
     }
-
-    private DetailAST ident;
 
     private void calcMethodName(final DetailAST method, int counter) {
         if (method != null) {
@@ -57,4 +56,21 @@ public class NameMethodAst extends Ast {
             }
         }
     }
+
+    // private void executeMethod(final DetailAST method, final int counter) {
+    // String type = getFileAnnotation().getType();
+    // String checkstyleModulName = StringUtils.removeEnd(type, "Check");
+    //
+    // checkstyleModulName = checkstyleModulName.toUpperCase(Locale.GERMAN);
+    //
+    // if (checkstyleModulName.equals(WarningType.METHODNAME.toString())) {
+    // calcMethodName(method, counter);
+    // }
+    // else if (checkstyleModulName.equals(WarningType.PARAMETERNAME.toString())) {
+    //
+    // }
+    // else if (checkstyleModulName.equals(WarningType.METHODTYPEPARAMETERNAME.toString())) {
+    //
+    // }
+    // }
 }
