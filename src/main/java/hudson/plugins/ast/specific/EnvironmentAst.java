@@ -9,7 +9,8 @@ import java.util.List;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 /**
- * FIXME: Document type EnvironmentAst.
+ * Creates the abstract syntax tree for a specific environment. It takes a specific number of rows before and after the
+ * warning.
  *
  * @author Christian M&ouml;stl
  */
@@ -36,22 +37,58 @@ public class EnvironmentAst extends Ast {
     public List<DetailAST> chooseArea() {
         List<DetailAST> elementsInLine = getElementsInSameLine();
 
-        //TODO: Problem welches Element ist der Startpunkt (Gesamte "Zeile"?)
         List<DetailAST> chosen = new ArrayList<DetailAST>();
-        chosen.addAll(elementsBefore(elementsInLine.get(0), surrounding));
+        chosen.addAll(elementsBefore(elementsInLine.get(0)));
         chosen.addAll(elementsInLine);
-        chosen.addAll(elementsAfter(elementsInLine.get(elementsInLine.size() - 1), surrounding));
+        chosen.addAll(elementsAfter(elementsInLine.get(elementsInLine.size() - 1)));
 
         return chosen;
     }
 
-    private List<DetailAST> elementsBefore(final DetailAST start, final int surrounding) {
-
-        return null;
+    private List<DetailAST> elementsBefore(final DetailAST start) {
+        return calcEnvironment(start, true);
     }
 
-    private List<DetailAST> elementsAfter(final DetailAST start, final int surrounding) {
+    private List<DetailAST> elementsAfter(final DetailAST start) {
+        return calcEnvironment(start, false);
+    }
 
-        return null;
+    private List<DetailAST> calcEnvironment(final DetailAST start, final boolean before) {
+        int startLine = start.getLineNo();
+        int nextLine;
+        int counter = 0;
+        DetailAST completeAst = getAbstractSyntaxTree();
+
+        List<DetailAST> environment = new ArrayList<DetailAST>();
+
+        int limit;
+        if (before) {
+            limit = startLine;
+        }
+        else {
+            limit = getLastLineNumber() - startLine + 1;
+        }
+        for (int i = 1; i < limit; i++) {
+            if (counter < surrounding) {
+                if (before) {
+                    nextLine = startLine - i;
+                }
+                else {
+                    nextLine = startLine + i;
+                }
+                clearElementsInSameLine();
+                runThroughAST(completeAst, nextLine);
+                if (!getElementsInSameLine().isEmpty()) {
+                    counter++;
+                    environment.addAll(getElementsInSameLine());
+                    clearElementsInSameLine();
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        return environment;
     }
 }
