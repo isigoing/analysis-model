@@ -106,6 +106,10 @@ public abstract class Ast {
         this.elementsInSameLine = elementsInSameLine;
     }
 
+    public void clearElementsInSameLine() {
+        elementsInSameLine.clear();
+    }
+
     /**
      * Returns the elementsInSameLine.
      *
@@ -236,7 +240,7 @@ public abstract class Ast {
      */
     public void runThroughAST(final DetailAST root, final int line) {
         if (root != null) {
-            System.out.println(TokenTypes.getTokenName(root.getType()));
+            // System.out.println(TokenTypes.getTokenName(root.getType()));
             if (root.getLineNo() == line) {
                 elementsInSameLine.add(root);
             }
@@ -391,7 +395,16 @@ public abstract class Ast {
         return objBlock;
     }
 
-    private void calcObjBlock(final DetailAST topRoot, int counter) {
+    /**
+     * Calculates the OBJBLOCK of the ast.
+     *
+     * @param topRoot
+     *            the highest root of the ast
+     * @param counter
+     *            which OBJBLOCK should be found? For example if you want have the first OBJBLOCK, you have to set
+     *            the counter to 0.
+     */
+    protected void calcObjBlock(final DetailAST topRoot, int counter) {
         if (topRoot != null) {
             if (topRoot.getType() == TokenTypes.OBJBLOCK && counter == 0) {
                 objBlock = topRoot;
@@ -404,5 +417,28 @@ public abstract class Ast {
                 calcObjBlock(topRoot.getNextSibling(), counter);
             }
         }
+    }
+
+    /**
+     * Calculates the last sibling of the given ast-element.
+     *
+     * @param element
+     *            the current element in the ast
+     * @return the last element.
+     */
+    protected DetailAST getLastSibling(final DetailAST element) {
+        if (element.getNextSibling() != null) {
+            return getLastSibling(element.getNextSibling());
+        }
+        return element;
+    }
+
+    /**
+     * Calculates the last line number of the abstract syntax tree.
+     *
+     * @return Returns the last linenumber of the ast.
+     */
+    public int getLastLineNumber() {
+        return getLastSibling(getObjBlock(abstractSyntaxTree).getFirstChild()).getLineNo();
     }
 }
