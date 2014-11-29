@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Christian M&ouml;stl
  */
-//CHECKSTYLE:COUPLING-OFF
+// CHECKSTYLE:COUPLING-OFF
 public final class AstFactory {
 
     private AstFactory() {
@@ -27,31 +27,36 @@ public final class AstFactory {
     }
 
     private static final String[] METHOD_AST = new String[]{"AnonInnerLength", "CovariantEquals", "EqualsAvoidNull",
-            "EqualsHashCode", "HiddenField", "JavadocMethod", "MethodLength", "MethodName", "MethodParamPad", "MethodTypeParameterName", "ParameterAssignment",
-            "ParameterName", "ParameterNumber", "SuperClone", "SuperFinalize", "ThrowsCount"};
+            "EqualsHashCode", "HiddenField", "JavadocMethod", "MethodLength", "MethodName", "MethodParamPad",
+            "MethodTypeParameterName", "ParameterAssignment", "ParameterName", "ParameterNumber", "SuperClone",
+            "SuperFinalize", "ThrowsCount"};
     private static final String[] ENVIRONMENT_AST = new String[]{"ArrayTypeStyle", "AvoidNestedBlocks",
             "BooleanExpressionComplexity", "DefaultComesLast", "EmptyBlock", "EmptyForIteratorPad", "EmptyStatement",
             "FallThrough", "GenericWhitespace", "IllegalCatch", "IllegalThrows", "InnerAssignment", "JavaNCSS",
-            "LeftCurly", "LocalFinalVariableName", "LocalVariableName", "MissingSwitchDefault", "ModifiedControlVariable", "MultipleVariableDeclarations",
-            "NeedBraces", "NestedForDepth", "NestedIfDepth", "NestedTryDepth", "NoWhitespaceAfter",
-            "NoWhitespaceBefore", "NPathComplexity", "OneStatementPerLine", "OperatorWrap", "ParenPad", "RightCurly",
-            "SimplifyBooleanExpression", "SimplifyBooleanReturn", "StringLiteralEquality", "TypecastParenPad",
-            "UnnecessaryParentheses", "UpperEll", "WhitespaceAfter", "WhitespaceAround"};
+            "LeftCurly", "LocalFinalVariableName", "LocalVariableName", "MissingSwitchDefault",
+            "ModifiedControlVariable", "MultipleVariableDeclarations", "NeedBraces", "NestedForDepth", "NestedIfDepth",
+            "NestedTryDepth", "NoWhitespaceAfter", "NoWhitespaceBefore", "NPathComplexity", "OneStatementPerLine",
+            "OperatorWrap", "ParenPad", "RightCurly", "SimplifyBooleanExpression", "SimplifyBooleanReturn",
+            "StringLiteralEquality", "TypecastParenPad", "UnnecessaryParentheses", "UpperEll", "WhitespaceAfter",
+            "WhitespaceAround"};
     private static final String[] FILE_AST = new String[]{"ClassDataAbstractionCoupling", "ClassFanOutComplexity",
             "FileLength", "IllegalImport", "InterfaceIsType", "OuterTypeFilename", "PackageDeclaration"};
-    private static final String[] CLASS_AST = new String[]{"ClassTypeParameterName", "FinalClass", "HideUtilityClassConstructor",
-            "InnerTypeLast", "JavadocType", "JUnitTestCase", "MultipleStringLiterals", "MutableException", "TypeName"};
+    private static final String[] CLASS_AST = new String[]{"ClassTypeParameterName", "FinalClass",
+            "HideUtilityClassConstructor", "InnerTypeLast", "JavadocType", "JUnitTestCase", "MultipleStringLiterals",
+            "MutableException", "TypeName"};
     private static final String[] METHOD_OR_CLASS_AST = new String[]{"AnnotationUseStyle", "FileTabCharacter",
             "JavadocStyle", "MissingDeprecated", "ModifierOrder", "RedundantModifier", "VisibilityModifier"};
     private static final String[] INSTANCEVARIABLE_AST = new String[]{"ConstantName", "ExplicitInitialization",
             "JavadocVariable", "MemberName", "StaticVariableName"};
     private static final String[] NAME_PACKAGE_AST = new String[]{"PackageName"};
-//    private static final String[] NAME_ENVIRONMENT_AST = new String[]{"LocalFinalVariableName", "LocalVariableName"};
-//    private static final String[] NAME_INSTANCEVARIABLE_AST = new String[]{"MemberName", "StaticVariableName"};
-//    private static final String[] NAME_METHOD_AST = new String[]{"MethodName", "MethodTypeParameterName",
-//            "ParameterName"};
-//    private static final String[] NAME_CLASS_AST = new String[]{"ClassTypeParameterName", "TypeName"};
-//    private static final String[] QUESTION = new String[]{"FileContentsHolder", "PackageAnnotation"};
+
+    // FIXME: Check before go-live.
+    // private static final String[] NAME_ENVIRONMENT_AST = new String[]{"LocalFinalVariableName", "LocalVariableName"};
+    // private static final String[] NAME_INSTANCEVARIABLE_AST = new String[]{"MemberName", "StaticVariableName"};
+    // private static final String[] NAME_METHOD_AST = new String[]{"MethodName", "MethodTypeParameterName",
+    // "ParameterName"};
+    // private static final String[] NAME_CLASS_AST = new String[]{"ClassTypeParameterName", "TypeName"};
+    // private static final String[] QUESTION = new String[]{"FileContentsHolder", "PackageAnnotation"};
 
     /**
      * Creates an instance of a specific {@link Ast}.
@@ -60,7 +65,7 @@ public final class AstFactory {
      *            the file
      * @param fileAnnotation
      *            the {@link FileAnnotation}
-     * @return the specific ast. TODO:
+     * @return the specific ast.
      */
     @SuppressWarnings("PMD.CyclomaticComplexity")
     public static Ast getInstance(final String filename, final FileAnnotation fileAnnotation) {
@@ -72,7 +77,7 @@ public final class AstFactory {
             ast = new MethodAst(filename, fileAnnotation);
         }
         else if (Arrays.asList(ENVIRONMENT_AST).contains(checkstyleModulName)) {
-            ast = new EnvironmentAst(filename, fileAnnotation, 3/*TODO*/);
+            ast = new EnvironmentAst(filename, fileAnnotation, 3);
         }
         else if (Arrays.asList(FILE_AST).contains(checkstyleModulName)) {
             ast = new FileAst(filename, fileAnnotation);
@@ -86,18 +91,18 @@ public final class AstFactory {
         else if (Arrays.asList(INSTANCEVARIABLE_AST).contains(checkstyleModulName)) {
             ast = new InstancevariableAst(filename, fileAnnotation);
         }
-//        else if (Arrays.asList(NAME_ENVIRONMENT_AST).contains(checkstyleModulName)) {
-//            ast = new NameEnvironmentAst(filename, fileAnnotation, 3/*TODO*/);
-//        }
-//        else if (Arrays.asList(NAME_INSTANCEVARIABLE_AST).contains(checkstyleModulName)) {
-//            ast = new NameInstancevariableAst(filename, fileAnnotation);
-//        }
-//        else if (Arrays.asList(NAME_METHOD_AST).contains(checkstyleModulName)) {
-//            ast = new NameMethodAst(filename, fileAnnotation);
-//        }
-//        else if (Arrays.asList(NAME_CLASS_AST).contains(checkstyleModulName)) {
-//            ast = new NameClassAst(filename, fileAnnotation);
-//        }
+        // else if (Arrays.asList(NAME_ENVIRONMENT_AST).contains(checkstyleModulName)) {
+        // ast = new NameEnvironmentAst(filename, fileAnnotation, 3);
+        // }
+        // else if (Arrays.asList(NAME_INSTANCEVARIABLE_AST).contains(checkstyleModulName)) {
+        // ast = new NameInstancevariableAst(filename, fileAnnotation);
+        // }
+        // else if (Arrays.asList(NAME_METHOD_AST).contains(checkstyleModulName)) {
+        // ast = new NameMethodAst(filename, fileAnnotation);
+        // }
+        // else if (Arrays.asList(NAME_CLASS_AST).contains(checkstyleModulName)) {
+        // ast = new NameClassAst(filename, fileAnnotation);
+        // }
         else if (Arrays.asList(NAME_PACKAGE_AST).contains(checkstyleModulName)) {
             ast = new NamePackageAst(filename, fileAnnotation);
         }
