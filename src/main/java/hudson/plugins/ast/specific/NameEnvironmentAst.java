@@ -14,21 +14,29 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
  */
 public class NameEnvironmentAst extends Ast {
 
+    private final int surrounding;
+
     /**
      * Creates a new instance of {@link NameEnvironmentAst}.
+     *
      * @param filename
+     *            The filename
      * @param fileAnnotation
+     *            the fileAnnotation
+     * @param surrounding
+     *            The surrounded element each above and below.
      */
-    public NameEnvironmentAst(final String filename, final FileAnnotation fileAnnotation) {
+    public NameEnvironmentAst(final String filename, final FileAnnotation fileAnnotation, final int surrounding) {
         super(filename, fileAnnotation);
-        // FIXME Auto-generated constructor stub
+        this.surrounding = surrounding;
     }
 
     @Override
     public List<DetailAST> chooseArea() {
-        // FIXME Auto-generated method stub
+        List<DetailAST> chosen = new EnvironmentAst(getFilename(), getFileAnnotation(), surrounding).chooseArea();
+
         return null;
     }
 
-}
 
+}
