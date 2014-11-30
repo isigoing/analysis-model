@@ -32,7 +32,6 @@ public class InstancevariableAst extends Ast {
     public List<DetailAST> chooseArea() {
         List<DetailAST> elementsInSameLine = getElementsInSameLine();
         DetailAST objBlock = getObjBlockAsParent(elementsInSameLine.get(0));
-        System.out.println("objsdfasdfsdf " + objBlock.getText());
 
         getInstanceVariables(objBlock.getFirstChild());
         List<DetailAST> chosenArea = new ArrayList<DetailAST>();
