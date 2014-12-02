@@ -7,22 +7,14 @@ import hudson.plugins.analysis.util.model.FileAnnotation;
 import hudson.plugins.ast.factory.Ast;
 import hudson.plugins.ast.factory.AstFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.regex.Matcher;
 
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
-
-import com.puppycrawl.tools.checkstyle.TreeWalker;
-import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.FileContents;
-import com.puppycrawl.tools.checkstyle.api.FileText;
-
 import org.apache.commons.io.FilenameUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -31,19 +23,28 @@ import org.junit.Test;
  * @author Ullrich Hafner
  */
 public class NewWarningDetectorTest {
+
+    private static final String METHOD_AST_FOLDERNAME = "MethodAst";
+    private static final String ENVIRONMENT_AST_FOLDERNAME = "EnvironmentAst";
+    private static final String FILE_AST_FOLDERNAME = "FileAst";
+    private static final String CLASS_AST_FOLDERNAME = "ClassAst";
+    private static final String METHOD_OR_CLASS_AST_FOLDERNAME = "MethodOrClassAst";
+    private static final String INSTANCEVARIABLE_AST_FOLDERNAME = "InstancevariableAst";
+    private static final String NAME_PACKAGE_AST_FOLDERNAME = "NamePackageAst";
+
     /**
      * Verifies that the insertion of a new line above the warning does produce a different hashCode.
      */
     @Test
     public void testInsertLineAboveWarning() {
-        FileAnnotation beforeWarning = readWarning("before/MethodAst/InsertLine.xml");
-        FileAnnotation afterWarning = readWarning("after/MethodAst/InsertLine.xml");
+        FileAnnotation beforeWarning = readWarning("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
+        FileAnnotation afterWarning = readWarning("after/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
 
         verifyWarning(beforeWarning, "Javadoc", 7, "InsertLine.java");
         verifyWarning(afterWarning, "Javadoc", 8, "InsertLine.java");
 
-        int beforeCode = createHashCode("before/MethodAst/InsertLine.java", 7);
-        int afterCode = createHashCode("after/MethodAst/InsertLine.java", 8);
+        int beforeCode = createHashCode("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.java", 7);
+        int afterCode = createHashCode("after/" + METHOD_AST_FOLDERNAME + "/InsertLine.java", 8);
 
         assertNotEquals("Hash codes do not match: ", beforeCode, afterCode);
     }
@@ -53,98 +54,16 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInsertLineBeforePackage() {
-        FileAnnotation beforeWarning = readWarning("before/MethodAst/InsertLine.xml");
-        FileAnnotation afterWarning = readWarning("after/MethodAst/InsertLine2.xml");
+        FileAnnotation beforeWarning = readWarning("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
+        FileAnnotation afterWarning = readWarning("after/" + METHOD_AST_FOLDERNAME + "/InsertLine2.xml");
 
         verifyWarning(beforeWarning, "Javadoc", 7, "InsertLine.java");
         verifyWarning(afterWarning, "Javadoc", 8, "InsertLine.java");
 
-        int beforeCode = createHashCode("before/MethodAst/InsertLine.java", 7);
-        int afterCode = createHashCode("after/MethodAst/InsertLine2.java", 8);
+        int beforeCode = createHashCode("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.java", 7);
+        int afterCode = createHashCode("after/" + METHOD_AST_FOLDERNAME + "/InsertLine2.java", 8);
 
         assertEquals("Hash codes do not match: ", beforeCode, afterCode);
-    }
-
-    /**
-     * Verifies that the insertion of a new line above the warning doesn't change the AST.
-     */
-    @Test
-    public void testInsertLineAboveWarningWithAST() {
-        try {
-            assertTrue("AST do not match",
-                    getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine.java", false)));
-        }
-        catch (RecognitionException exception) {
-            exception.printStackTrace();
-        }
-        catch (TokenStreamException exception) {
-            exception.printStackTrace();
-        }
-        catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    /**
-     * Verifies that the insertion of a new line before the package declaration does not change the AST.
-     */
-    @Test
-    public void testInsertLineBeforePackageWithAST() {
-        try {
-            assertTrue("AST do not match",
-                    getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine2.java", false)));
-        }
-        catch (RecognitionException exception) {
-            exception.printStackTrace();
-        }
-        catch (TokenStreamException exception) {
-            exception.printStackTrace();
-        }
-        catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    /**
-     * Verifies that two different Java-Source-Files has different AST.
-     */
-    @Test
-    public void testDifferentSourceFilesShowsDifferentAST() {
-        try {
-            assertFalse("AST do match",
-                    getASTFromFile("InsertLine.java", true).equalsTree(getASTFromFile("InsertLine3.java", false)));
-        }
-        catch (RecognitionException exception) {
-            exception.printStackTrace();
-        }
-        catch (TokenStreamException exception) {
-            exception.printStackTrace();
-        }
-        catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    private DetailAST getASTFromFile(final String filename, final boolean before) throws RecognitionException,
-            TokenStreamException, IOException {
-        String workspace = System.getProperty("user.dir");
-
-        @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+");
-
-        if (before) {
-            stringBuilder.append("before+");
-        }
-        else {
-            stringBuilder.append("after+");
-        }
-        stringBuilder.append(filename);
-
-        String fileSeparator = System.getProperty("file.separator");
-        String path = stringBuilder.toString().replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
-
-        return TreeWalker.parse(new FileContents(new FileText(new File(path), "UTF-8")));
     }
 
     @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
@@ -186,18 +105,35 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testJavadocMethodCheck() {
-        String hashBefore = calcHashcode("InsertLine.java", "MethodAst", "InsertLine.xml", true);
-        String hashAfter = calcHashcode("InsertLine.java", "MethodAst", "InsertLine.xml", false);
+        String hashBefore = calcHashcode("InsertLine.java", METHOD_AST_FOLDERNAME, "InsertLine.xml", true);
+        String hashAfter = calcHashcode("InsertLine.java", METHOD_AST_FOLDERNAME, "InsertLine.xml", false);
 
         compareHashcode(hashBefore, hashAfter);
     }
 
+    /**
+     * FIXME: Document method testArrayTypeStyle.
+     */
+    @Ignore
+    @Test
+    public void testArrayTypeStyleWithNewLines() {
+        String hashBefore = calcHashcode("ArrayTypeStyle.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle.xml", true);
+        String hashAfter = calcHashcode("ArrayTypeStyle_Newlines.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle_Newlines.xml", false);
 
+        compareHashcode(hashBefore, hashAfter);
+    }
 
+    /**
+     * FIXME: Document method testArrayTypeStyle.
+     */
+    @Ignore
+    @Test
+    public void testArrayTypeStyleRename() {
+        String hashBefore = calcHashcode("ArrayTypeStyle.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle.xml", true);
+        String hashAfter = calcHashcode("ArrayTypeStyle_Rename.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle_Rename.xml", false);
 
-
-
-
+        compareHashcode(hashBefore, hashAfter);
+    }
 
 
     private void compareHashcode(final String hashBefore, final String hashAfter) {
@@ -231,7 +167,8 @@ public class NewWarningDetectorTest {
         else {
             stringBuilder.append("after+");
         }
-        stringBuilder.append(foldername + "+");
+        stringBuilder.append(foldername);
+        stringBuilder.append('+');
         stringBuilder.append(filename);
 
         String fileSeparator = System.getProperty("file.separator");
