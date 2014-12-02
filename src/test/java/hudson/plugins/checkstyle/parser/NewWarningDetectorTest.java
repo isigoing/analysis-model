@@ -36,14 +36,14 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInsertLineAboveWarning() {
-        FileAnnotation beforeWarning = readWarning("before/InsertLine.xml");
-        FileAnnotation afterWarning = readWarning("after/InsertLine.xml");
+        FileAnnotation beforeWarning = readWarning("before/MethodAst/InsertLine.xml");
+        FileAnnotation afterWarning = readWarning("after/MethodAst/InsertLine.xml");
 
         verifyWarning(beforeWarning, "Javadoc", 7, "InsertLine.java");
         verifyWarning(afterWarning, "Javadoc", 8, "InsertLine.java");
 
-        int beforeCode = createHashCode("before/InsertLine.java", 7);
-        int afterCode = createHashCode("after/InsertLine.java", 8);
+        int beforeCode = createHashCode("before/MethodAst/InsertLine.java", 7);
+        int afterCode = createHashCode("after/MethodAst/InsertLine.java", 8);
 
         assertNotEquals("Hash codes do not match: ", beforeCode, afterCode);
     }
@@ -53,14 +53,14 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInsertLineBeforePackage() {
-        FileAnnotation beforeWarning = readWarning("before/InsertLine.xml");
-        FileAnnotation afterWarning = readWarning("after/InsertLine2.xml");
+        FileAnnotation beforeWarning = readWarning("before/MethodAst/InsertLine.xml");
+        FileAnnotation afterWarning = readWarning("after/MethodAst/InsertLine2.xml");
 
         verifyWarning(beforeWarning, "Javadoc", 7, "InsertLine.java");
         verifyWarning(afterWarning, "Javadoc", 8, "InsertLine.java");
 
-        int beforeCode = createHashCode("before/InsertLine.java", 7);
-        int afterCode = createHashCode("after/InsertLine2.java", 8);
+        int beforeCode = createHashCode("before/MethodAst/InsertLine.java", 7);
+        int afterCode = createHashCode("after/MethodAst/InsertLine2.java", 8);
 
         assertEquals("Hash codes do not match: ", beforeCode, afterCode);
     }
@@ -186,30 +186,38 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testJavadocMethodCheck() {
-        String hashBefore = calcHashcode("InsertLine.java", "InsertLine.xml", true);
-        String hashAfter = calcHashcode("InsertLine.java", "InsertLine.xml", false);
+        String hashBefore = calcHashcode("InsertLine.java", "MethodAst", "InsertLine.xml", true);
+        String hashAfter = calcHashcode("InsertLine.java", "MethodAst", "InsertLine.xml", false);
 
         compareHashcode(hashBefore, hashAfter);
     }
+
+
+
+
+
+
+
+
 
     private void compareHashcode(final String hashBefore, final String hashAfter) {
         assertNotNull("Hash code isn't not null", hashBefore);
         assertEquals("Hash codes don't match: ", hashBefore, hashAfter);
     }
 
-    private String calcHashcode(final String javaFile, final String xml, final boolean before) {
+    private String calcHashcode(final String javaFile, final String foldername, final String xml, final boolean before) {
         Ast ast;
         if (before) {
-            ast = getAst(javaFile, "before/" + xml, true);
+            ast = getAst(javaFile, "before/" + foldername + "/" + xml, foldername, true);
         }
         else {
-            ast = getAst(javaFile, "after/" + xml, false);
+            ast = getAst(javaFile, "after/" + foldername + "/" + xml, foldername, false);
         }
 
         return ast.calcSha(ast.chooseArea());
     }
 
-    private Ast getAst(final String filename, final String xmlFile, final boolean before) {
+    private Ast getAst(final String filename, final String xmlFile, final String foldername, final boolean before) {
         String workspace = System.getProperty("user.dir");
         FileAnnotation fileAnnotation = readWarning(xmlFile);
 
@@ -223,6 +231,7 @@ public class NewWarningDetectorTest {
         else {
             stringBuilder.append("after+");
         }
+        stringBuilder.append(foldername + "+");
         stringBuilder.append(filename);
 
         String fileSeparator = System.getProperty("file.separator");
