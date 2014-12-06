@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -112,25 +111,12 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * FIXME: Document method testArrayTypeStyle.
+     * Verifies that the ast calculates the same hashcode as given for a missing Method-Javadoc.
      */
-    @Ignore
     @Test
-    public void testArrayTypeStyleWithNewLines() {
-        String hashBefore = calcHashcode("ArrayTypeStyle.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle.xml", true);
-        String hashAfter = calcHashcode("ArrayTypeStyle_Newlines.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle_Newlines.xml", false);
-
-        compareHashcode(hashBefore, hashAfter);
-    }
-
-    /**
-     * FIXME: Document method testArrayTypeStyle.
-     */
-    @Ignore
-    @Test
-    public void testArrayTypeStyleRename() {
-        String hashBefore = calcHashcode("ArrayTypeStyle.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle.xml", true);
-        String hashAfter = calcHashcode("ArrayTypeStyle_Rename.java", ENVIRONMENT_AST_FOLDERNAME, "ArrayTypeStyle_Rename.xml", false);
+    public void testNeedBracesWithNewLines() {
+        String hashBefore = calcHashcode("NeedBraces.java", ENVIRONMENT_AST_FOLDERNAME, "NeedBraces.xml", true);
+        String hashAfter = calcHashcode("NeedBraces_Newline.java", ENVIRONMENT_AST_FOLDERNAME, "NeedBraces_Newline.xml", false);
 
         compareHashcode(hashBefore, hashAfter);
     }
