@@ -4,6 +4,7 @@ import hudson.plugins.analysis.util.model.FileAnnotation;
 import hudson.plugins.ast.factory.Ast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -36,12 +37,17 @@ public class EnvironmentAst extends Ast {
     @Override
     public List<DetailAST> chooseArea() {
         List<DetailAST> elementsInLine = getElementsInSameLine();
+        List<DetailAST> tmp = new ArrayList<DetailAST>(elementsInLine);
+        Collections.copy(tmp, elementsInLine);
 
         List<DetailAST> chosen = new ArrayList<DetailAST>();
-        chosen.addAll(elementsBefore(elementsInLine.get(0)));
-        chosen.addAll(elementsInLine);
-        chosen.addAll(elementsAfter(elementsInLine.get(elementsInLine.size() - 1)));
 
+        chosen.addAll(elementsInLine);
+        chosen.addAll(elementsBefore(elementsInLine.get(0)));
+        chosen.addAll(elementsAfter(tmp.get(tmp.size() - 1)));
+
+        printList(chosen);
+        System.out.println("------------------------------------");
         return chosen;
     }
 
