@@ -10,6 +10,7 @@ import hudson.plugins.ast.factory.AstFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Matcher;
 
@@ -30,6 +31,8 @@ public class NewWarningDetectorTest {
     private static final String METHOD_OR_CLASS_AST_FOLDERNAME = "MethodOrClassAst";
     private static final String INSTANCEVARIABLE_AST_FOLDERNAME = "InstancevariableAst";
     private static final String NAME_PACKAGE_AST_FOLDERNAME = "NamePackageAst";
+
+    private static final String REFACTORING_NEWLINE = "_Newline";
 
     /**
      * Verifies that the insertion of a new line above the warning does produce a different hashCode.
@@ -100,27 +103,101 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode as given for a missing Method-Javadoc.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
-    public void testJavadocMethodCheck() {
-        String hashBefore = calcHashcode("InsertLine.java", METHOD_AST_FOLDERNAME, "InsertLine.xml", true);
-        String hashAfter = calcHashcode("InsertLine.java", METHOD_AST_FOLDERNAME, "InsertLine.xml", false);
-
-        compareHashcode(hashBefore, hashAfter);
+    public void testFinalClassWithNewLines() {
+        checkThatHashesMatching("FinalClass", REFACTORING_NEWLINE);
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode as given for a missing Method-Javadoc.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testNeedBracesWithNewLines() {
-        String hashBefore = calcHashcode("NeedBraces.java", ENVIRONMENT_AST_FOLDERNAME, "NeedBraces.xml", true);
-        String hashAfter = calcHashcode("NeedBraces_Newline.java", ENVIRONMENT_AST_FOLDERNAME, "NeedBraces_Newline.xml", false);
+        checkThatHashesMatching("NeedBraces", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testInterfaceIsTypeWithNewLines() {
+        checkThatHashesMatching("InterfaceIsType", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testExplicitInitializationWithNewLines() {
+        checkThatHashesMatching("ExplicitInitialization", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testMethodNameWithNewLines() {
+        checkThatHashesMatching("MethodName", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testRedundantModifierWithNewLines() {
+        checkThatHashesMatching("RedundantModifier", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testPackageNameWithNewLines() {
+        checkThatHashesMatching("PackageName", REFACTORING_NEWLINE);
+    }
+
+    private String matchWarningTypeToFoldername(final String warningType) {
+        String ordnerName = "";
+        if (Arrays.asList(AstFactory.getClassAst()).contains(warningType)) {
+            ordnerName = CLASS_AST_FOLDERNAME;
+        }
+        else if (Arrays.asList(AstFactory.getEnvironmentAst()).contains(warningType)) {
+            ordnerName = ENVIRONMENT_AST_FOLDERNAME;
+        }
+        else if (Arrays.asList(AstFactory.getFileAst()).contains(warningType)) {
+            ordnerName = FILE_AST_FOLDERNAME;
+        }
+        else if (Arrays.asList(AstFactory.getInstancevariableAst()).contains(warningType)) {
+            ordnerName = INSTANCEVARIABLE_AST_FOLDERNAME;
+        }
+        else if (Arrays.asList(AstFactory.getMethodAst()).contains(warningType)) {
+            ordnerName = METHOD_AST_FOLDERNAME;
+        }
+        else if (Arrays.asList(AstFactory.getMethodOrClassAst()).contains(warningType)) {
+            ordnerName = METHOD_OR_CLASS_AST_FOLDERNAME;
+        }
+        else if (Arrays.asList(AstFactory.getNamePackageAst()).contains(warningType)) {
+            ordnerName = NAME_PACKAGE_AST_FOLDERNAME;
+        }
+        return ordnerName;
+    }
+
+    private void checkThatHashesMatching(final String warningType, final String refactoring) {
+        String foldername = matchWarningTypeToFoldername(warningType);
+        String hashBefore = calcHashcode(warningType, foldername, true);
+        String hashAfter = calcHashcode(warningType + refactoring, foldername, false);
 
         compareHashcode(hashBefore, hashAfter);
     }
 
+    private String calcHashcode(final String warningType, final String foldername, final boolean beforeRefactoring) {
+        String javaFile = warningType.concat(".java");
+        String xmlFile = warningType.concat(".xml");
+
+        return calcHashcode(javaFile, foldername, xmlFile, beforeRefactoring);
+    }
 
     private void compareHashcode(final String hashBefore, final String hashAfter) {
         assertNotNull("Hash code isn't not null", hashBefore);
