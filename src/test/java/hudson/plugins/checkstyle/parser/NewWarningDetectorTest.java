@@ -107,7 +107,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithNewLines() {
-        checkThatHashesMatching("FinalClass", REFACTORING_NEWLINE);
+        checkThatHashesMatching("FinalClass", "FinalClass", REFACTORING_NEWLINE);
     }
 
     /**
@@ -115,7 +115,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithNewLines() {
-        checkThatHashesMatching("NeedBraces", REFACTORING_NEWLINE);
+        checkThatHashesMatching("NeedBraces", "NeedBraces", REFACTORING_NEWLINE);
     }
 
     /**
@@ -123,7 +123,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInterfaceIsTypeWithNewLines() {
-        checkThatHashesMatching("InterfaceIsType", REFACTORING_NEWLINE);
+        checkThatHashesMatching("InterfaceIsType", "InterfaceIsType", REFACTORING_NEWLINE);
     }
 
     /**
@@ -131,7 +131,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithNewLines() {
-        checkThatHashesMatching("ExplicitInitialization", REFACTORING_NEWLINE);
+        checkThatHashesMatching("ExplicitInitialization", "ExplicitInitialization", REFACTORING_NEWLINE);
     }
 
     /**
@@ -139,7 +139,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithNewLines() {
-        checkThatHashesMatching("MethodName", REFACTORING_NEWLINE);
+        checkThatHashesMatching("MethodName", "MethodName", REFACTORING_NEWLINE);
     }
 
     /**
@@ -147,7 +147,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testRedundantModifierWithNewLines() {
-        checkThatHashesMatching("RedundantModifier", REFACTORING_NEWLINE);
+        checkThatHashesMatching("RedundantModifier", "RedundantModifier", REFACTORING_NEWLINE);
     }
 
     /**
@@ -155,7 +155,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithNewLines() {
-        checkThatHashesMatching("PackageName", REFACTORING_NEWLINE);
+        checkThatHashesMatching("PackageName", "PackageName", REFACTORING_NEWLINE);
     }
 
     private String matchWarningTypeToFoldername(final String warningType) {
@@ -181,13 +181,14 @@ public class NewWarningDetectorTest {
         else if (Arrays.asList(AstFactory.getNamePackageAst()).contains(warningType)) {
             ordnerName = NAME_PACKAGE_AST_FOLDERNAME;
         }
+
         return ordnerName;
     }
 
-    private void checkThatHashesMatching(final String warningType, final String refactoring) {
+    private void checkThatHashesMatching(final String warningType, final String filename, final String refactoring) {
         String foldername = matchWarningTypeToFoldername(warningType);
-        String hashBefore = calcHashcode(warningType, foldername, true);
-        String hashAfter = calcHashcode(warningType + refactoring, foldername, false);
+        String hashBefore = calcHashcode(filename, foldername, true);
+        String hashAfter = calcHashcode(filename + refactoring, foldername, false);
 
         compareHashcode(hashBefore, hashAfter);
     }
