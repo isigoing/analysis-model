@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.regex.Matcher;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Test;
@@ -223,21 +222,19 @@ public class NewWarningDetectorTest {
 
         @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(workspace).append("+src+test+resources+hudson+plugins+checkstyle+parser+");
+        stringBuilder.append(workspace).append("/src/test/resources/hudson/plugins/checkstyle/parser/");
 
         if (before) {
-            stringBuilder.append("before+");
+            stringBuilder.append("before/");
         }
         else {
-            stringBuilder.append("after+");
+            stringBuilder.append("after/");
         }
         stringBuilder.append(foldername);
-        stringBuilder.append('+');
+        stringBuilder.append('/');
         stringBuilder.append(filename);
 
-        String fileSeparator = System.getProperty("file.separator");
-        String path = stringBuilder.toString().replaceAll("\\+", Matcher.quoteReplacement(fileSeparator));
 
-        return AstFactory.getInstance(path, fileAnnotation);
+        return AstFactory.getInstance(stringBuilder.toString(), fileAnnotation);
     }
 }
