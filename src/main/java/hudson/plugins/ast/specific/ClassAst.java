@@ -4,6 +4,7 @@ import hudson.plugins.analysis.util.model.FileAnnotation;
 import hudson.plugins.ast.factory.Ast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -14,8 +15,12 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  *
  * @author Christian M&ouml;stl
  */
-//TODO: Betreffende Klasse berücksichtigen und nicht die oberste aller Klassen!
+// TODO: Betreffende Klasse berücksichtigen und nicht die oberste aller Klassen!
 public class ClassAst extends Ast {
+
+    private final List<DetailAST> siblings = new ArrayList<DetailAST>();
+    private final int[] excludeTypes = new int[]{TokenTypes.CLASS_DEF, TokenTypes.INTERFACE_DEF, TokenTypes.ENUM_DEF,
+            TokenTypes.ANNOTATION_DEF};
 
     /**
      * Creates a new instance of {@link ClassAst}.
@@ -48,11 +53,9 @@ public class ClassAst extends Ast {
         return chosenArea;
     }
 
-    private final List<DetailAST> siblings = new ArrayList<DetailAST>();
-
     private void getSpecialSiblings(final DetailAST element) {
         if (element != null) {
-            if (element.getType() != TokenTypes.CLASS_DEF && element.getType() != TokenTypes.INTERFACE_DEF) {
+            if (!Arrays.asList(excludeTypes).contains(element.getType())) {
                 siblings.add(element);
             }
             if (element.getNextSibling() != null) {
