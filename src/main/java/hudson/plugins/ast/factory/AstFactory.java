@@ -112,4 +112,67 @@ public final class AstFactory {
 
         return ast;
     }
+
+    /**
+     * Returns the methodAst.
+     *
+     * @return the methodAst
+     */
+    public static String[] getMethodAst() {
+        return METHOD_AST;
+    }
+
+    /**
+     * Returns the environmentAst.
+     *
+     * @return the environmentAst
+     */
+    public static String[] getEnvironmentAst() {
+        return ENVIRONMENT_AST;
+    }
+
+    /**
+     * Returns the fileAst.
+     *
+     * @return the fileAst
+     */
+    public static String[] getFileAst() {
+        return FILE_AST;
+    }
+
+    /**
+     * Returns the classAst.
+     *
+     * @return the classAst
+     */
+    public static String[] getClassAst() {
+        return CLASS_AST;
+    }
+
+    /**
+     * Returns the methodOrClassAst.
+     *
+     * @return the methodOrClassAst
+     */
+    public static String[] getMethodOrClassAst() {
+        return METHOD_OR_CLASS_AST;
+    }
+
+    /**
+     * Returns the namePackageAst.
+     *
+     * @return the namePackageAst
+     */
+    public static String[] getNamePackageAst() {
+        return NAME_PACKAGE_AST;
+    }
+
+    /**
+     * Returns the instancevariableAst.
+     *
+     * @return the instancevariableAst
+     */
+    public static String[] getInstancevariableAst() {
+        return INSTANCEVARIABLE_AST;
+    }
 }
