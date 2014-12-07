@@ -14,6 +14,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  *
  * @author Christian M&ouml;stl
  */
+//TODO: Betreffende Klasse berücksichtigen und nicht die oberste aller Klassen!
 public class ClassAst extends Ast {
 
     /**
@@ -53,7 +54,6 @@ public class ClassAst extends Ast {
         if (element != null) {
             if (element.getType() != TokenTypes.CLASS_DEF && element.getType() != TokenTypes.INTERFACE_DEF) {
                 siblings.add(element);
-                System.out.println(element.getText());
             }
             if (element.getNextSibling() != null) {
                 getSpecialSiblings(element.getNextSibling());
@@ -71,7 +71,6 @@ public class ClassAst extends Ast {
 
     private void elementsToObjBlock(final List<DetailAST> list, final DetailAST root) {
         if (root.getType() != TokenTypes.OBJBLOCK) {
-            System.out.println("********************* " + root.getText());
             list.add(root);
             if (root.getFirstChild() != null) {
                 elementsToObjBlock(list, root.getFirstChild());
