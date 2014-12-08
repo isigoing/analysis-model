@@ -301,7 +301,7 @@ public abstract class Ast {
      * Depicts the result of chooseArea() as a string.
      *
      * @param delimiter
-     *            the delimiter between the ast-elements
+     *            the delimiter between the ast-elements. If delimiter is equal z, then no delimiter would be inserted.
      * @return the result in string-format
      */
     public String chosenAreaAsString(final char delimiter) {
@@ -309,7 +309,7 @@ public abstract class Ast {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < choosenArea.size(); i++) {
-            stringBuilder.append(choosenArea.get(i).getText());
+            stringBuilder.append(TokenTypes.getTokenName(choosenArea.get(i).getType()));
             stringBuilder.append(delimiter);
         }
 
