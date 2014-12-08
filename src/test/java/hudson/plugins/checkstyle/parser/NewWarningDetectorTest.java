@@ -162,7 +162,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testClassAst() {
-      //FIXME
+        // FIXME
     }
 
     /**
@@ -170,7 +170,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testEnvironmentAst() {
-        //FIXME
+        // FIXME
     }
 
     /**
@@ -178,7 +178,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFileAst() {
-      //FIXME
+        // FIXME
     }
 
     /**
@@ -186,7 +186,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInstancevariableAst() {
-      //FIXME
+        // FIXME
     }
 
     /**
@@ -194,7 +194,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodAst() {
-      //FIXME
+        // FIXME
     }
 
     /**
@@ -202,7 +202,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodOrClassAst() {
-      //FIXME
+        // FIXME
     }
 
     /**
@@ -210,7 +210,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNamePackageAst() {
-      //FIXME
+        // FIXME
     }
 
     private String matchWarningTypeToFoldername(final String warningType) {
@@ -241,8 +241,8 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Use this method, if the filename (inclusive file extension) before is equal after, except that the after-filename
-     * has only(!) a postfix of the refactoring.
+     * Use this method for calculating the hashcode, if the filename (inclusive file extension) before is equal after,
+     * except that the after-filename has only(!) a postfix of the refactoring.
      *
      * @param warningType
      *            the warningType
@@ -250,9 +250,27 @@ public class NewWarningDetectorTest {
      *            the refactoring
      */
     private void checkThatHashesMatching(final String warningType, final String refactoring) {
+        checkThatHashesMatching(warningType, warningType, warningType, refactoring);
+    }
+
+    /**
+     * Use this method for calculating the hashcode, if the filename before is different as after, disregarded that the
+     * after-filename has a postfix of the refactoring.
+     *
+     * @param warningType
+     *            the warningType
+     * @param beforeClass
+     *            the name of the class before
+     * @param afterClass
+     *            the name of the class after
+     * @param refactoring
+     *            the refactoring
+     */
+    private void checkThatHashesMatching(final String warningType, final String beforeClass, final String afterClass,
+            final String refactoring) {
         String foldername = matchWarningTypeToFoldername(warningType);
-        String hashBefore = calcHashcode(warningType, foldername, true);
-        String hashAfter = calcHashcode(warningType + refactoring, foldername, false);
+        String hashBefore = calcHashcode(beforeClass, foldername, true);
+        String hashAfter = calcHashcode(afterClass + refactoring, foldername, false);
 
         compareHashcode(hashBefore, hashAfter);
     }
