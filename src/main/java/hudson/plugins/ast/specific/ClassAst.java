@@ -10,12 +10,14 @@ import java.util.List;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Creates the abstract syntax tree for the complete class except inner types.
  *
  * @author Christian M&ouml;stl
  */
-// TODO: Betreffende Klasse berücksichtigen und nicht die oberste aller Klassen!
+// FIXME: Betreffende Klasse berücksichtigen (bei OBJBLOCK) und nicht die oberste aller Klassen!
 public class ClassAst extends Ast {
 
     private final List<DetailAST> siblings = new ArrayList<DetailAST>();
@@ -39,11 +41,12 @@ public class ClassAst extends Ast {
         DetailAST objBlock = getObjBlock(getAbstractSyntaxTree());
 
         getSpecialSiblings(objBlock.getFirstChild());
+
         List<DetailAST> chosenArea = new ArrayList<DetailAST>();
 
         chosenArea.addAll(elementsToObjBlock(getAbstractSyntaxTree()));
-
         chosenArea.add(objBlock);
+
         for (int i = 0; i < siblings.size(); i++) {
             clear();
             chosenArea.add(siblings.get(i));
@@ -54,13 +57,11 @@ public class ClassAst extends Ast {
     }
 
     private void getSpecialSiblings(final DetailAST element) {
-        if (element != null) {
-            if (!Arrays.asList(excludeTypes).contains(element.getType())) {
-                siblings.add(element);
-            }
-            if (element.getNextSibling() != null) {
-                getSpecialSiblings(element.getNextSibling());
-            }
+        if (!Arrays.asList(ArrayUtils.toObject(excludeTypes)).contains(element.getType())) {
+            siblings.add(element);
+        }
+        if (element.getNextSibling() != null) {
+            getSpecialSiblings(element.getNextSibling());
         }
     }
 
