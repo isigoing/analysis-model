@@ -297,6 +297,30 @@ public abstract class Ast {
      */
     public abstract List<DetailAST> chooseArea();
 
+    /**
+     * Depicts the result of chooseArea() as a string.
+     *
+     * @return the result in string-format
+     */
+    public String chosenAreaAsString() {
+        List<DetailAST> choosenArea = chooseArea();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < choosenArea.size(); i++) {
+            stringBuilder.append(choosenArea.get(i));
+            stringBuilder.append("\n");
+        }
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Prints the result of the chooseArea() on the console.
+     */
+    public void printChosenArea() {
+        System.out.println(chosenAreaAsString());
+    }
+
     /** Necessary for ASTs with name. */
     private String name = "";
 
@@ -401,8 +425,8 @@ public abstract class Ast {
      * @param topRoot
      *            the highest root of the ast
      * @param counter
-     *            which OBJBLOCK should be found? For example if you want have the first OBJBLOCK, you have to set
-     *            the counter to 0.
+     *            which OBJBLOCK should be found? For example if you want have the first OBJBLOCK, you have to set the
+     *            counter to 0.
      */
     protected void calcObjBlock(final DetailAST topRoot, int counter) {
         if (topRoot != null) {
