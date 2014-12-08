@@ -300,15 +300,17 @@ public abstract class Ast {
     /**
      * Depicts the result of chooseArea() as a string.
      *
+     * @param delimiter
+     *            the delimiter between the ast-elements
      * @return the result in string-format
      */
-    public String chosenAreaAsString() {
+    public String chosenAreaAsString(final char delimiter) {
         List<DetailAST> choosenArea = chooseArea();
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < choosenArea.size(); i++) {
             stringBuilder.append(choosenArea.get(i).getText());
-            stringBuilder.append('\n');
+            stringBuilder.append(delimiter);
         }
 
         return stringBuilder.toString();
@@ -316,9 +318,12 @@ public abstract class Ast {
 
     /**
      * Prints the result of the chooseArea() on the console.
+     *
+     * @param delimiter
+     *            the delimiter
      */
-    public void printChosenArea() {
-        System.out.println(chosenAreaAsString());
+    public void printChosenArea(final char delimiter) {
+        System.out.println(chosenAreaAsString(delimiter));
     }
 
     /** Necessary for ASTs with name. */
