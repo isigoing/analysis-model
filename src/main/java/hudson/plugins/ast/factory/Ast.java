@@ -307,8 +307,8 @@ public abstract class Ast {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < choosenArea.size(); i++) {
-            stringBuilder.append(choosenArea.get(i));
-            stringBuilder.append("\n");
+            stringBuilder.append(choosenArea.get(i).getText());
+            stringBuilder.append('\n');
         }
 
         return stringBuilder.toString();
