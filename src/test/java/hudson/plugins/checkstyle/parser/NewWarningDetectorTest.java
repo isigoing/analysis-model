@@ -106,7 +106,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithNewLines() {
-        checkThatHashesMatching("FinalClass", "FinalClass", REFACTORING_NEWLINE);
+        checkThatHashesMatching("FinalClass", REFACTORING_NEWLINE);
     }
 
     /**
@@ -114,7 +114,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithNewLines() {
-        checkThatHashesMatching("NeedBraces", "NeedBraces", REFACTORING_NEWLINE);
+        checkThatHashesMatching("NeedBraces", REFACTORING_NEWLINE);
     }
 
     /**
@@ -122,7 +122,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInterfaceIsTypeWithNewLines() {
-        checkThatHashesMatching("InterfaceIsType", "InterfaceIsType", REFACTORING_NEWLINE);
+        checkThatHashesMatching("InterfaceIsType", REFACTORING_NEWLINE);
     }
 
     /**
@@ -130,7 +130,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithNewLines() {
-        checkThatHashesMatching("ExplicitInitialization", "ExplicitInitialization", REFACTORING_NEWLINE);
+        checkThatHashesMatching("ExplicitInitialization", REFACTORING_NEWLINE);
     }
 
     /**
@@ -138,7 +138,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithNewLines() {
-        checkThatHashesMatching("MethodName", "MethodName", REFACTORING_NEWLINE);
+        checkThatHashesMatching("MethodName", REFACTORING_NEWLINE);
     }
 
     /**
@@ -146,7 +146,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testRedundantModifierWithNewLines() {
-        checkThatHashesMatching("RedundantModifier", "RedundantModifier", REFACTORING_NEWLINE);
+        checkThatHashesMatching("RedundantModifier", REFACTORING_NEWLINE);
     }
 
     /**
@@ -154,7 +154,63 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithNewLines() {
-        checkThatHashesMatching("PackageName", "PackageName", REFACTORING_NEWLINE);
+        checkThatHashesMatching("PackageName", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ClassAst works right.
+     */
+    @Test
+    public void testClassAst() {
+      //FIXME
+    }
+
+    /**
+     * Verifies that the EnvironmentAst works right.
+     */
+    @Test
+    public void testEnvironmentAst() {
+        //FIXME
+    }
+
+    /**
+     * Verifies that the FileAst works right.
+     */
+    @Test
+    public void testFileAst() {
+      //FIXME
+    }
+
+    /**
+     * Verifies that the InstancevariableAst works right.
+     */
+    @Test
+    public void testInstancevariableAst() {
+      //FIXME
+    }
+
+    /**
+     * Verifies that the MethodAst works right.
+     */
+    @Test
+    public void testMethodAst() {
+      //FIXME
+    }
+
+    /**
+     * Verifies that the MethodOrClassAst works right.
+     */
+    @Test
+    public void testMethodOrClassAst() {
+      //FIXME
+    }
+
+    /**
+     * Verifies that the NamePackageAst works right.
+     */
+    @Test
+    public void testNamePackageAst() {
+      //FIXME
     }
 
     private String matchWarningTypeToFoldername(final String warningType) {
@@ -184,10 +240,19 @@ public class NewWarningDetectorTest {
         return ordnerName;
     }
 
-    private void checkThatHashesMatching(final String warningType, final String filename, final String refactoring) {
+    /**
+     * Use this method, if the filename (inclusive file extension) before is equal after, except that the after-filename
+     * has only(!) a postfix of the refactoring.
+     *
+     * @param warningType
+     *            the warningType
+     * @param refactoring
+     *            the refactoring
+     */
+    private void checkThatHashesMatching(final String warningType, final String refactoring) {
         String foldername = matchWarningTypeToFoldername(warningType);
-        String hashBefore = calcHashcode(filename, foldername, true);
-        String hashAfter = calcHashcode(filename + refactoring, foldername, false);
+        String hashBefore = calcHashcode(warningType, foldername, true);
+        String hashAfter = calcHashcode(warningType + refactoring, foldername, false);
 
         compareHashcode(hashBefore, hashAfter);
     }
@@ -233,7 +298,6 @@ public class NewWarningDetectorTest {
         stringBuilder.append(foldername);
         stringBuilder.append('/');
         stringBuilder.append(filename);
-
 
         return AstFactory.getInstance(stringBuilder.toString(), fileAnnotation);
     }
