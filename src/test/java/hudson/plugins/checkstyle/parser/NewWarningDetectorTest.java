@@ -275,9 +275,9 @@ public class NewWarningDetectorTest {
         compareHashcode(hashBefore, hashAfter);
     }
 
-    private String calcHashcode(final String warningType, final String foldername, final boolean beforeRefactoring) {
-        String javaFile = warningType.concat(".java");
-        String xmlFile = warningType.concat(".xml");
+    private String calcHashcode(final String filename, final String foldername, final boolean beforeRefactoring) {
+        String javaFile = filename.concat(".java");
+        String xmlFile = filename.concat(".xml");
 
         return calcHashcode(javaFile, foldername, xmlFile, beforeRefactoring);
     }
@@ -287,13 +287,13 @@ public class NewWarningDetectorTest {
         assertEquals("Hash codes don't match: ", hashBefore, hashAfter);
     }
 
-    private String calcHashcode(final String javaFile, final String foldername, final String xml, final boolean before) {
+    private String calcHashcode(final String javaFile, final String foldername, final String xmlFile, final boolean before) {
         Ast ast;
         if (before) {
-            ast = getAst(javaFile, "before/" + foldername + "/" + xml, foldername, true);
+            ast = getAst(javaFile, xmlFile, foldername, true);
         }
         else {
-            ast = getAst(javaFile, "after/" + foldername + "/" + xml, foldername, false);
+            ast = getAst(javaFile, xmlFile, foldername, false);
         }
 
         return ast.calcSha(ast.chooseArea());
@@ -301,12 +301,19 @@ public class NewWarningDetectorTest {
 
     private Ast getAst(final String filename, final String xmlFile, final String foldername, final boolean before) {
         String workspace = System.getProperty("user.dir");
-        FileAnnotation fileAnnotation = readWarning(xmlFile);
+
+        FileAnnotation fileAnnotation = readWarning(calcCorrectPath(xmlFile, foldername, before));
 
         @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(workspace).append("/src/test/resources/hudson/plugins/checkstyle/parser/");
+        StringBuilder stringBuilderJavafile = new StringBuilder();
+        stringBuilderJavafile.append(workspace).append("/src/test/resources/hudson/plugins/checkstyle/parser/");
+        stringBuilderJavafile.append(calcCorrectPath(filename, foldername, before));
 
+        return AstFactory.getInstance(stringBuilderJavafile.toString(), fileAnnotation);
+    }
+
+    private String calcCorrectPath(final String nameOfFile, final String foldername, final boolean before) {
+        StringBuilder stringBuilder = new StringBuilder();
         if (before) {
             stringBuilder.append("before/");
         }
@@ -315,8 +322,8 @@ public class NewWarningDetectorTest {
         }
         stringBuilder.append(foldername);
         stringBuilder.append('/');
-        stringBuilder.append(filename);
+        stringBuilder.append(nameOfFile);
 
-        return AstFactory.getInstance(stringBuilder.toString(), fileAnnotation);
+        return stringBuilder.toString();
     }
 }
