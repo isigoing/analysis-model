@@ -22,4 +22,10 @@ public class FinalClass_Newline {
     private FinalClass_Newline() {
 
     }
+    
+    private static class Test {
+        private static void doSth() {
+            System.out.println("Hallo");
+        }
+    }
 }

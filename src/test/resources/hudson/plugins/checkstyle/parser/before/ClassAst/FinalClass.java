@@ -12,4 +12,10 @@ public class FinalClass {
     private FinalClass() {
 
     }
+    
+    private static class Test {
+        private static void doSth() {
+            System.out.println("Hallo");
+        }
+    }
 }
