@@ -113,7 +113,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testNeedBracesWithNewLines() {
         checkThatHashesMatching("NeedBraces", REFACTORING_NEWLINE);
@@ -182,7 +181,12 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testEnvironmentAst() {
-        // FIXME
+        String expectedResult = "LITERAL_IF LPAREN EXPR GE IDENT NUM_INT RPAREN METHOD_DEF MODIFIERS LITERAL_PUBLIC TYPE LITERAL_INT IDENT LPAREN PARAMETERS PARAMETER_DEF MODIFIERS FINAL TYPE LITERAL_INT IDENT RPAREN SLIST RCURLY EXPR ASSIGN DOT LITERAL_THIS IDENT IDENT SEMI LITERAL_RETURN EXPR IDENT SEMI LITERAL_ELSE SLIST LITERAL_RETURN EXPR UNARY_MINUS IDENT SEMI ";
+
+        Ast ast = getAst("NeedBraces_Newline.java", "NeedBraces_Newline.xml", ENVIRONMENT_AST_FOLDERNAME, false);
+        String realResult = ast.chosenAreaAsString(' ');
+
+        compareString(expectedResult, realResult);
     }
 
     /**
