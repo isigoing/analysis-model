@@ -171,9 +171,8 @@ public class NewWarningDetectorTest {
         String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI CLASS_DEF MODIFIERS LITERAL_PUBLIC LITERAL_CLASS IDENT OBJBLOCK LCURLY VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_INT IDENT SEMI CTOR_DEF MODIFIERS LITERAL_PRIVATE IDENT LPAREN PARAMETERS RPAREN SLIST RCURLY RCURLY ";
 
         Ast ast = getAst("FinalClass_Newline.java", "FinalClass_Newline.xml", CLASS_AST_FOLDERNAME, false);
-        String realResult = ast.chosenAreaAsString(' ');
 
-        compareString(expectedResult, realResult);
+        checkAst(expectedResult, ast);
     }
 
     /**
@@ -184,9 +183,8 @@ public class NewWarningDetectorTest {
         String expectedResult = "LITERAL_IF LPAREN EXPR GE IDENT NUM_INT RPAREN METHOD_DEF MODIFIERS LITERAL_PUBLIC TYPE LITERAL_INT IDENT LPAREN PARAMETERS PARAMETER_DEF MODIFIERS FINAL TYPE LITERAL_INT IDENT RPAREN SLIST RCURLY EXPR ASSIGN DOT LITERAL_THIS IDENT IDENT SEMI LITERAL_RETURN EXPR IDENT SEMI LITERAL_ELSE SLIST LITERAL_RETURN EXPR UNARY_MINUS IDENT SEMI ";
 
         Ast ast = getAst("NeedBraces_Newline.java", "NeedBraces_Newline.xml", ENVIRONMENT_AST_FOLDERNAME, false);
-        String realResult = ast.chosenAreaAsString(' ');
 
-        compareString(expectedResult, realResult);
+        checkAst(expectedResult, ast);
     }
 
     /**
@@ -227,6 +225,12 @@ public class NewWarningDetectorTest {
     @Test
     public void testNamePackageAst() {
         // FIXME
+    }
+
+    private void checkAst(final String expectedResult, final Ast ast) {
+        String realResult = ast.chosenAreaAsString(' ');
+
+        compareString(expectedResult, realResult);
     }
 
     private String matchWarningTypeToFoldername(final String warningType) {
