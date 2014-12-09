@@ -46,8 +46,6 @@ public class EnvironmentAst extends Ast {
         chosen.addAll(elementsBefore(elementsInLine.get(0)));
         chosen.addAll(elementsAfter(tmp.get(tmp.size() - 1)));
 
-        printList(chosen);
-        System.out.println("------------------------------------");
         return chosen;
     }
 
