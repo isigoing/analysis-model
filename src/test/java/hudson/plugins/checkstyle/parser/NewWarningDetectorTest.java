@@ -204,7 +204,11 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInstancevariableAst() {
-        // FIXME
+        String expectedResult = "OBJBLOCK VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE IDENT IDENT SEMI VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_INT IDENT ASSIGN EXPR NUM_INT SEMI VARIABLE_DEF MODIFIERS LITERAL_PRIVATE FINAL TYPE IDENT IDENT SEMI ";
+
+        Ast ast = getAst("ExplicitInitialization_Newline.java", "ExplicitInitialization_Newline.xml", INSTANCEVARIABLE_AST_FOLDERNAME, false);
+
+        checkAst(expectedResult, ast);
     }
 
     /**
