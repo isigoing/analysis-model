@@ -167,6 +167,14 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithRename() {
+        checkThatHashesMatching("NeedBraces", REFACTORING_RENAME);
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
