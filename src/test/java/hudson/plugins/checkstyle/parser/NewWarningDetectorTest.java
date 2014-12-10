@@ -194,7 +194,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testExplicitInitializationWithRename() {
         checkThatHashesMatching("ExplicitInitialization", REFACTORING_RENAME);
