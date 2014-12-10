@@ -32,6 +32,7 @@ public class NewWarningDetectorTest {
     private static final String NAME_PACKAGE_AST_FOLDERNAME = "NamePackageAst";
 
     private static final String REFACTORING_NEWLINE = "_Newline";
+    private static final String REFACTORING_RENAME = "_Rename";
 
     /**
      * Verifies that the insertion of a new line above the warning does produce a different hashCode.
@@ -155,6 +156,14 @@ public class NewWarningDetectorTest {
     @Test
     public void testPackageNameWithNewLines() {
         checkThatHashesMatching("PackageName", REFACTORING_NEWLINE);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testFinalClassWithRename() {
+        checkThatHashesMatching("FinalClass", REFACTORING_RENAME);
     }
 
     /**
