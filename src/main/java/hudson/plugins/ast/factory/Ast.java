@@ -261,7 +261,7 @@ public abstract class Ast {
      */
     public void runThroughAST(final DetailAST root) {
         if (root != null) {
-            System.out.println(TokenTypes.getTokenName(root.getType()));
+//            System.out.println(TokenTypes.getTokenName(root.getType()));
             allElements.add(root);
 
             if (root.getFirstChild() != null) {
