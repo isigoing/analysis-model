@@ -36,7 +36,7 @@ public class NamePackageAst extends Ast {
         chosen.addAll(calcAllChildren(getAbstractSyntaxTree().getFirstChild()));
 
         StringBuilder stringBuilder = new StringBuilder();
-        for(DetailAST element : packageInfo) {
+        for (DetailAST element : packageInfo) {
             stringBuilder.append(element.getText());
         }
         setName(stringBuilder.toString());
