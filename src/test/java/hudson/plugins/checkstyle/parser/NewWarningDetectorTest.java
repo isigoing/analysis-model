@@ -253,7 +253,11 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNamePackageAst() {
-        // FIXME
+        String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI ";
+
+        Ast ast = getAst("PackageName_Newline.java", "PackageName_Newline.xml", NAME_PACKAGE_AST_FOLDERNAME, false);
+
+        checkAst(expectedResult, ast);
     }
 
     private void checkAst(final String expectedResult, final Ast ast) {
