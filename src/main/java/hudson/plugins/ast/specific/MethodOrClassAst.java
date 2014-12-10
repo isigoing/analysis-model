@@ -3,17 +3,24 @@ package hudson.plugins.ast.specific;
 import hudson.plugins.analysis.util.model.FileAnnotation;
 import hudson.plugins.ast.factory.Ast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
- * FIXME: Document type MethodOrClassAst.
+ * Depicts the MethodOrClassAst. If the warning is on method-level the {@link MethodAst#chooseArea()} would be called,
+ * otherwise if it is on class-level the {@link ClassAst#chooseArea()}.
  *
  * @author Christian M&ouml;stl
  */
 public class MethodOrClassAst extends Ast {
+
+    private final int[] excludeTypes = new int[]{TokenTypes.CLASS_DEF, TokenTypes.INTERFACE_DEF, TokenTypes.ENUM_DEF,
+            TokenTypes.ANNOTATION_DEF};
 
     /**
      * Creates a new instance of {@link MethodOrClassAst}.
@@ -29,10 +36,7 @@ public class MethodOrClassAst extends Ast {
 
     @Override
     public List<DetailAST> chooseArea() {
-
-        DetailAST element = getElementsInSameLine().get(0);
-
-        if (isLevelOfMethod(element)) {
+        if (getElementsInSameLine().size() != 0 && isLevelOfMethod(getElementsInSameLine().get(0))) {
             return new MethodAst(getFilename(), getFileAnnotation()).chooseArea();
         }
         else {
@@ -45,7 +49,7 @@ public class MethodOrClassAst extends Ast {
             if (element.getType() == TokenTypes.METHOD_DEF || element.getType() == TokenTypes.CTOR_DEF) {
                 return true;
             }
-            else if (element.getType() == TokenTypes.CLASS_DEF || element.getType() == TokenTypes.INTERFACE_DEF) {
+            else if (!Arrays.asList(ArrayUtils.toObject(excludeTypes)).contains(element.getType())) {
                 return false;
             }
             else {
