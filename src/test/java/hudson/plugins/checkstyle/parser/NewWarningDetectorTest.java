@@ -202,10 +202,9 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testMethodNameWithRename() {
-        checkThatHashesMatching("NeedBraces", REFACTORING_RENAME);
+        checkThatHashesMatching("MethodName", REFACTORING_RENAME);
     }
 
     /**
