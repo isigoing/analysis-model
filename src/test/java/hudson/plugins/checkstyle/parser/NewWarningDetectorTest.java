@@ -216,7 +216,11 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodAst() {
-        // FIXME
+        String expectedResult = "METHOD_DEF MODIFIERS LITERAL_PUBLIC LITERAL_STATIC TYPE LITERAL_VOID IDENT LPAREN PARAMETERS RPAREN SLIST EXPR METHOD_CALL DOT DOT IDENT IDENT IDENT ELIST EXPR STRING_LITERAL RPAREN SEMI RCURLY ";
+
+        Ast ast = getAst("MethodName_Newline.java", "MethodName_Newline.xml", METHOD_AST_FOLDERNAME, false);
+
+        checkAst(expectedResult, ast);
     }
 
     /**
