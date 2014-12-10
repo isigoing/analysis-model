@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -121,7 +120,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testInterfaceIsTypeWithNewLines() {
         checkThatHashesMatching("InterfaceIsType", REFACTORING_NEWLINE);
@@ -130,7 +128,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testExplicitInitializationWithNewLines() {
         checkThatHashesMatching("ExplicitInitialization", REFACTORING_NEWLINE);
@@ -139,7 +136,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testMethodNameWithNewLines() {
         checkThatHashesMatching("MethodName", REFACTORING_NEWLINE);
@@ -148,7 +144,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testRedundantModifierWithNewLines() {
         checkThatHashesMatching("RedundantModifier", REFACTORING_NEWLINE);
@@ -157,7 +152,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
     @Test
     public void testPackageNameWithNewLines() {
         checkThatHashesMatching("PackageName", REFACTORING_NEWLINE);
@@ -226,7 +220,6 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the MethodOrClassAst works right.
      */
-    @Ignore
     @Test
     public void testMethodOrClassAstInMethodlevel() {
         String expectedResult = "METHOD_DEF MODIFIERS LITERAL_PUBLIC TYPE LITERAL_INT IDENT LPAREN PARAMETERS PARAMETER_DEF MODIFIERS TYPE LITERAL_INT IDENT COMMA PARAMETER_DEF MODIFIERS TYPE LITERAL_INT IDENT RPAREN SEMI ";
