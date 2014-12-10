@@ -30,13 +30,12 @@ public class NamePackageAst extends Ast {
     @Override
     public List<DetailAST> chooseArea() {
         List<DetailAST> chosen = new ArrayList<DetailAST>();
-        List<DetailAST> packageInfo = calcAllChildren(getAbstractSyntaxTree().getFirstChild());
 
         chosen.add(getAbstractSyntaxTree());
         chosen.addAll(calcAllChildren(getAbstractSyntaxTree().getFirstChild()));
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (DetailAST element : packageInfo) {
+        for (DetailAST element : chosen) {
             stringBuilder.append(element.getText());
         }
         setName(stringBuilder.toString());
