@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.io.FilenameUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -33,6 +34,14 @@ public class NewWarningDetectorTest {
 
     private static final String REFACTORING_NEWLINE = "_Newline";
     private static final String REFACTORING_RENAME = "_Rename";
+    private static final String REFACTORING_3 = "_";
+    private static final String REFACTORING_4 = "_";
+    private static final String REFACTORING_5 = "_";
+    private static final String REFACTORING_6 = "_";
+    private static final String REFACTORING_7 = "_";
+    private static final String REFACTORING_8 = "_";
+    private static final String REFACTORING_9 = "_";
+    private static final String REFACTORING_10 = "_";
 
     /**
      * Verifies that the insertion of a new line above the warning does produce a different hashCode.
@@ -103,7 +112,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode.
+     * Verifies that the ast calculates the same hashcode. (inclusive Refactoring: Newline).
      */
     @Test
     public void testFinalClassWithNewLines() {
@@ -175,6 +184,50 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testInterfaceIsTypeWithRename() {
+        checkThatHashesMatching("InterfaceIsType", REFACTORING_RENAME);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Ignore
+    @Test
+    public void testExplicitInitializationWithRename() {
+        checkThatHashesMatching("ExplicitInitialization", REFACTORING_RENAME);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Ignore
+    @Test
+    public void testMethodNameWithRename() {
+        checkThatHashesMatching("NeedBraces", REFACTORING_RENAME);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Ignore
+    @Test
+    public void testRedundantModifierWithRename() {
+        checkThatHashesMatching("RedundantModifier", REFACTORING_RENAME);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Ignore
+    @Test
+    public void testPackageNameWithRename() {
+        checkThatHashesMatching("PackageName", REFACTORING_RENAME);
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
@@ -217,7 +270,8 @@ public class NewWarningDetectorTest {
     public void testInstancevariableAst() {
         String expectedResult = "OBJBLOCK VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE IDENT IDENT SEMI VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_INT IDENT ASSIGN EXPR NUM_INT SEMI VARIABLE_DEF MODIFIERS LITERAL_PRIVATE FINAL TYPE IDENT IDENT SEMI ";
 
-        Ast ast = getAst("ExplicitInitialization_Newline.java", "ExplicitInitialization_Newline.xml", INSTANCEVARIABLE_AST_FOLDERNAME, false);
+        Ast ast = getAst("ExplicitInitialization_Newline.java", "ExplicitInitialization_Newline.xml",
+                INSTANCEVARIABLE_AST_FOLDERNAME, false);
 
         checkAst(expectedResult, ast);
     }
@@ -241,7 +295,8 @@ public class NewWarningDetectorTest {
     public void testMethodOrClassAstInMethodlevel() {
         String expectedResult = "METHOD_DEF MODIFIERS LITERAL_PUBLIC TYPE LITERAL_INT IDENT LPAREN PARAMETERS PARAMETER_DEF MODIFIERS TYPE LITERAL_INT IDENT COMMA PARAMETER_DEF MODIFIERS TYPE LITERAL_INT IDENT RPAREN SEMI ";
 
-        Ast ast = getAst("RedundantModifier_Newline.java", "RedundantModifier_Newline.xml", METHOD_OR_CLASS_AST_FOLDERNAME, false);
+        Ast ast = getAst("RedundantModifier_Newline.java", "RedundantModifier_Newline.xml",
+                METHOD_OR_CLASS_AST_FOLDERNAME, false);
 
         checkAst(expectedResult, ast);
     }
