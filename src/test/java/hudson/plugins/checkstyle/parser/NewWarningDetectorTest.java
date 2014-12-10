@@ -226,9 +226,26 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the MethodOrClassAst works right.
      */
+    @Ignore
     @Test
-    public void testMethodOrClassAst() {
-        // FIXME
+    public void testMethodOrClassAstInMethodlevel() {
+        String expectedResult = "METHOD_DEF MODIFIERS LITERAL_PUBLIC TYPE LITERAL_INT IDENT LPAREN PARAMETERS PARAMETER_DEF MODIFIERS TYPE LITERAL_INT IDENT COMMA PARAMETER_DEF MODIFIERS TYPE LITERAL_INT IDENT RPAREN SEMI ";
+
+        Ast ast = getAst("RedundantModifier_Newline.java", "RedundantModifier_Newline.xml", METHOD_OR_CLASS_AST_FOLDERNAME, false);
+
+        checkAst(expectedResult, ast);
+    }
+
+    /**
+     * Verifies that the MethodOrClassAst works right.
+     */
+    @Test
+    public void testMethodOrClassAstInClasslevel() {
+        String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI CLASS_DEF MODIFIERS LITERAL_PUBLIC LITERAL_CLASS IDENT OBJBLOCK LCURLY CTOR_DEF MODIFIERS LITERAL_PUBLIC IDENT LPAREN PARAMETERS RPAREN SLIST RCURLY RCURLY ";
+
+        Ast ast = getAst("JavadocStyle_Newline.java", "JavadocStyle_Newline.xml", METHOD_OR_CLASS_AST_FOLDERNAME, false);
+
+        checkAst(expectedResult, ast);
     }
 
     /**
