@@ -223,6 +223,15 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates NOT the same hashcode. Even though it is the exact same warning it won't
+     * calculate the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithExtractMethodHaveNotTheSameHashcode() {
+        checkThatHashesMatching("NeedBraces", "NeedBraces2", "NeedBraces2", REFACTORING_EXTRACT_METHOD, false);
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
