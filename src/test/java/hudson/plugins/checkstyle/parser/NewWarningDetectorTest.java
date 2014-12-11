@@ -38,10 +38,9 @@ public class NewWarningDetectorTest {
     private static final String REFACTORING_INTRODUCE_FOREIGN_METHOD = "_IntroduceForeignMethod";
     private static final String REFACTORING_EXTRACT_METHOD = "_ExtractMethod";
     private static final String REFACTORING_INLINE_METHOD = "_InlineMethod";
-    private static final String REFACTORING_PARAMETERIZE_METHOD = "_ParameterizeMethod";
-    private static final String REFACTORING_INTRODUCE_PARAMETER_OBJECT = "_IntroduceParameterObject";
-    private static final String REFACTORING_CONSOLIDATE_DUPLICATE_CONDITIONAL_CODES = "_ConsolidateDuplicateConditionalFragments";
-    private static final String REFACTORING_SPLIT_TEMPORARY_VARIABLE = "_SplitTemporaryVariable";
+    private static final String REFACTORING_PULL_UP_METHOD = "_PullUpMethod";
+    private static final String REFACTORING_PUSH_DOWN_METHOD = "_PushDownMethod";
+    private static final String REFACTORING_EXTRACT_CONSTANT = "_ExtractConstant";
 
     /**
      * Verifies that the insertion of a new line above the warning does produce a different hashCode.
