@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -210,19 +209,9 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode.
      */
-    @Ignore
-    @Test
-    public void testRedundantModifierWithRename() {
-        checkThatHashesMatching("RedundantModifier", REFACTORING_RENAME);
-    }
-
-    /**
-     * Verifies that the ast calculates the same hashcode.
-     */
-    @Ignore
     @Test
     public void testPackageNameWithRename() {
-        checkThatHashesMatching("PackageName", REFACTORING_RENAME);
+        checkThatHashesNotMatching("PackageName", REFACTORING_RENAME);
     }
 
     /**
@@ -366,7 +355,11 @@ public class NewWarningDetectorTest {
      *            the refactoring
      */
     private void checkThatHashesMatching(final String warningType, final String refactoring) {
-        checkThatHashesMatching(warningType, warningType, warningType, refactoring);
+        checkThatHashesMatching(warningType, warningType, warningType, refactoring, true);
+    }
+
+    private void checkThatHashesNotMatching(final String warningType, final String refactoring) {
+        checkThatHashesMatching(warningType, warningType, warningType, refactoring, false);
     }
 
     /**
@@ -381,14 +374,21 @@ public class NewWarningDetectorTest {
      *            the name of the class after
      * @param refactoring
      *            the refactoring
+     * @param expectedEqualHashcode
+     *            <code>true</code>, if the expected hashcode is equal, otherwise <code>false</code>.
      */
     private void checkThatHashesMatching(final String warningType, final String beforeClass, final String afterClass,
-            final String refactoring) {
+            final String refactoring, final boolean expectedEqualHashcode) {
         String foldername = matchWarningTypeToFoldername(warningType);
         String hashBefore = calcHashcode(beforeClass, foldername, true);
         String hashAfter = calcHashcode(afterClass + refactoring, foldername, false);
 
-        compareHashcode(hashBefore, hashAfter);
+        if (expectedEqualHashcode) {
+            compareHashcode(hashBefore, hashAfter);
+        }
+        else {
+            compareHashcodeOnNonEquality(hashBefore, hashAfter);
+        }
     }
 
     private String calcHashcode(final String filename, final String foldername, final boolean beforeRefactoring) {
@@ -401,6 +401,11 @@ public class NewWarningDetectorTest {
     private void compareHashcode(final String hashBefore, final String hashAfter) {
         assertNotNull("Hash code isn't not null", hashBefore);
         assertEquals("Hash codes don't match: ", hashBefore, hashAfter);
+    }
+
+    private void compareHashcodeOnNonEquality(final String hashBefore, final String hashAfter) {
+        assertNotNull("Hash code isn't not null", hashBefore);
+        assertNotEquals("Hash codes aren't differnt: ", hashBefore, hashAfter);
     }
 
     private void compareString(final String first, final String second) {
