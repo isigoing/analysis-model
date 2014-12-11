@@ -31,16 +31,17 @@ public class NewWarningDetectorTest {
     private static final String INSTANCEVARIABLE_AST_FOLDERNAME = "InstancevariableAst";
     private static final String NAME_PACKAGE_AST_FOLDERNAME = "NamePackageAst";
 
+    // Compare Refactorings from Martin Fowler:
     private static final String REFACTORING_NEWLINE = "_Newline";
     private static final String REFACTORING_RENAME = "_Rename";
-    private static final String REFACTORING_3 = "_";
-    private static final String REFACTORING_4 = "_";
-    private static final String REFACTORING_5 = "_";
-    private static final String REFACTORING_6 = "_";
-    private static final String REFACTORING_7 = "_";
-    private static final String REFACTORING_8 = "_";
-    private static final String REFACTORING_9 = "_";
-    private static final String REFACTORING_10 = "_";
+    private static final String REFACTORING_DECOMPOSE_CONDITIONAL = "_DecomposeConditional";
+    private static final String REFACTORING_INTRODUCE_FOREIGN_METHOD = "_IntroduceForeignMethod";
+    private static final String REFACTORING_EXTRACT_METHOD = "_ExtractMethod";
+    private static final String REFACTORING_INLINE_METHOD = "_InlineMethod";
+    private static final String REFACTORING_PARAMETERIZE_METHOD = "_ParameterizeMethod";
+    private static final String REFACTORING_INTRODUCE_PARAMETER_OBJECT = "_IntroduceParameterObject";
+    private static final String REFACTORING_CONSOLIDATE_DUPLICATE_CONDITIONAL_CODES = "_ConsolidateDuplicateConditionalFragments";
+    private static final String REFACTORING_SPLIT_TEMPORARY_VARIABLE = "_SplitTemporaryVariable";
 
     /**
      * Verifies that the insertion of a new line above the warning does produce a different hashCode.
