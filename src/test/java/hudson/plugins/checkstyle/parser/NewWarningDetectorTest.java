@@ -207,11 +207,19 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testPackageNameWithRename() {
         checkThatHashesNotMatching("PackageName", REFACTORING_RENAME);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithExtractMethod() {
+        checkThatHashesMatching("NeedBraces", "NeedBraces1", "NeedBraces1", REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
