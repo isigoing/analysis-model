@@ -23,6 +23,15 @@ import org.junit.Test;
  */
 public class NewWarningDetectorTest {
 
+
+    private static final String REDUNDANT_MODIFIER = "RedundantModifier";
+    private static final String FINAL_CLASS = "FinalClass";
+    private static final String INTERFACE_IS_TYPE = "InterfaceIsType";
+    private static final String EXPLICIT_INITIALIZATION = "ExplicitInitialization";
+    private static final String PACKAGE_NAME = "PackageName";
+    private static final String NEED_BRACES = "NeedBraces";
+    private static final String METHOD_NAME = "MethodName";
+
     private static final String METHOD_AST_FOLDERNAME = "MethodAst";
     private static final String ENVIRONMENT_AST_FOLDERNAME = "EnvironmentAst";
     private static final String FILE_AST_FOLDERNAME = "FileAst";
@@ -113,7 +122,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithNewLines() {
-        checkThatHashesMatching("FinalClass", REFACTORING_NEWLINE);
+        checkThatHashesMatching(FINAL_CLASS, REFACTORING_NEWLINE);
     }
 
     /**
@@ -121,7 +130,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithNewLines() {
-        checkThatHashesMatching("NeedBraces", REFACTORING_NEWLINE);
+        checkThatHashesMatching(NEED_BRACES, REFACTORING_NEWLINE);
     }
 
     /**
@@ -129,7 +138,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInterfaceIsTypeWithNewLines() {
-        checkThatHashesMatching("InterfaceIsType", REFACTORING_NEWLINE);
+        checkThatHashesMatching(INTERFACE_IS_TYPE, REFACTORING_NEWLINE);
     }
 
     /**
@@ -137,7 +146,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithNewLines() {
-        checkThatHashesMatching("ExplicitInitialization", REFACTORING_NEWLINE);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, REFACTORING_NEWLINE);
     }
 
     /**
@@ -145,7 +154,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithNewLines() {
-        checkThatHashesMatching("MethodName", REFACTORING_NEWLINE);
+        checkThatHashesMatching(METHOD_NAME, REFACTORING_NEWLINE);
     }
 
     /**
@@ -153,7 +162,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testRedundantModifierWithNewLines() {
-        checkThatHashesMatching("RedundantModifier", REFACTORING_NEWLINE);
+        checkThatHashesMatching(REDUNDANT_MODIFIER, REFACTORING_NEWLINE);
     }
 
     /**
@@ -161,7 +170,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithNewLines() {
-        checkThatHashesMatching("PackageName", REFACTORING_NEWLINE);
+        checkThatHashesMatching(PACKAGE_NAME, REFACTORING_NEWLINE);
     }
 
     /**
@@ -169,7 +178,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithRename() {
-        checkThatHashesMatching("FinalClass", REFACTORING_RENAME);
+        checkThatHashesMatching(FINAL_CLASS, REFACTORING_RENAME);
     }
 
     /**
@@ -177,7 +186,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithRename() {
-        checkThatHashesMatching("NeedBraces", REFACTORING_RENAME);
+        checkThatHashesMatching(NEED_BRACES, REFACTORING_RENAME);
     }
 
     /**
@@ -185,7 +194,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInterfaceIsTypeWithRename() {
-        checkThatHashesMatching("InterfaceIsType", REFACTORING_RENAME);
+        checkThatHashesMatching(INTERFACE_IS_TYPE, REFACTORING_RENAME);
     }
 
     /**
@@ -193,7 +202,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithRename() {
-        checkThatHashesMatching("ExplicitInitialization", REFACTORING_RENAME);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, REFACTORING_RENAME);
     }
 
     /**
@@ -201,7 +210,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithRename() {
-        checkThatHashesMatching("MethodName", REFACTORING_RENAME);
+        checkThatHashesMatching(METHOD_NAME, REFACTORING_RENAME);
     }
 
     /**
@@ -209,7 +218,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithRename() {
-        checkThatHashesNotMatching("PackageName", REFACTORING_RENAME);
+        checkThatHashesNotMatching(PACKAGE_NAME, REFACTORING_RENAME);
     }
 
     /**
@@ -217,7 +226,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractMethod() {
-        checkThatHashesMatching("NeedBraces", "NeedBraces1", "NeedBraces1", REFACTORING_EXTRACT_METHOD, true);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces1", "NeedBraces1", REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
@@ -226,7 +235,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching("NeedBraces", "NeedBraces2", "NeedBraces2", REFACTORING_EXTRACT_METHOD, false);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces2", "NeedBraces2", REFACTORING_EXTRACT_METHOD, false);
     }
 
     /**
@@ -235,7 +244,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithPullUpMethod() {
-        checkThatHashesMatching("MethodName", "MethodName1SubclassA", "MethodName1Superclass",
+        checkThatHashesMatching(METHOD_NAME, "MethodName1SubclassA", "MethodName1Superclass",
                 REFACTORING_PULL_UP_METHOD, true);
     }
 
@@ -244,8 +253,9 @@ public class NewWarningDetectorTest {
      * shows that the warning is the same, because only the method was shifted in the superclass and the environment-Ast
      * works calculates the correct hashcode.
      */
+    @Test
     public void testNeedBracesWithPullUpMethod() {
-        checkThatHashesMatching("NeedBraces", "NeedBraces3Subclass", "NeedBraces3Superclass",
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces3SubclassA", "NeedBraces3Superclass",
                 REFACTORING_PULL_UP_METHOD, true);
     }
 
