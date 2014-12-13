@@ -304,6 +304,17 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
+     * shows that the warning is the same, because only the method was shifted in the superclass and the
+     * instancevariable-Ast calculates the correct hashcode.
+     */
+    @Test
+    public void testExplicitInitializationWithPullUpMethod() {
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization1Subclass",
+                "ExplicitInitialization1Subclass", REFACTORING_PULL_UP_METHOD, true);
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
