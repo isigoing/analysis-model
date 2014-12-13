@@ -275,7 +275,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithExtractMethodHaveNotTheSameHashcode() {
-        //FIXME
+        checkThatHashesMatching(METHOD_NAME, "MethodName2", "MethodName3", REFACTORING_EXTRACT_METHOD, false);
     }
 
     /**
