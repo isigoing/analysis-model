@@ -277,6 +277,16 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
+     * shows that the warning is NOT the same, because the method was shifted in the superclass and the class-Ast
+     * can't calculate the correct hashcode.
+     */
+    @Test
+    public void testFinalClassWithPullUpMethodHaveNotTheSameHashcode() {
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass2SubclassA", "FinalClass2SubclassA", REFACTORING_PULL_UP_METHOD, false);
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
