@@ -34,8 +34,8 @@ public class NewWarningDetectorTest {
     // Compare Refactorings from Martin Fowler:
     private static final String REFACTORING_NEWLINE = "_Newline";
     private static final String REFACTORING_RENAME = "_Rename";
-    private static final String REFACTORING_DECOMPOSE_CONDITIONAL = "_DecomposeConditional";
-    private static final String REFACTORING_INTRODUCE_FOREIGN_METHOD = "_IntroduceForeignMethod";
+    // private static final String REFACTORING_DECOMPOSE_CONDITIONAL = "_DecomposeConditional";
+    // private static final String REFACTORING_INTRODUCE_FOREIGN_METHOD = "_IntroduceForeignMethod";
     private static final String REFACTORING_EXTRACT_METHOD = "_ExtractMethod";
     private static final String REFACTORING_INLINE_METHOD = "_InlineMethod";
     private static final String REFACTORING_PULL_UP_METHOD = "_PullUpMethod";
@@ -229,6 +229,16 @@ public class NewWarningDetectorTest {
     @Test
     public void testNeedBracesWithExtractMethodHaveNotTheSameHashcode() {
         checkThatHashesMatching("NeedBraces", "NeedBraces2", "NeedBraces2", REFACTORING_EXTRACT_METHOD, false);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
+     * shows that the warning is the same, because only the method was shifted in the superclass.
+     */
+    @Test
+    public void testMethodNameWithPullUpMethod() {
+        checkThatHashesMatching("MethodName", "MethodName1SubclassA", "MethodName1Superclass",
+                REFACTORING_PULL_UP_METHOD, true);
     }
 
     /**
