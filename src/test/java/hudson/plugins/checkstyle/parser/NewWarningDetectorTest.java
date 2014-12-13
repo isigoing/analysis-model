@@ -267,7 +267,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithExtractMethod() {
-        //FIXME
+        checkThatHashesMatching(METHOD_NAME, "MethodName2", "MethodName2", REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
