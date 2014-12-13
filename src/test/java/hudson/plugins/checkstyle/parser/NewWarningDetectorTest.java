@@ -23,9 +23,6 @@ import org.junit.Test;
  */
 public class NewWarningDetectorTest {
 
-    /**
-     * FIXME: Document field PACKAGE_DECLARATION
-     */
     private static final String PACKAGE_DECLARATION = "PackageDeclaration";
     private static final String REDUNDANT_MODIFIER = "RedundantModifier";
     private static final String FINAL_CLASS = "FinalClass";
@@ -312,6 +309,17 @@ public class NewWarningDetectorTest {
     public void testExplicitInitializationWithPullUpMethod() {
         checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization1Subclass",
                 "ExplicitInitialization1Subclass", REFACTORING_PULL_UP_METHOD, true);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
+     * shows that the warning is the same, because only the method was shifted in the superclass and the namepackage-Ast
+     * calculates the correct hashcode.
+     */
+    @Test
+    public void testPackageNameWithPullUpMethod() {
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName1Subclass", "PackageName1Subclass",
+                REFACTORING_PULL_UP_METHOD, true);
     }
 
     /**
