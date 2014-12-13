@@ -238,6 +238,14 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testFinalClassWithExtractMethodHaveNotTheSameHashcode() {
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass1", "FinalClass1", REFACTORING_EXTRACT_METHOD, false);
+    }
+
+    /**
      * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
      * shows that the warning is the same, because only the method was shifted in the superclass.
      */
