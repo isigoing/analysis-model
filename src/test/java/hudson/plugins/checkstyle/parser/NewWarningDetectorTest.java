@@ -23,7 +23,6 @@ import org.junit.Test;
  */
 public class NewWarningDetectorTest {
 
-
     private static final String REDUNDANT_MODIFIER = "RedundantModifier";
     private static final String FINAL_CLASS = "FinalClass";
     private static final String INTERFACE_IS_TYPE = "InterfaceIsType";
@@ -251,12 +250,22 @@ public class NewWarningDetectorTest {
     /**
      * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
      * shows that the warning is the same, because only the method was shifted in the superclass and the environment-Ast
-     * works calculates the correct hashcode.
+     * calculates the correct hashcode.
      */
     @Test
     public void testNeedBracesWithPullUpMethod() {
         checkThatHashesMatching(NEED_BRACES, "NeedBraces3SubclassA", "NeedBraces3Superclass",
                 REFACTORING_PULL_UP_METHOD, true);
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
+     * shows that the warning is NOT the same, because the method was shifted in the superclass and the environment-Ast
+     * can't calculate the correct hashcode.
+     */
+    @Test
+    public void testNeedBracesWithPullUpMethodHaveNotTheSameHashcode() {
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces4SubclassA", "NeedBraces4Superclass", REFACTORING_PULL_UP_METHOD, false);
     }
 
     /**
