@@ -23,6 +23,10 @@ import org.junit.Test;
  */
 public class NewWarningDetectorTest {
 
+    /**
+     * FIXME: Document field PACKAGE_DECLARATION
+     */
+    private static final String PACKAGE_DECLARATION = "PackageDeclaration";
     private static final String REDUNDANT_MODIFIER = "RedundantModifier";
     private static final String FINAL_CLASS = "FinalClass";
     private static final String INTERFACE_IS_TYPE = "InterfaceIsType";
@@ -273,17 +277,30 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithPullUpMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces4SubclassA", "NeedBraces4Superclass", REFACTORING_PULL_UP_METHOD, false);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces4SubclassA", "NeedBraces4Superclass",
+                REFACTORING_PULL_UP_METHOD, false);
     }
 
     /**
      * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is NOT the same, because the method was shifted in the superclass and the class-Ast
-     * can't calculate the correct hashcode.
+     * shows that the warning is NOT the same, because the method was shifted in the superclass and the class-Ast can't
+     * calculate the correct hashcode.
      */
     @Test
     public void testFinalClassWithPullUpMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(FINAL_CLASS, "FinalClass2SubclassA", "FinalClass2SubclassA", REFACTORING_PULL_UP_METHOD, false);
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass2SubclassA", "FinalClass2SubclassA",
+                REFACTORING_PULL_UP_METHOD, false);
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
+     * shows that the warning is NOT the same, because the method was shifted in the superclass and the file-Ast can't
+     * calculate the correct hashcode.
+     */
+    @Test
+    public void testPackageDeclarationWithPullUpMethodHaveNotTheSameHashcode() {
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclarationSubclass", "PackageDeclarationSubclass",
+                REFACTORING_PULL_UP_METHOD, false);
     }
 
     /**
@@ -477,6 +494,7 @@ public class NewWarningDetectorTest {
 
     private void compareHashcodeOnNonEquality(final String hashBefore, final String hashAfter) {
         assertNotNull("Hash code isn't not null", hashBefore);
+        assertNotNull("Hash code isn't not null", hashAfter);
         assertNotEquals("Hash codes aren't differnt: ", hashBefore, hashAfter);
     }
 
