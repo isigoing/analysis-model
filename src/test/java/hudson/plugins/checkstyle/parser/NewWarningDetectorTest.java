@@ -251,7 +251,8 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithExtractMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration1", "PackageDeclaration1", REFACTORING_EXTRACT_METHOD, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration1", "PackageDeclaration1",
+                REFACTORING_EXTRACT_METHOD, false);
     }
 
     /**
@@ -259,7 +260,8 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithExtractMethod() {
-        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization2", "ExplicitInitialization2", REFACTORING_EXTRACT_METHOD, true);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization2", "ExplicitInitialization2",
+                REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
@@ -360,6 +362,76 @@ public class NewWarningDetectorTest {
     public void testPackageNameWithPullUpMethod() {
         checkThatHashesMatching(PACKAGE_NAME, "PackageName1Subclass", "PackageName1Subclass",
                 REFACTORING_PULL_UP_METHOD, true);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the method-ast
+     * calculates the correct hashcode.
+     */
+    @Test
+    public void testMethodNameWithPushDownMethod() {
+        // TODO
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the environment-Ast
+     * calculates the correct hashcode.
+     */
+    @Test
+    public void testNeedBracesWithPushDownMethod() {
+        // TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the environment-Ast
+     * can't calculate the correct hashcode.
+     */
+    @Test
+    public void testNeedBracesWithPushDownMethodHaveNotTheSameHashcode() {
+        // TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the class-Ast can't
+     * calculate the correct hashcode.
+     */
+    @Test
+    public void testFinalClassWithPushDownMethodHaveNotTheSameHashcode() {
+        // TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the file-Ast can't
+     * calculate the correct hashcode.
+     */
+    @Test
+    public void testPackageDeclarationWithPushDownMethodHaveNotTheSameHashcode() {
+        // TODO
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the
+     * instancevariable-Ast calculates the correct hashcode.
+     */
+    @Test
+    public void testExplicitInitializationWithPushDownMethod() {
+        // TODO
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * shows that the warning is the same, because only the method was shifted in the subclass and the namepackage-Ast
+     * calculates the correct hashcode.
+     */
+    @Test
+    public void testPackageNameWithPushDownMethod() {
+        // TODO
     }
 
     /**
