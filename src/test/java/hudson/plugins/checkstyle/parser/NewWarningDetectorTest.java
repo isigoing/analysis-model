@@ -415,23 +415,25 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It
      * shows that the warning is the same, because only the method was shifted in the subclass and the
      * instancevariable-Ast calculates the correct hashcode.
      */
     @Test
     public void testExplicitInitializationWithPushDownMethod() {
-        // TODO
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization3Subclass",
+                "ExplicitInitialization3Subclass", REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It
      * shows that the warning is the same, because only the method was shifted in the subclass and the namepackage-Ast
      * calculates the correct hashcode.
      */
     @Test
     public void testPackageNameWithPushDownMethod() {
-        checkThatHashesMatching(PACKAGE_NAME, "PackageName3Superclass", "PackageName3Superclass", REFACTORING_PUSH_DOWN_METHOD, true);
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName3Superclass", "PackageName3Superclass",
+                REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
