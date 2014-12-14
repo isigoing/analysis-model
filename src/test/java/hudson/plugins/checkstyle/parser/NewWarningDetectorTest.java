@@ -460,7 +460,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithInlineMethodHaveNotTheSameHashcode() {
-        //TODO
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces8", "NeedBraces8", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
