@@ -440,6 +440,14 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testFinalClassWithInlineMethodHaveNotTheSameHashcode() {
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass4", "FinalClass4", REFACTORING_INLINE_METHOD, false);
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
