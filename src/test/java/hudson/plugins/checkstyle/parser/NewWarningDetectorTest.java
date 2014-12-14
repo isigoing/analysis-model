@@ -484,7 +484,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithInlineMethod() {
-      //TODO
+      checkThatHashesMatching(METHOD_NAME, "MethodName5", "MethodName5", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
