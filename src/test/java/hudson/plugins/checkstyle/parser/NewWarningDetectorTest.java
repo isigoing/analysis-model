@@ -395,13 +395,13 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method (with a warning) in the subclass. It
+     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It
      * shows that the warning is the same, because only the method was shifted in the subclass and the class-Ast can't
      * calculate the correct hashcode.
      */
     @Test
     public void testFinalClassWithPushDownMethodHaveNotTheSameHashcode() {
-        // TODO
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass3Subclass", "FinalClass3Subclass", REFACTORING_PUSH_DOWN_METHOD, false);
     }
 
     /**
