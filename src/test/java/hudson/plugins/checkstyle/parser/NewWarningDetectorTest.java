@@ -21,6 +21,7 @@ import org.junit.Test;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.ExcessivePublicCount")
 public class NewWarningDetectorTest {
 
     private static final String PACKAGE_DECLARATION = "PackageDeclaration";
