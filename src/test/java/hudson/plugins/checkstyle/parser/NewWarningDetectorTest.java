@@ -452,7 +452,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithInlineMethod() {
-        //TODO
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces7", "NeedBraces7", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
