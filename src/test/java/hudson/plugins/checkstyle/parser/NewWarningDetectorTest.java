@@ -431,7 +431,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithPushDownMethod() {
-        // TODO
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName3Superclass", "PackageName3Superclass", REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
