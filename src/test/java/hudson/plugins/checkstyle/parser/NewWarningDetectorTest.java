@@ -448,6 +448,62 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithInlineMethod() {
+        //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithInlineMethodHaveNotTheSameHashcode() {
+        //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testPackageDeclarationWithInlineMethod() {
+        //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testExplicitInitializationWithInlineMethod() {
+      //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testMethodNameWithInlineMethod() {
+      //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testMethodNameWithInlineMethodHaveNotTheSameHashcode() {
+      //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testPackageNameWithInlineMethod() {
+      //TODO
+    }
+
+    /**
      * Verifies that the ClassAst works right.
      */
     @Test
