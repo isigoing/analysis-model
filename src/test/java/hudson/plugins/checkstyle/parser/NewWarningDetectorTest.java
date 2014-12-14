@@ -500,7 +500,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithInlineMethod() {
-      //TODO
+      checkThatHashesMatching(PACKAGE_NAME, "PackageName4", "PackageName4", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
