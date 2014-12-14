@@ -476,7 +476,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithInlineMethod() {
-      //TODO
+      checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization4", "ExplicitInitialization4", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
