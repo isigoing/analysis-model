@@ -392,7 +392,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithPushDownMethodHaveNotTheSameHashcode() {
-        // TODO
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces6Superclass", "NeedBraces6Subclass", REFACTORING_PUSH_DOWN_METHOD, false);
     }
 
     /**
