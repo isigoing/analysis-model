@@ -468,7 +468,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithInlineMethod() {
-        //TODO
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration3", "PackageDeclaration3", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
