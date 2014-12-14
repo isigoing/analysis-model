@@ -492,7 +492,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithInlineMethodHaveNotTheSameHashcode() {
-      //TODO
+      checkThatHashesMatching(METHOD_NAME, "MethodName6", "MethodName6", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
