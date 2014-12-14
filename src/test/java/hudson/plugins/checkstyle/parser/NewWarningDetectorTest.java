@@ -371,7 +371,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithPushDownMethod() {
-        // TODO
+        checkThatHashesMatching(METHOD_NAME, "MethodName4Superclass", "MethodName4Subclass", REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
