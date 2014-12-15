@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class NewWarningDetectorTest {
-
+    //TODO: Check all Javadocs of correctness
     private static final String PACKAGE_DECLARATION = "PackageDeclaration";
     private static final String REDUNDANT_MODIFIER = "RedundantModifier";
     private static final String FINAL_CLASS = "FinalClass";
@@ -450,7 +450,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testNeedBracesWithInlineMethod() {
@@ -474,7 +474,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testExplicitInitializationWithInlineMethod() {
@@ -482,7 +482,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testMethodNameWithInlineMethod() {
@@ -498,7 +498,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testPackageNameWithInlineMethod() {
@@ -515,6 +515,14 @@ public class NewWarningDetectorTest {
         Ast ast = getAst("FinalClass_Newline.java", "FinalClass_Newline.xml", CLASS_AST_FOLDERNAME, false);
 
         checkAst(expectedResult, ast);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testMethodNameWithExtractConstant() {
+        checkThatHashesMatching(METHOD_NAME, "MethodName7", "MethodName7", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
