@@ -8,7 +8,9 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
@@ -263,6 +265,7 @@ public abstract class Ast {
         if (root != null) {
 //            System.out.println(TokenTypes.getTokenName(root.getType()));
             allElements.add(root);
+            isConstant(root);
 
             if (root.getFirstChild() != null) {
                 runThroughAST(root.getFirstChild());
@@ -471,6 +474,9 @@ public abstract class Ast {
         return getLastSibling(getObjBlock(abstractSyntaxTree).getFirstChild()).getLineNo();
     }
 
+    //Map<nameOfConstant, value>
+    private final Map<DetailAST, DetailAST> constants = new HashMap<DetailAST, DetailAST>();
+
     private boolean isConstant(final DetailAST element) {
         if (element.getType() != TokenTypes.VARIABLE_DEF) {
             return false;
@@ -500,6 +506,7 @@ public abstract class Ast {
             return false;
         }
 
+        constants.put(ident, assign.getFirstChild().getFirstChild());
         return true;
     }
 }
