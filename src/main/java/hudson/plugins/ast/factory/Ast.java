@@ -58,6 +58,7 @@ public abstract class Ast {
         elementsInSameLine = new ArrayList<DetailAST>();
         this.fileAnnotation = fileAnnotation;
         runThroughAST(abstractSyntaxTree, fileAnnotation.getPrimaryLineNumber());
+        calcConstants(abstractSyntaxTree);
     }
 
     /**
@@ -108,6 +109,9 @@ public abstract class Ast {
         this.elementsInSameLine = elementsInSameLine;
     }
 
+    /**
+     * Clears the elements in same line.
+     */
     public void clearElementsInSameLine() {
         elementsInSameLine.clear();
     }
@@ -263,7 +267,7 @@ public abstract class Ast {
      */
     public void runThroughAST(final DetailAST root) {
         if (root != null) {
-//            System.out.println(TokenTypes.getTokenName(root.getType()));
+            // System.out.println(TokenTypes.getTokenName(root.getType()));
             allElements.add(root);
             isConstant(root);
 
@@ -272,6 +276,25 @@ public abstract class Ast {
             }
             if (root.getNextSibling() != null) {
                 runThroughAST(root.getNextSibling());
+            }
+        }
+    }
+
+    /**
+     * Runs entirely through the AST.
+     *
+     * @param root
+     *            Expects the root of the AST which is run through
+     */
+    public void calcConstants(final DetailAST root) {
+        if (root != null) {
+            isConstant(root);
+
+            if (root.getFirstChild() != null) {
+                calcConstants(root.getFirstChild());
+            }
+            if (root.getNextSibling() != null) {
+                calcConstants(root.getNextSibling());
             }
         }
     }
@@ -371,7 +394,9 @@ public abstract class Ast {
      *            the name
      * @return the hashcode
      */
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     public String calcSha(final List<DetailAST> list, final String nameParam) {
+        boolean lockedNextElement;
         try {
             if (list != null) {
                 MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
@@ -380,6 +405,7 @@ public abstract class Ast {
                 int type;
                 children.clear();
                 for (int i = 0; i < list.size(); i++) {
+                    lockedNextElement = false;
                     type = list.get(i).getType();
 
                     if (type == TokenTypes.TYPE) {
@@ -390,7 +416,16 @@ public abstract class Ast {
                         }
                         children.clear();
                     }
-                    else {
+                    if (!constants.isEmpty()) {
+                        for (DetailAST ast : constants.keySet()) {
+                            if (ast.getType() == TokenTypes.IDENT && ast.getText().equals(list.get(i).getText())) {
+                                astElements.append(TokenTypes.getTokenName(constants.get(ast).getType()));
+                                astElements.append(DELIMITER);
+                                lockedNextElement = true;
+                            }
+                        }
+                    }
+                    if (type != TokenTypes.TYPE && !lockedNextElement) {
                         astElements.append(TokenTypes.getTokenName(type));
                         astElements.append(DELIMITER);
                     }
@@ -474,7 +509,7 @@ public abstract class Ast {
         return getLastSibling(getObjBlock(abstractSyntaxTree).getFirstChild()).getLineNo();
     }
 
-    //Map<nameOfConstant, value>
+    // Map<nameOfConstant, value>
     private final Map<DetailAST, DetailAST> constants = new HashMap<DetailAST, DetailAST>();
 
     private boolean isConstant(final DetailAST element) {
@@ -507,6 +542,16 @@ public abstract class Ast {
         }
 
         constants.put(ident, assign.getFirstChild().getFirstChild());
+
         return true;
+    }
+
+    /**
+     * Returns the constants.
+     *
+     * @return the constants
+     */
+    public Map<DetailAST, DetailAST> getConstants() {
+        return constants;
     }
 }
