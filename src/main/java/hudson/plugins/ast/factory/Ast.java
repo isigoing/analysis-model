@@ -470,4 +470,36 @@ public abstract class Ast {
     public int getLastLineNumber() {
         return getLastSibling(getObjBlock(abstractSyntaxTree).getFirstChild()).getLineNo();
     }
+
+    private boolean isConstant(final DetailAST element) {
+        if (element.getType() != TokenTypes.VARIABLE_DEF) {
+            return false;
+        }
+        else if (element.getChildCount() != 5) {
+            return false;
+        }
+
+        DetailAST firstChild = element.getFirstChild();
+        if (firstChild.getType() != TokenTypes.MODIFIERS || firstChild.getChildCount() != 3) {
+            return false;
+        }
+        DetailAST type = firstChild.getNextSibling();
+        if (type.getType() != TokenTypes.TYPE) {
+            return false;
+        }
+        DetailAST ident = type.getNextSibling();
+        if (ident.getType() != TokenTypes.IDENT) {
+            return false;
+        }
+        DetailAST assign = ident.getNextSibling();
+        if (assign.getType() != TokenTypes.ASSIGN) {
+            return false;
+        }
+        DetailAST semi = assign.getNextSibling();
+        if (semi.getType() != TokenTypes.SEMI) {
+            return false;
+        }
+
+        return true;
+    }
 }

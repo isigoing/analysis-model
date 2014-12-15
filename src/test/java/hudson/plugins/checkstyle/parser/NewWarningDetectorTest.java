@@ -20,6 +20,7 @@ import org.junit.Test;
  * Test cases for the new warnings detector.
  *
  * @author Ullrich Hafner
+ * @author Christian M&ouml;stl
  */
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class NewWarningDetectorTest {
