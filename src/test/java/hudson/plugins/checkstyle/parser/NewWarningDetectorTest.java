@@ -521,8 +521,16 @@ public class NewWarningDetectorTest {
      * Verifies that the ast calculates the same hashcode.
      */
     @Test
-    public void testMethodNameWithExtractConstant() {
+    public void testMethodNameWithExtractConstantAsAVariable() {
         checkThatHashesMatching(METHOD_NAME, "MethodName7", "MethodName7", REFACTORING_EXTRACT_CONSTANT, true);
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testMethodNameWithExtractConstantInSysout() {
+        checkThatHashesMatching(METHOD_NAME, "MethodName8", "MethodName8", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
