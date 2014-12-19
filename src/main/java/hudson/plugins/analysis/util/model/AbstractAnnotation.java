@@ -1,22 +1,22 @@
 package hudson.plugins.analysis.util.model;
 
+import hudson.plugins.analysis.util.TreeString;
+import hudson.plugins.analysis.util.TreeStringBuilder;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+
+import com.google.common.collect.ImmutableList;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.collect.ImmutableList;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import hudson.plugins.analysis.util.TreeString;
-import hudson.plugins.analysis.util.TreeStringBuilder;
-
 /**
- *  A base class for warnings.
+ * A base class for warnings.
  *
  * @author Ulli Hafner
  */
@@ -34,15 +34,14 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     private static long currentKey;
 
     /** The message of this annotation. */
-    private /*almost final*/ TreeString message;
+    private/* almost final */TreeString message;
     /** The priority of this annotation. */
     private Priority priority;
     /** Unique key of this annotation. */
     private final long key;
     /**
-     * The ordered list of line ranges that show the origin of the annotation in
-     * the associated file. To save memory consumption, this can be
-     * {@link ImmutableList}, in which case updates requires a new copy.
+     * The ordered list of line ranges that show the origin of the annotation in the associated file. To save memory
+     * consumption, this can be {@link ImmutableList}, in which case updates requires a new copy.
      */
     private final LineRangeList lineRanges;
     /** Primary line number of this warning, i.e., the start line of the first line range. */
@@ -54,12 +53,12 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /** The name of the package (or name space) that contains this annotation. */
     private TreeString packageName;
     /** Bug category. */
-    private /*almost final*/ String category;
+    private/* almost final */String category;
     /** Bug type. */
-    private /*almost final*/ String type;
+    private/* almost final */String type;
     /**
-     * Context hash code of this annotation. This hash code is used to decide if
-     * two annotations are equal even if the equals method returns <code>false</code>.
+     * Context hash code of this annotation. This hash code is used to decide if two annotations are equal even if the
+     * equals method returns <code>false</code>.
      */
     private long contextHashCode;
     /** The origin of this warning. */
@@ -70,6 +69,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     private int primaryColumnStart;
     /** Column end of primary line range of warning. @since 1.38 */
     private int primaryColumnEnd;
+
+    private String contextHashCodeSha;
 
     /**
      * Creates a new instance of <code>AbstractAnnotation</code>.
@@ -86,7 +87,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      *            the type of the annotation
      */
     @SuppressFBWarnings("ST")
-    public AbstractAnnotation(final String message, final int start, final int end, final String category, final String type) {
+    public AbstractAnnotation(final String message, final int start, final int end, final String category,
+            final String type) {
         this.message = TreeString.of(StringUtils.strip(StringEscapeUtils.escapeXml11(message)));
         this.category = StringUtils.defaultString(category);
         this.type = StringUtils.defaultString(type);
@@ -147,12 +149,10 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     }
 
     /**
-     * Called after XStream de-serialization to improve the memory usage.
-     * Ideally we'd like this to be protected, so that the subtype can call this
-     * method, but some plugins that depends on this (such as findbugs) already
-     * define "private Object readResolve()", so defining it as protected will
-     * break those subtypes. So instead, we expose "superReadResolve" as the
-     * protected entry point for this method.
+     * Called after XStream de-serialization to improve the memory usage. Ideally we'd like this to be protected, so
+     * that the subtype can call this method, but some plugins that depends on this (such as findbugs) already define
+     * "private Object readResolve()", so defining it as protected will break those subtypes. So instead, we expose
+     * "superReadResolve" as the protected entry point for this method.
      *
      * @return this
      */
@@ -178,9 +178,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     }
 
     /**
-     * Parsers can call this method to let
-     * {@link AbstractAnnotation}s to reduce their memory footprint by sharing
-     * what they can share with other {@link AbstractAnnotation}s.
+     * Parsers can call this method to let {@link AbstractAnnotation}s to reduce their memory footprint by sharing what
+     * they can share with other {@link AbstractAnnotation}s.
      *
      * @param builder
      *            caches previously used strings
@@ -196,21 +195,18 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
         readResolve(); // String.intern some of the data fields
     }
 
-
     /**
-     * Let {@link FileAnnotation}s share some of their internal data structure
-     * to reduce memory footprint.
+     * Let {@link FileAnnotation}s share some of their internal data structure to reduce memory footprint.
      *
      * @param annotations
      *            the annotations to compress
-     * @return The same object as passed in the 'annotations' parameter to let
-     *         this function used as a filter.
+     * @return The same object as passed in the 'annotations' parameter to let this function used as a filter.
      */
     public static Collection<FileAnnotation> intern(final Collection<FileAnnotation> annotations) {
         TreeStringBuilder stringPool = new TreeStringBuilder();
         for (FileAnnotation annotation : annotations) {
             if (annotation instanceof AbstractAnnotation) {
-                AbstractAnnotation aa = (AbstractAnnotation) annotation;
+                AbstractAnnotation aa = (AbstractAnnotation)annotation;
                 aa.intern(stringPool);
             }
         }
@@ -260,8 +256,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     public boolean hasPackageName() {
         String actualPackageName = StringUtils.trim(TreeString.toString(packageName));
 
-        return StringUtils.isNotBlank(actualPackageName)
-                && !StringUtils.equals(actualPackageName, NO_PACKAGE);
+        return StringUtils.isNotBlank(actualPackageName) && !StringUtils.equals(actualPackageName, NO_PACKAGE);
     }
 
     /**
@@ -304,7 +299,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /**
      * Sets the origin of this annotation to the specified value.
      *
-     * @param origin the value to set
+     * @param origin
+     *            the value to set
      */
     public void setOrigin(final String origin) {
         this.origin = origin;
@@ -313,7 +309,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /**
      * Sets the priority to the specified value.
      *
-     * @param priority the value to set
+     * @param priority
+     *            the value to set
      */
     public void setPriority(final Priority priority) {
         this.priority = priority;
@@ -352,7 +349,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /**
      * Sets the file name to the specified value.
      *
-     * @param fileName the value to set
+     * @param fileName
+     *            the value to set
      */
     @Override
     public final void setFileName(final String fileName) {
@@ -367,7 +365,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /**
      * Sets the module name to the specified value.
      *
-     * @param moduleName the value to set
+     * @param moduleName
+     *            the value to set
      */
     @Override
     public final void setModuleName(final String moduleName) {
@@ -382,7 +381,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /**
      * Sets the package name to the specified value.
      *
-     * @param packageName the value to set
+     * @param packageName
+     *            the value to set
      */
     public final void setPackageName(final String packageName) {
         this.packageName = TreeString.of(packageName);
@@ -427,6 +427,16 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     @Override
     public void setContextHashCode(final long contextHashCode) {
         this.contextHashCode = contextHashCode;
+    }
+
+    @Override
+        public String getContextHashCodeSha() {
+            return contextHashCodeSha;
+        }
+
+    @Override
+    public void setContextHashCodeSha(final String contextHashCodeSha) {
+        this.contextHashCodeSha = contextHashCodeSha;
     }
 
     // CHECKSTYLE:OFF
@@ -564,7 +574,8 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
 
     @Override
     public String toString() {
-        return String.format("%s(%s):%s,%s,%s:%s", getFileName(), primaryLineNumber, priority, getCategory(), getType(), getMessage());
+        return String.format("%s(%s):%s,%s,%s:%s", getFileName(), primaryLineNumber, priority, getCategory(),
+                getType(), getMessage());
     }
 
     @Override
