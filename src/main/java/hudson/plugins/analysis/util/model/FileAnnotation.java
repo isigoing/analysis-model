@@ -152,12 +152,27 @@ public interface FileAnnotation extends Comparable<FileAnnotation> {
     long getContextHashCode();
 
     /**
+     * Returns a hash code of the context of this annotation.
+     *
+     * @return a hash code of the context of this annotation.
+     */
+    String getContextHashCodeSha();
+
+    /**
      * Sets the context hash code to the specified value.
      *
      * @param contextHashCode
      *            the value to set
      */
     void setContextHashCode(long contextHashCode);
+
+    /**
+     * Sets the context hash code to the specified value.
+     *
+     * @param hashCodeSha
+     *            the value to set
+     */
+    void setContextHashCodeSha(String hashCodeSha);
 
     /**
      * Returns the start column of the position of this warning.
