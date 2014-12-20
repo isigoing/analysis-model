@@ -430,9 +430,9 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     }
 
     @Override
-        public String getContextHashCodeSha() {
-            return contextHashCodeSha;
-        }
+    public String getContextHashCodeSha() {
+        return contextHashCodeSha;
+    }
 
     @Override
     public void setContextHashCodeSha(final String contextHashCodeSha) {

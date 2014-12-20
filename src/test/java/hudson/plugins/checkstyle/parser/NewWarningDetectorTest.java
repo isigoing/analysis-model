@@ -635,6 +635,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFileWithManyWarningsHasSameHashcode() {
+        // TODO: Do refactoring...
         try {
             Collection<FileAnnotation> annotations = parse("before/MoreWarningsInClass.xml");
 
@@ -685,41 +686,6 @@ public class NewWarningDetectorTest {
     public void testCurrentHasMoreWarningsThanPrevious() {
         // TODO
     }
-
-//    @Test
-//    public void testMehrere() {
-//        try {
-//            Collection<FileAnnotation> annotations = parse("before/ClassAst/FinalClass.xml");
-//            assertEquals("Not the same size", 1, annotations.size());
-//
-//            Set<String> hashSetPevious = new HashSet<String>();
-//            Set<String> hashSetCurrent = new HashSet<String>();
-//
-//            for (int i = 0; i < annotations.size(); i++) {
-//                Ast ast = getAst2("FinalClass.java", Iterables.get(annotations, i), CLASS_AST_FOLDERNAME, true);
-//                String hash1 = ast.calcSha(ast.chooseArea());
-//                Iterables.get(annotations, i).setContextHashCodeSha(hash1);
-//                hashSetPevious.add(hash1);
-//                System.out.println("hash_Previous_" + i + " = " + hash1);
-//            }
-//
-//            Collection<FileAnnotation> annotations2 = parse("after/ClassAst/FinalClass_Newline.xml");
-//            assertEquals("Not the same size", 1, annotations2.size());
-//
-//            for (int i = 0; i < annotations2.size(); i++) {
-//                Ast ast2 = getAst2("FinalClass_Newline.java", Iterables.get(annotations2, i), CLASS_AST_FOLDERNAME, false);
-//                String hash2 = ast2.calcSha(ast2.chooseArea());
-//                Iterables.get(annotations2, i).setContextHashCodeSha(hash2);
-//                hashSetCurrent.add(hash2);
-//                System.out.println("hash_Current_" + i + " = " + hash2);
-//            }
-//            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
-//            assertEquals("The warnings aren't equal.", 1, intersection.size());
-//        }
-//        catch (InvocationTargetException exception) {
-//            exception.printStackTrace();
-//        }
-//    }
 
     private Ast getAst2(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
         String workspace = System.getProperty("user.dir");
