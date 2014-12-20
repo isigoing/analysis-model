@@ -11,10 +11,14 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.common.collect.Iterables;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 /**
@@ -25,7 +29,7 @@ import org.junit.Test;
  */
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class NewWarningDetectorTest {
-    //TODO: Check all Javadocs of correctness
+    // TODO: Check all Javadocs of correctness
     private static final String PACKAGE_DECLARATION = "PackageDeclaration";
     private static final String REDUNDANT_MODIFIER = "RedundantModifier";
     private static final String FINAL_CLASS = "FinalClass";
@@ -109,7 +113,7 @@ public class NewWarningDetectorTest {
             CheckStyleParser parser = new CheckStyleParser();
             Collection<FileAnnotation> warnings = null;
             warnings = parser.parse(read(fileName), "-");
-//            return Singleton.get(warnings);
+            // return Singleton.get(warnings);
             return warnings;
         }
         catch (InvocationTargetException e) {
@@ -380,23 +384,25 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It
-     * shows that the warning is the same, because only the method was shifted in the subclass and the environment-Ast
-     * calculates the correct hashcode.
+     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It shows that the
+     * warning is the same, because only the method was shifted in the subclass and the environment-Ast calculates the
+     * correct hashcode.
      */
     @Test
     public void testNeedBracesWithPushDownMethod() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces5Superclass", "NeedBraces5Subclass", REFACTORING_PUSH_DOWN_METHOD, true);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces5Superclass", "NeedBraces5Subclass",
+                REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It
-     * shows that the warning is the same, because only the method was shifted in the subclass and the environment-Ast
-     * can't calculate the correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It shows that the
+     * warning is the same, because only the method was shifted in the subclass and the environment-Ast can't calculate
+     * the correct hashcode.
      */
     @Test
     public void testNeedBracesWithPushDownMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces6Superclass", "NeedBraces6Subclass", REFACTORING_PUSH_DOWN_METHOD, false);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces6Superclass", "NeedBraces6Subclass",
+                REFACTORING_PUSH_DOWN_METHOD, false);
     }
 
     /**
@@ -411,9 +417,9 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It
-     * shows that the warning is the same, because only the method was shifted in the subclass and the file-Ast can't
-     * calculate the correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It shows that the
+     * warning is the same, because only the method was shifted in the subclass and the file-Ast can't calculate the
+     * correct hashcode.
      */
     @Test
     public void testPackageDeclarationWithPushDownMethodHaveNotTheSameHashcode() {
@@ -472,7 +478,8 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithInlineMethod() {
-        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration3", "PackageDeclaration3", REFACTORING_INLINE_METHOD, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration3", "PackageDeclaration3",
+                REFACTORING_INLINE_METHOD, false);
     }
 
     /**
@@ -480,7 +487,8 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithInlineMethod() {
-      checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization4", "ExplicitInitialization4", REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization4", "ExplicitInitialization4",
+                REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -488,7 +496,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithInlineMethod() {
-      checkThatHashesMatching(METHOD_NAME, "MethodName5", "MethodName5", REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(METHOD_NAME, "MethodName5", "MethodName5", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -496,7 +504,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithInlineMethodHaveNotTheSameHashcode() {
-      checkThatHashesMatching(METHOD_NAME, "MethodName6", "MethodName6", REFACTORING_INLINE_METHOD, false);
+        checkThatHashesMatching(METHOD_NAME, "MethodName6", "MethodName6", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
@@ -504,7 +512,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithInlineMethod() {
-      checkThatHashesMatching(PACKAGE_NAME, "PackageName4", "PackageName4", REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName4", "PackageName4", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -619,6 +627,123 @@ public class NewWarningDetectorTest {
         Ast ast = getAst("PackageName_Newline.java", "PackageName_Newline.xml", NAME_PACKAGE_AST_FOLDERNAME, false);
 
         checkAst(expectedResult, ast);
+    }
+
+    /**
+     * Shows that a previous file has the same warnings like the current file, if refactorings were realised. It means
+     * that the same hashcode is calculated.
+     */
+    @Test
+    public void testFileWithManyWarningsHasSameHashcode() {
+        try {
+            Collection<FileAnnotation> annotations = parse("before/MoreWarningsInClass.xml");
+
+            Set<String> hashSetPevious = new HashSet<String>();
+            Set<String> hashSetCurrent = new HashSet<String>();
+
+            Ast ast;
+            for (int i = 0; i < annotations.size(); i++) {
+                ast = getAst2("MoreWarningsInClass.java", Iterables.get(annotations, i), "", true);
+                String hash1 = ast.calcSha(ast.chooseArea());
+                Iterables.get(annotations, i).setContextHashCodeSha(hash1);
+                hashSetPevious.add(hash1);
+            }
+
+            Collection<FileAnnotation> annotations2 = parse("after/MoreWarningsInClass_Refactored.xml");
+
+            for (int i = 0; i < annotations2.size(); i++) {
+                Ast ast2 = getAst2("MoreWarningsInClass_Refactored.java", Iterables.get(annotations2, i), "", false);
+                String hash2 = ast2.calcSha(ast2.chooseArea());
+                Iterables.get(annotations2, i).setContextHashCodeSha(hash2);
+                hashSetCurrent.add(hash2);
+            }
+            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
+
+            assertEquals("", 5, hashSetPevious.size());
+            assertEquals("", 5, hashSetCurrent.size());
+            assertEquals("The warnings aren't equal.", 5, intersection.size());
+        }
+        catch (InvocationTargetException exception) {
+            exception.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Shows that a previous file has more warnings than the current file, if warnings were fixed.
+     */
+    @Test
+    public void testPreviousHasMoreWarningsThanCurrent() {
+        // TODO
+    }
+
+    /**
+     * Shows that a previous file has less warnings than the current file, if the current files have additional
+     * warnings. The difference in set theory is (current-warnings minus previous warnings), which are the new warnings.
+     */
+    @Test
+    public void testCurrentHasMoreWarningsThanPrevious() {
+        // TODO
+    }
+
+//    @Test
+//    public void testMehrere() {
+//        try {
+//            Collection<FileAnnotation> annotations = parse("before/ClassAst/FinalClass.xml");
+//            assertEquals("Not the same size", 1, annotations.size());
+//
+//            Set<String> hashSetPevious = new HashSet<String>();
+//            Set<String> hashSetCurrent = new HashSet<String>();
+//
+//            for (int i = 0; i < annotations.size(); i++) {
+//                Ast ast = getAst2("FinalClass.java", Iterables.get(annotations, i), CLASS_AST_FOLDERNAME, true);
+//                String hash1 = ast.calcSha(ast.chooseArea());
+//                Iterables.get(annotations, i).setContextHashCodeSha(hash1);
+//                hashSetPevious.add(hash1);
+//                System.out.println("hash_Previous_" + i + " = " + hash1);
+//            }
+//
+//            Collection<FileAnnotation> annotations2 = parse("after/ClassAst/FinalClass_Newline.xml");
+//            assertEquals("Not the same size", 1, annotations2.size());
+//
+//            for (int i = 0; i < annotations2.size(); i++) {
+//                Ast ast2 = getAst2("FinalClass_Newline.java", Iterables.get(annotations2, i), CLASS_AST_FOLDERNAME, false);
+//                String hash2 = ast2.calcSha(ast2.chooseArea());
+//                Iterables.get(annotations2, i).setContextHashCodeSha(hash2);
+//                hashSetCurrent.add(hash2);
+//                System.out.println("hash_Current_" + i + " = " + hash2);
+//            }
+//            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
+//            assertEquals("The warnings aren't equal.", 1, intersection.size());
+//        }
+//        catch (InvocationTargetException exception) {
+//            exception.printStackTrace();
+//        }
+//    }
+
+    private Ast getAst2(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
+        String workspace = System.getProperty("user.dir");
+
+        @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
+        StringBuilder stringBuilderJavafile = new StringBuilder();
+        stringBuilderJavafile.append(workspace).append("/src/test/resources/hudson/plugins/checkstyle/parser/");
+        stringBuilderJavafile.append(calcCorrectPath(javaFile, foldername, before));
+
+        return AstFactory.getInstance(stringBuilderJavafile.toString(), fileAnnotation);
+    }
+
+    private Collection<FileAnnotation> parse(final String fileName) throws InvocationTargetException {
+        Collection<FileAnnotation> annotations;
+        InputStream inputStream = null;
+        try {
+            inputStream = NewWarningDetectorTest.class.getResourceAsStream(fileName);
+
+            annotations = new CheckStyleParser().parse(inputStream, "empty");
+        }
+        finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        return annotations;
     }
 
     private void checkAst(final String expectedResult, final Ast ast) {
