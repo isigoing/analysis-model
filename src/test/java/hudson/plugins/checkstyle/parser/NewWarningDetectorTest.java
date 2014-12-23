@@ -635,29 +635,10 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFileWithManyWarningsHasSameHashcode() {
-        // TODO: Do refactoring...
         try {
-            Collection<FileAnnotation> annotations = parse("before/MoreWarningsInClass.xml");
+            Set<String> hashSetPevious = calculateHashes("MoreWarningsInClass", true);
+            Set<String> hashSetCurrent = calculateHashes("MoreWarningsInClass_Refactored", false);
 
-            Set<String> hashSetPevious = new HashSet<String>();
-            Set<String> hashSetCurrent = new HashSet<String>();
-
-            Ast ast;
-            for (int i = 0; i < annotations.size(); i++) {
-                ast = getAst2("MoreWarningsInClass.java", Iterables.get(annotations, i), "", true);
-                String hash1 = ast.calcSha(ast.chooseArea());
-                Iterables.get(annotations, i).setContextHashCodeSha(hash1);
-                hashSetPevious.add(hash1);
-            }
-
-            Collection<FileAnnotation> annotations2 = parse("after/MoreWarningsInClass_Refactored.xml");
-
-            for (int i = 0; i < annotations2.size(); i++) {
-                Ast ast2 = getAst2("MoreWarningsInClass_Refactored.java", Iterables.get(annotations2, i), "", false);
-                String hash2 = ast2.calcSha(ast2.chooseArea());
-                Iterables.get(annotations2, i).setContextHashCodeSha(hash2);
-                hashSetCurrent.add(hash2);
-            }
             Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
 
             assertEquals("Not expected count of warnings", 5, hashSetPevious.size());
@@ -675,6 +656,27 @@ public class NewWarningDetectorTest {
     @Test
     public void testPreviousHasMoreWarningsThanCurrent() {
         // TODO
+    }
+
+    /**
+     * Shows that a previous file has less warnings than the current file, if the current files have additional
+     * warnings. The difference in set theory is (current-warnings minus previous warnings), which are the new warnings.
+     */
+    @Test
+    public void testCurrentHasMoreWarningsThanPrevious() {
+        try {
+            Set<String> hashSetPevious = calculateHashes("MoreWarningsInClass", true);
+            Set<String> hashSetCurrent = calculateHashes("MoreWarningsInClass1_Refactored", false);
+
+            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
+
+            assertEquals("Not expected count of warnings", 5, hashSetPevious.size());
+            assertEquals("Not expected count of warnings", 7, hashSetCurrent.size());
+            assertEquals("The warnings aren't equal.", 5, intersection.size());
+        }
+        catch (InvocationTargetException exception) {
+            exception.printStackTrace();
+        }
     }
 
     private Set<String> calculateHashes(final String file, final boolean before) throws InvocationTargetException {
@@ -701,27 +703,6 @@ public class NewWarningDetectorTest {
         }
 
         return hashSet;
-    }
-
-    /**
-     * Shows that a previous file has less warnings than the current file, if the current files have additional
-     * warnings. The difference in set theory is (current-warnings minus previous warnings), which are the new warnings.
-     */
-    @Test
-    public void testCurrentHasMoreWarningsThanPrevious() {
-        try {
-            Set<String> hashSetPevious = calculateHashes("MoreWarningsInClass", true);
-            Set<String> hashSetCurrent = calculateHashes("MoreWarningsInClass1_Refactored", false);
-
-            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
-
-            assertEquals("Not expected count of warnings", 5, hashSetPevious.size());
-            assertEquals("Not expected count of warnings", 7, hashSetCurrent.size());
-            assertEquals("The warnings aren't equal.", 5, intersection.size());
-        }
-        catch (InvocationTargetException exception) {
-            exception.printStackTrace();
-        }
     }
 
     private Ast getAst2(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
