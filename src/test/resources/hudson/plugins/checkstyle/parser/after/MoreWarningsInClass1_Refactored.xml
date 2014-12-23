@@ -8,6 +8,5 @@
 <error line="80" severity="warning" message="Das &apos;for&apos;-Konstrukt muss &apos;{}&apos; benutzen." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 <error line="90" column="46" severity="warning" message="Erwartete Tag @param für &apos;a&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
 <error line="91" severity="warning" message="Das &apos;if&apos;-Konstrukt muss &apos;{}&apos; benutzen." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="91" column="11" severity="warning" message="Nach &apos;if&apos; folgt kein Leerzeichen." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
 </checkstyle>

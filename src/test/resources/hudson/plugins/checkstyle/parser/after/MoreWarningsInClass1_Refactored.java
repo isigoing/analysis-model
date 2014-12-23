@@ -88,7 +88,7 @@ public class MoreWarningsInClass1_Refactored {
      * Do sth.
      */
     public void methodWithWarnings(final int a) {
-    	if(a > 0) 
+    	if (a > 0) 
     		System.out.println("a > 0");
     	else {
     		System.out.println("a <= 0");
