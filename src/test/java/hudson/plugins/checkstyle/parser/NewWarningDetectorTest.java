@@ -552,6 +552,46 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testFinalClassWithExtractConstantHaveNotTheSameHashcode() {
+        //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithExtractConstant() {
+      //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testNeedBracesWithExtractConstantHaveNotTheSameHashcode() {
+      //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testPackageDeclarationWithExtractConstantHaveNotTheSameHashcode() {
+      //TODO
+    }
+
+    /**
+     * Verifies that the ast calculates NOT the same hashcode.
+     */
+    @Test
+    public void testExplicitInitializationWithExtractConstantHaveNotTheSameHashcode() {
+      //TODO
+    }
+
+    /**
      * Verifies that the EnvironmentAst works right.
      */
     @Test
