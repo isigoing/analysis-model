@@ -114,7 +114,7 @@ public class NewWarningDetectorTest {
             CheckStyleParser parser = new CheckStyleParser();
             Collection<FileAnnotation> warnings = null;
             warnings = parser.parse(read(fileName), "-");
-             return Singleton.get(warnings);
+            return Singleton.get(warnings);
         }
         catch (InvocationTargetException e) {
             throw new RuntimeException("Can't read CheckStyle file " + fileName, e);
@@ -544,6 +544,14 @@ public class NewWarningDetectorTest {
     }
 
     /**
+     * Verifies that the ast calculates the same hashcode.
+     */
+    @Test
+    public void testPackageNameWithExtractConstant() {
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName5", "PackageName5", REFACTORING_EXTRACT_CONSTANT, true);
+    }
+
+    /**
      * Verifies that the EnvironmentAst works right.
      */
     @Test
@@ -631,7 +639,7 @@ public class NewWarningDetectorTest {
 
     /**
      * Shows that a previous file has the same warnings like the current file, if refactorings were realised. It means
-     * that the same hashcode is calculated.
+     * that the same hashcode is calculated. (The warnings wasn't changed!)
      */
     @Test
     public void testFileWithManyWarningsHasSameHashcode() {
@@ -639,7 +647,8 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Shows that a previous file has more warnings than the current file, if warnings were fixed.
+     * Shows that a previous file has more warnings than the current file, if warnings were fixed. Other new warnings
+     * were added.
      */
     @Test
     public void testPreviousHasMoreWarningsThanCurrent() {
@@ -655,7 +664,8 @@ public class NewWarningDetectorTest {
         evaluateHashes("MoreWarningsInClass", "MoreWarningsInClass1_Refactored", 5, 7, 5);
     }
 
-    private void evaluateHashes(final String fileBefore, final String fileAfter, final int expectedPrev, final int expectedCur, final int intersection) {
+    private void evaluateHashes(final String fileBefore, final String fileAfter, final int expectedPrev,
+            final int expectedCur, final int intersection) {
         try {
             Set<String> hashSetPevious = calculateHashes(fileBefore, true);
             Set<String> hashSetCurrent = calculateHashes(fileAfter, false);
@@ -826,10 +836,12 @@ public class NewWarningDetectorTest {
     }
 
     private Ast getAst(final String javaFile, final String xmlFile, final String foldername, final boolean before) {
-        return AstFactory.getInstance(getPath(javaFile, foldername, before), readWarning(calcCorrectPath(xmlFile, foldername, before)));
+        return AstFactory.getInstance(getPath(javaFile, foldername, before),
+                readWarning(calcCorrectPath(xmlFile, foldername, before)));
     }
 
-    private Ast getAst(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
+    private Ast getAst(final String javaFile, final FileAnnotation fileAnnotation, final String foldername,
+            final boolean before) {
         return AstFactory.getInstance(getPath(javaFile, foldername, before), fileAnnotation);
     }
 
