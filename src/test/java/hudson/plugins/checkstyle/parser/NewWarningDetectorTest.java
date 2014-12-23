@@ -2,6 +2,7 @@ package hudson.plugins.checkstyle.parser;
 
 import static org.junit.Assert.*;
 import hudson.plugins.analysis.util.ContextHashCode;
+import hudson.plugins.analysis.util.Singleton;
 import hudson.plugins.analysis.util.model.FileAnnotation;
 import hudson.plugins.ast.factory.Ast;
 import hudson.plugins.ast.factory.AstFactory;
@@ -61,11 +62,11 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInsertLineAboveWarning() {
-        Collection<FileAnnotation> beforeWarning = readWarning("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
-        Collection<FileAnnotation> afterWarning = readWarning("after/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
+        FileAnnotation beforeWarning = readWarning("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
+        FileAnnotation afterWarning = readWarning("after/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
 
-        verifyWarning(Iterables.get(beforeWarning, 0), "Javadoc", 7, "InsertLine.java");
-        verifyWarning(Iterables.get(afterWarning, 0), "Javadoc", 8, "InsertLine.java");
+        verifyWarning(beforeWarning, "Javadoc", 7, "InsertLine.java");
+        verifyWarning(afterWarning, "Javadoc", 8, "InsertLine.java");
 
         int beforeCode = createHashCode("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.java", 7);
         int afterCode = createHashCode("after/" + METHOD_AST_FOLDERNAME + "/InsertLine.java", 8);
@@ -78,11 +79,11 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testInsertLineBeforePackage() {
-        Collection<FileAnnotation> beforeWarning = readWarning("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
-        Collection<FileAnnotation> afterWarning = readWarning("after/" + METHOD_AST_FOLDERNAME + "/InsertLine2.xml");
+        FileAnnotation beforeWarning = readWarning("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.xml");
+        FileAnnotation afterWarning = readWarning("after/" + METHOD_AST_FOLDERNAME + "/InsertLine2.xml");
 
-        verifyWarning(Iterables.get(beforeWarning, 0), "Javadoc", 7, "InsertLine.java");
-        verifyWarning(Iterables.get(afterWarning, 0), "Javadoc", 8, "InsertLine.java");
+        verifyWarning(beforeWarning, "Javadoc", 7, "InsertLine.java");
+        verifyWarning(afterWarning, "Javadoc", 8, "InsertLine.java");
 
         int beforeCode = createHashCode("before/" + METHOD_AST_FOLDERNAME + "/InsertLine.java", 7);
         int afterCode = createHashCode("after/" + METHOD_AST_FOLDERNAME + "/InsertLine2.java", 8);
@@ -108,13 +109,12 @@ public class NewWarningDetectorTest {
     }
 
     @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    private Collection<FileAnnotation> readWarning(final String fileName) {
+    private FileAnnotation readWarning(final String fileName) {
         try {
             CheckStyleParser parser = new CheckStyleParser();
             Collection<FileAnnotation> warnings = null;
             warnings = parser.parse(read(fileName), "-");
-            // return Singleton.get(warnings);
-            return warnings;
+             return Singleton.get(warnings);
         }
         catch (InvocationTargetException e) {
             throw new RuntimeException("Can't read CheckStyle file " + fileName, e);
@@ -643,7 +643,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPreviousHasMoreWarningsThanCurrent() {
-        // TODO
+        evaluateHashes("MoreWarningsInClass2", "MoreWarningsInClass2_Refactored", 5, 4, 3);
     }
 
     /**
@@ -662,8 +662,8 @@ public class NewWarningDetectorTest {
 
             Collection<String> intersections = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
 
-            assertEquals("Not expected count of warnings", expectedPrev, hashSetPevious.size());
-            assertEquals("Not expected count of warnings", expectedCur, hashSetCurrent.size());
+            assertEquals("Not expected count of previous warnings", expectedPrev, hashSetPevious.size());
+            assertEquals("Not expected count of current warnings", expectedCur, hashSetCurrent.size());
             assertEquals("The warnings aren't equal.", intersection, intersections.size());
         }
         catch (InvocationTargetException exception) {
@@ -826,7 +826,7 @@ public class NewWarningDetectorTest {
     }
 
     private Ast getAst(final String javaFile, final String xmlFile, final String foldername, final boolean before) {
-        return AstFactory.getInstance(getPath(javaFile, foldername, before), Iterables.get(readWarning(calcCorrectPath(xmlFile, foldername, before)), 0));
+        return AstFactory.getInstance(getPath(javaFile, foldername, before), readWarning(calcCorrectPath(xmlFile, foldername, before)));
     }
 
     private Ast getAst(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
