@@ -664,15 +664,19 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testCurrentHasMoreWarningsThanPrevious() {
+        evaluateHashes("MoreWarningsInClass", "MoreWarningsInClass1_Refactored", 5, 7, 5);
+    }
+
+    private void evaluateHashes(final String fileBefore, final String fileAfter, final int expectedPrev, final int expectedCur, final int intersection) {
         try {
-            Set<String> hashSetPevious = calculateHashes("MoreWarningsInClass", true);
-            Set<String> hashSetCurrent = calculateHashes("MoreWarningsInClass1_Refactored", false);
+            Set<String> hashSetPevious = calculateHashes(fileBefore, true);
+            Set<String> hashSetCurrent = calculateHashes(fileAfter, false);
 
-            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
+            Collection<String> intersections = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
 
-            assertEquals("Not expected count of warnings", 5, hashSetPevious.size());
-            assertEquals("Not expected count of warnings", 7, hashSetCurrent.size());
-            assertEquals("The warnings aren't equal.", 5, intersection.size());
+            assertEquals("Not expected count of warnings", expectedPrev, hashSetPevious.size());
+            assertEquals("Not expected count of warnings", expectedCur, hashSetCurrent.size());
+            assertEquals("The warnings aren't equal.", intersection, intersections.size());
         }
         catch (InvocationTargetException exception) {
             exception.printStackTrace();
@@ -698,7 +702,6 @@ public class NewWarningDetectorTest {
         for (int i = 0; i < annotations.size(); i++) {
             ast = getAst2(fileWithJavaExtension, Iterables.get(annotations, i), "", before);
             hash = ast.calcSha(ast.chooseArea());
-            Iterables.get(annotations, i).setContextHashCodeSha(hash);
             hashSet.add(hash);
         }
 
