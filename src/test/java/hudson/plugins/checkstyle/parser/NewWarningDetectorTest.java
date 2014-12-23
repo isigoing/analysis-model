@@ -688,23 +688,12 @@ public class NewWarningDetectorTest {
         Ast ast;
         String hash;
         for (int i = 0; i < annotations.size(); i++) {
-            ast = getAst2(fileWithJavaExtension, Iterables.get(annotations, i), "", before);
+            ast = getAst(fileWithJavaExtension, Iterables.get(annotations, i), "", before);
             hash = ast.calcSha(ast.chooseArea());
             hashSet.add(hash);
         }
 
         return hashSet;
-    }
-
-    private Ast getAst2(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
-        String workspace = System.getProperty("user.dir");
-
-        @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
-        StringBuilder stringBuilderJavafile = new StringBuilder();
-        stringBuilderJavafile.append(workspace).append("/src/test/resources/hudson/plugins/checkstyle/parser/");
-        stringBuilderJavafile.append(calcCorrectPath(javaFile, foldername, before));
-
-        return AstFactory.getInstance(stringBuilderJavafile.toString(), fileAnnotation);
     }
 
     private Collection<FileAnnotation> parse(final String fileName) throws InvocationTargetException {
@@ -837,16 +826,22 @@ public class NewWarningDetectorTest {
     }
 
     private Ast getAst(final String javaFile, final String xmlFile, final String foldername, final boolean before) {
-        String workspace = System.getProperty("user.dir");
+        return AstFactory.getInstance(getPath(javaFile, foldername, before), Iterables.get(readWarning(calcCorrectPath(xmlFile, foldername, before)), 0));
+    }
 
-        Collection<FileAnnotation> fileAnnotation = readWarning(calcCorrectPath(xmlFile, foldername, before));
+    private Ast getAst(final String javaFile, final FileAnnotation fileAnnotation, final String foldername, final boolean before) {
+        return AstFactory.getInstance(getPath(javaFile, foldername, before), fileAnnotation);
+    }
+
+    private String getPath(final String javaFile, final String foldername, final boolean before) {
+        String workspace = System.getProperty("user.dir");
 
         @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
         StringBuilder stringBuilderJavafile = new StringBuilder();
         stringBuilderJavafile.append(workspace).append("/src/test/resources/hudson/plugins/checkstyle/parser/");
         stringBuilderJavafile.append(calcCorrectPath(javaFile, foldername, before));
 
-        return AstFactory.getInstance(stringBuilderJavafile.toString(), Iterables.get(fileAnnotation, 0));
+        return stringBuilderJavafile.toString();
     }
 
     private String calcCorrectPath(final String nameOfFile, final String foldername, final boolean before) {
