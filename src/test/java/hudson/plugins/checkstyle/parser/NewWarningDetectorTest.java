@@ -635,19 +635,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFileWithManyWarningsHasSameHashcode() {
-        try {
-            Set<String> hashSetPevious = calculateHashes("MoreWarningsInClass", true);
-            Set<String> hashSetCurrent = calculateHashes("MoreWarningsInClass_Refactored", false);
-
-            Collection<String> intersection = CollectionUtils.intersection(hashSetCurrent, hashSetPevious);
-
-            assertEquals("Not expected count of warnings", 5, hashSetPevious.size());
-            assertEquals("Not expected count of warnings", 5, hashSetCurrent.size());
-            assertEquals("The warnings aren't equal.", 5, intersection.size());
-        }
-        catch (InvocationTargetException exception) {
-            exception.printStackTrace();
-        }
+        evaluateHashes("MoreWarningsInClass", "MoreWarningsInClass_Refactored", 5, 5, 5);
     }
 
     /**
