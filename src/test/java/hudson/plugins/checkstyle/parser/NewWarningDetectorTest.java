@@ -580,7 +580,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithExtractConstantHaveNotTheSameHashcode() {
-      //TODO
+      checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration4", "PackageDeclaration4", REFACTORING_EXTRACT_CONSTANT, false);
     }
 
     /**
