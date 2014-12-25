@@ -39,13 +39,14 @@ public class InstancevariableAst extends Ast {
         chosenArea.add(objBlock);
         for (int i = 0; i < instanceVariables.size(); i++) {
             clear();
-            chosenArea.add(instanceVariables.get(i));
-            chosenArea.addAll(calcAllChildren(instanceVariables.get(i).getFirstChild()));
+            if (!isConstant(instanceVariables.get(i))) {
+                chosenArea.add(instanceVariables.get(i));
+                chosenArea.addAll(calcAllChildren(instanceVariables.get(i).getFirstChild()));
+            }
         }
 
         return chosenArea;
     }
-
 
     private DetailAST getObjBlockAsParent(final DetailAST ast) {
         if (ast.getType() == TokenTypes.OBJBLOCK) {
