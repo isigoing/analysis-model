@@ -556,7 +556,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithExtractConstantHaveNotTheSameHashcode() {
-        //TODO
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass5", "FinalClass5", REFACTORING_EXTRACT_CONSTANT, false);
     }
 
     /**
@@ -584,7 +584,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testExplicitInitializationWithExtractConstant() {
