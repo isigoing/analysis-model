@@ -512,7 +512,14 @@ public abstract class Ast {
     // Map<nameOfConstant, value>
     private final Map<DetailAST, DetailAST> constants = new HashMap<DetailAST, DetailAST>();
 
-    private boolean isConstant(final DetailAST element) {
+    /**
+     * Returns <code>true</code>, if the element is a constant, otherwise returns <code>false</code>.
+     *
+     * @param element
+     *            the element
+     * @return <code>true</code>, if the element is a constant, otherwise returns <code>false</code>.
+     */
+    protected boolean isConstant(final DetailAST element) {
         if (element.getType() != TokenTypes.VARIABLE_DEF) {
             return false;
         }
@@ -551,7 +558,7 @@ public abstract class Ast {
      *
      * @return the constants
      */
-    public Map<DetailAST, DetailAST> getConstants() {
+    protected Map<DetailAST, DetailAST> getConstants() {
         return constants;
     }
 }
