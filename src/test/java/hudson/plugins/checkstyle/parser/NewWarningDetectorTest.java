@@ -564,7 +564,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractConstant() {
-      //TODO
+      checkThatHashesMatching(NEED_BRACES, "NeedBraces9", "NeedBraces9", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
