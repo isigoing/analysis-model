@@ -234,7 +234,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractMethod() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces1", "NeedBraces1", REFACTORING_EXTRACT_METHOD, true);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces1", REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
@@ -243,7 +243,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces2", "NeedBraces2", REFACTORING_EXTRACT_METHOD, false);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces2", REFACTORING_EXTRACT_METHOD, false);
     }
 
     /**
@@ -251,7 +251,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithExtractMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(FINAL_CLASS, "FinalClass1", "FinalClass1", REFACTORING_EXTRACT_METHOD, false);
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass1", REFACTORING_EXTRACT_METHOD, false);
     }
 
     /**
@@ -259,8 +259,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithExtractMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration1", "PackageDeclaration1",
-                REFACTORING_EXTRACT_METHOD, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration1", REFACTORING_EXTRACT_METHOD, false);
     }
 
     /**
@@ -268,8 +267,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithExtractMethod() {
-        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization2", "ExplicitInitialization2",
-                REFACTORING_EXTRACT_METHOD, true);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization2", REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
@@ -277,7 +275,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithExtractMethod() {
-        checkThatHashesMatching(METHOD_NAME, "MethodName2", "MethodName2", REFACTORING_EXTRACT_METHOD, true);
+        checkThatHashesMatching(METHOD_NAME, "MethodName2", REFACTORING_EXTRACT_METHOD, true);
     }
 
     /**
@@ -335,8 +333,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithPullUpMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(FINAL_CLASS, "FinalClass2SubclassA", "FinalClass2SubclassA",
-                REFACTORING_PULL_UP_METHOD, false);
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass2SubclassA", REFACTORING_PULL_UP_METHOD, false);
     }
 
     /**
@@ -346,8 +343,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithPullUpMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclarationSubclass", "PackageDeclarationSubclass",
-                REFACTORING_PULL_UP_METHOD, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclarationSubclass", REFACTORING_PULL_UP_METHOD, false);
     }
 
     /**
@@ -357,8 +353,8 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithPullUpMethod() {
-        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization1Subclass",
-                "ExplicitInitialization1Subclass", REFACTORING_PULL_UP_METHOD, true);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization1Subclass", REFACTORING_PULL_UP_METHOD,
+                true);
     }
 
     /**
@@ -368,8 +364,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithPullUpMethod() {
-        checkThatHashesMatching(PACKAGE_NAME, "PackageName1Subclass", "PackageName1Subclass",
-                REFACTORING_PULL_UP_METHOD, true);
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName1Subclass", REFACTORING_PULL_UP_METHOD, true);
     }
 
     /**
@@ -412,8 +407,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithPushDownMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(FINAL_CLASS, "FinalClass3Subclass", "FinalClass3Subclass",
-                REFACTORING_PUSH_DOWN_METHOD, false);
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass3Subclass", REFACTORING_PUSH_DOWN_METHOD, false);
     }
 
     /**
@@ -423,8 +417,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithPushDownMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration2Subclass", "PackageDeclaration2Subclass",
-                REFACTORING_PUSH_DOWN_METHOD, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration2Subclass", REFACTORING_PUSH_DOWN_METHOD, false);
     }
 
     /**
@@ -435,7 +428,7 @@ public class NewWarningDetectorTest {
     @Test
     public void testExplicitInitializationWithPushDownMethod() {
         checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization3Subclass",
-                "ExplicitInitialization3Subclass", REFACTORING_PUSH_DOWN_METHOD, true);
+                REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
@@ -445,8 +438,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithPushDownMethod() {
-        checkThatHashesMatching(PACKAGE_NAME, "PackageName3Superclass", "PackageName3Superclass",
-                REFACTORING_PUSH_DOWN_METHOD, true);
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName3Superclass", REFACTORING_PUSH_DOWN_METHOD, true);
     }
 
     /**
@@ -454,7 +446,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithInlineMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(FINAL_CLASS, "FinalClass4", "FinalClass4", REFACTORING_INLINE_METHOD, false);
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass4", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
@@ -462,7 +454,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithInlineMethod() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces7", "NeedBraces7", REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces7", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -470,7 +462,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithInlineMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(NEED_BRACES, "NeedBraces8", "NeedBraces8", REFACTORING_INLINE_METHOD, false);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces8", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
@@ -478,8 +470,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithInlineMethod() {
-        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration3", "PackageDeclaration3",
-                REFACTORING_INLINE_METHOD, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration3", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
@@ -487,8 +478,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithInlineMethod() {
-        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization4", "ExplicitInitialization4",
-                REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization4", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -496,7 +486,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithInlineMethod() {
-        checkThatHashesMatching(METHOD_NAME, "MethodName5", "MethodName5", REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(METHOD_NAME, "MethodName5", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -504,7 +494,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithInlineMethodHaveNotTheSameHashcode() {
-        checkThatHashesMatching(METHOD_NAME, "MethodName6", "MethodName6", REFACTORING_INLINE_METHOD, false);
+        checkThatHashesMatching(METHOD_NAME, "MethodName6", REFACTORING_INLINE_METHOD, false);
     }
 
     /**
@@ -512,7 +502,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithInlineMethod() {
-        checkThatHashesMatching(PACKAGE_NAME, "PackageName4", "PackageName4", REFACTORING_INLINE_METHOD, true);
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName4", REFACTORING_INLINE_METHOD, true);
     }
 
     /**
@@ -532,7 +522,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithExtractConstantAsAVariable() {
-        checkThatHashesMatching(METHOD_NAME, "MethodName7", "MethodName7", REFACTORING_EXTRACT_CONSTANT, true);
+        checkThatHashesMatching(METHOD_NAME, "MethodName7", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
@@ -540,7 +530,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testMethodNameWithExtractConstantInSysout() {
-        checkThatHashesMatching(METHOD_NAME, "MethodName8", "MethodName8", REFACTORING_EXTRACT_CONSTANT, true);
+        checkThatHashesMatching(METHOD_NAME, "MethodName8", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
@@ -548,7 +538,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageNameWithExtractConstant() {
-        checkThatHashesMatching(PACKAGE_NAME, "PackageName5", "PackageName5", REFACTORING_EXTRACT_CONSTANT, true);
+        checkThatHashesMatching(PACKAGE_NAME, "PackageName5", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
@@ -556,7 +546,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testFinalClassWithExtractConstantHaveNotTheSameHashcode() {
-        checkThatHashesMatching(FINAL_CLASS, "FinalClass5", "FinalClass5", REFACTORING_EXTRACT_CONSTANT, false);
+        checkThatHashesMatching(FINAL_CLASS, "FinalClass5", REFACTORING_EXTRACT_CONSTANT, false);
     }
 
     /**
@@ -564,7 +554,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractConstant() {
-      checkThatHashesMatching(NEED_BRACES, "NeedBraces9", "NeedBraces9", REFACTORING_EXTRACT_CONSTANT, true);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces9", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
@@ -572,7 +562,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractConstantHaveNotTheSameHashcode() {
-      checkThatHashesMatching(NEED_BRACES, "NeedBraces10", "NeedBraces10", REFACTORING_EXTRACT_CONSTANT, false);
+        checkThatHashesMatching(NEED_BRACES, "NeedBraces10", REFACTORING_EXTRACT_CONSTANT, false);
     }
 
     /**
@@ -580,7 +570,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testPackageDeclarationWithExtractConstantHaveNotTheSameHashcode() {
-      checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration4", "PackageDeclaration4", REFACTORING_EXTRACT_CONSTANT, false);
+        checkThatHashesMatching(PACKAGE_DECLARATION, "PackageDeclaration4", REFACTORING_EXTRACT_CONSTANT, false);
     }
 
     /**
@@ -588,7 +578,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testExplicitInitializationWithExtractConstant() {
-      checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization5", "ExplicitInitialization5", REFACTORING_EXTRACT_CONSTANT, true);
+        checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization5", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
@@ -837,6 +827,11 @@ public class NewWarningDetectorTest {
         else {
             compareHashcodeOnNonEquality(hashBefore, hashAfter);
         }
+    }
+
+    private void checkThatHashesMatching(final String warningType, final String fileName, final String refactoring,
+            final boolean expectedEqualHashcode) {
+        checkThatHashesMatching(warningType, fileName, fileName, refactoring, expectedEqualHashcode);
     }
 
     private String calcHashcode(final String filename, final String foldername, final boolean beforeRefactoring) {
