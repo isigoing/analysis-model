@@ -572,7 +572,7 @@ public class NewWarningDetectorTest {
      */
     @Test
     public void testNeedBracesWithExtractConstantHaveNotTheSameHashcode() {
-      //TODO
+      checkThatHashesMatching(NEED_BRACES, "NeedBraces10", "NeedBraces10", REFACTORING_EXTRACT_CONSTANT, false);
     }
 
     /**
