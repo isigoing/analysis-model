@@ -587,8 +587,8 @@ public class NewWarningDetectorTest {
      * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
-    public void testExplicitInitializationWithExtractConstantHaveNotTheSameHashcode() {
-      //TODO
+    public void testExplicitInitializationWithExtractConstant() {
+      checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization5", "ExplicitInitialization5", REFACTORING_EXTRACT_CONSTANT, true);
     }
 
     /**
