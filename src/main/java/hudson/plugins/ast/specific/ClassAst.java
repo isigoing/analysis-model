@@ -17,7 +17,7 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  * @author Christian M&ouml;stl
  */
-// FIXME: Betreffende Klasse berücksichtigen (bei OBJBLOCK) und nicht die oberste aller Klassen!
+// FIXME: Regard concerned java-class (at OBJBLOCK) and not inherently the top of all classes!
 public class ClassAst extends Ast {
 
     private final List<DetailAST> siblings = new ArrayList<DetailAST>();

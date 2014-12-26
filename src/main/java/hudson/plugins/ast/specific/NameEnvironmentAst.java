@@ -33,8 +33,7 @@ public class NameEnvironmentAst extends Ast {
 
     @Override
     public List<DetailAST> chooseArea() {
-        List<DetailAST> chosen = new EnvironmentAst(getFilename(), getFileAnnotation(), surrounding).chooseArea();
-
+        // FIXME Auto-generated method stub
         return null;
     }
 

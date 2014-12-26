@@ -8,7 +8,7 @@ import java.util.List;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 /**
- * FIXME: Document type NameClassAst.
+ * Document type NameClassAst.
  *
  * @author Christian M&ouml;stl
  */

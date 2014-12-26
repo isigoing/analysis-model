@@ -30,7 +30,6 @@ import org.junit.Test;
  */
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class NewWarningDetectorTest {
-    // TODO: Check all Javadocs of correctness
     private static final String PACKAGE_DECLARATION = "PackageDeclaration";
     private static final String REDUNDANT_MODIFIER = "RedundantModifier";
     private static final String FINAL_CLASS = "FinalClass";
@@ -48,7 +47,7 @@ public class NewWarningDetectorTest {
     private static final String INSTANCEVARIABLE_AST_FOLDERNAME = "InstancevariableAst";
     private static final String NAME_PACKAGE_AST_FOLDERNAME = "NamePackageAst";
 
-    // Compare Refactorings from Martin Fowler:
+    // Compare Refactorings from Martin Fowler (http://refactoring.com/catalog/)
     private static final String REFACTORING_NEWLINE = "_Newline";
     private static final String REFACTORING_RENAME = "_Rename";
     private static final String REFACTORING_EXTRACT_METHOD = "_ExtractMethod";
@@ -238,8 +237,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Even though it is the exact same warning it won't
-     * calculate the same hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testNeedBracesWithExtractMethodHaveNotTheSameHashcode() {
@@ -295,8 +293,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is the same, because only the method was shifted in the superclass.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testMethodNameWithPullUpMethod() {
@@ -305,9 +302,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is the same, because only the method was shifted in the superclass and the environment-Ast
-     * calculates the correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testNeedBracesWithPullUpMethod() {
@@ -316,9 +311,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is NOT the same, because the method was shifted in the superclass and the environment-Ast
-     * can't calculate the correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testNeedBracesWithPullUpMethodHaveNotTheSameHashcode() {
@@ -327,9 +320,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is NOT the same, because the method was shifted in the superclass and the class-Ast can't
-     * calculate the correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testFinalClassWithPullUpMethodHaveNotTheSameHashcode() {
@@ -337,9 +328,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is NOT the same, because the method was shifted in the superclass and the file-Ast can't
-     * calculate the correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testPackageDeclarationWithPullUpMethodHaveNotTheSameHashcode() {
@@ -347,9 +336,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is the same, because only the method was shifted in the superclass and the
-     * instancevariable-Ast calculates the correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testExplicitInitializationWithPullUpMethod() {
@@ -358,9 +345,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pulls up a method (with a warning) in the superclass. It
-     * shows that the warning is the same, because only the method was shifted in the superclass and the namepackage-Ast
-     * calculates the correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testPackageNameWithPullUpMethod() {
@@ -368,9 +353,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method (with a warning) in the subclass. It
-     * shows that the warning is the same, because only the method was shifted in the subclass and the method-ast
-     * calculates the correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testMethodNameWithPushDownMethod() {
@@ -379,9 +362,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It shows that the
-     * warning is the same, because only the method was shifted in the subclass and the environment-Ast calculates the
-     * correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testNeedBracesWithPushDownMethod() {
@@ -390,9 +371,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It shows that the
-     * warning is the same, because only the method was shifted in the subclass and the environment-Ast can't calculate
-     * the correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testNeedBracesWithPushDownMethodHaveNotTheSameHashcode() {
@@ -401,9 +380,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It shows that the
-     * warning is the same, because only the method was shifted in the subclass and the class-Ast can't calculate the
-     * correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testFinalClassWithPushDownMethodHaveNotTheSameHashcode() {
@@ -411,9 +388,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates NOT the same hashcode. Pushes down a method in the subclass. It shows that the
-     * warning is the same, because only the method was shifted in the subclass and the file-Ast can't calculate the
-     * correct hashcode.
+     * Verifies that the ast calculates NOT the same hashcode.
      */
     @Test
     public void testPackageDeclarationWithPushDownMethodHaveNotTheSameHashcode() {
@@ -421,9 +396,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It shows that the
-     * warning is the same, because only the method was shifted in the subclass and the instancevariable-Ast calculates
-     * the correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testExplicitInitializationWithPushDownMethod() {
@@ -432,9 +405,7 @@ public class NewWarningDetectorTest {
     }
 
     /**
-     * Verifies that the ast calculates the same hashcode. Pushes down a method in the subclass. It shows that the
-     * warning is the same, because only the method was shifted in the subclass and the namepackage-Ast calculates the
-     * correct hashcode.
+     * Verifies that the ast calculates the same hashcode.
      */
     @Test
     public void testPackageNameWithPushDownMethod() {
@@ -505,17 +476,6 @@ public class NewWarningDetectorTest {
         checkThatHashesMatching(PACKAGE_NAME, "PackageName4", REFACTORING_INLINE_METHOD, true);
     }
 
-    /**
-     * Verifies that the ClassAst works right.
-     */
-    @Test
-    public void testClassAst() {
-        String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI CLASS_DEF MODIFIERS LITERAL_PUBLIC LITERAL_CLASS IDENT OBJBLOCK LCURLY VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_INT IDENT SEMI CTOR_DEF MODIFIERS LITERAL_PRIVATE IDENT LPAREN PARAMETERS RPAREN SLIST RCURLY RCURLY ";
-
-        Ast ast = getAst("FinalClass_Newline.java", "FinalClass_Newline.xml", CLASS_AST_FOLDERNAME, false);
-
-        checkAst(expectedResult, ast);
-    }
 
     /**
      * Verifies that the ast calculates the same hashcode.
@@ -579,6 +539,18 @@ public class NewWarningDetectorTest {
     @Test
     public void testExplicitInitializationWithExtractConstant() {
         checkThatHashesMatching(EXPLICIT_INITIALIZATION, "ExplicitInitialization5", REFACTORING_EXTRACT_CONSTANT, true);
+    }
+
+    /**
+     * Verifies that the ClassAst works right.
+     */
+    @Test
+    public void testClassAst() {
+        String expectedResult = "PACKAGE_DEF ANNOTATIONS DOT DOT IDENT IDENT IDENT SEMI CLASS_DEF MODIFIERS LITERAL_PUBLIC LITERAL_CLASS IDENT OBJBLOCK LCURLY VARIABLE_DEF MODIFIERS LITERAL_PRIVATE TYPE LITERAL_INT IDENT SEMI CTOR_DEF MODIFIERS LITERAL_PRIVATE IDENT LPAREN PARAMETERS RPAREN SLIST RCURLY RCURLY ";
+
+        Ast ast = getAst("FinalClass_Newline.java", "FinalClass_Newline.xml", CLASS_AST_FOLDERNAME, false);
+
+        checkAst(expectedResult, ast);
     }
 
     /**
