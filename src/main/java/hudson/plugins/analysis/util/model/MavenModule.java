@@ -1,5 +1,10 @@
 package hudson.plugins.analysis.util.model;
 
+import java.util.Map;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+
 /**
  * A serializable Java Bean class representing a maven module.
  *
@@ -8,6 +13,11 @@ package hudson.plugins.analysis.util.model;
 public class MavenModule extends AnnotationContainer {
     /** Unique identifier of this class. */
     private static final long serialVersionUID = 5467122420572804130L;
+    /** Name of this module. */
+    private String name; // NOPMD: backward compatibility
+    /** All Java packages in this maven module (mapped by their name). */
+    @SuppressFBWarnings("Se")
+    private Map<String, JavaPackage> packageMapping; // NOPMD: backward compatibility
     /** The error message that denotes that the creation of the module has been failed. */
     private String error;
 
@@ -38,6 +48,9 @@ public class MavenModule extends AnnotationContainer {
     private Object readResolve() {
         setHierarchy(Hierarchy.MODULE);
         rebuildMappings();
+        if (name != null) {
+            setName(name);
+        }
         return this;
     }
 

@@ -1,6 +1,7 @@
 package hudson.plugins.checkstyle.rules;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -48,11 +49,15 @@ public final class CheckStyleRules {
      */
     public void initialize() {
         try {
-            String[] ruleFiles = new String[] {"annotation", "blocks", "coding", "design", "duplicates", "header",
+            String[] ruleFiles = new String[] {"annotation", "blocks", "coding", "design", "filters", "header",
                     "imports", "javadoc", "metrics", "misc", "modifier", "naming", "regexp", "reporting",
                     "sizes", "whitespace"};
             for (int i = 0; i < ruleFiles.length; i++) {
-                InputStream inputStream = CheckStyleRules.class.getResourceAsStream("config_" + ruleFiles[i] + ".xml");
+                String fileName = "config_" + ruleFiles[i] + ".xml";
+                InputStream inputStream = CheckStyleRules.class.getResourceAsStream(fileName);
+                if (inputStream == null) {
+                    throw new FileNotFoundException(fileName);
+                }
                 Digester digester = createDigester();
                 List<Rule> rules = new ArrayList<Rule>();
                 digester.push(rules);

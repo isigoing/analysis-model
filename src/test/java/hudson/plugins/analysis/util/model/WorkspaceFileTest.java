@@ -3,6 +3,7 @@ package hudson.plugins.analysis.util.model;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.junit.Assert.*;
 
 
@@ -54,6 +55,7 @@ public class WorkspaceFileTest {
          * @param priority
          *            the priority
          */
+        @SuppressFBWarnings("ST")
         Warning(final Priority priority) {
             super(priority, String.valueOf(key++), key++, key++, String.valueOf(key++), String.valueOf(key++));
 

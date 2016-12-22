@@ -8,6 +8,8 @@ package hudson.plugins.analysis.util.model;
 public class JavaPackage extends AnnotationContainer {
     /** Unique identifier of this class. */
     private static final long serialVersionUID = 4034932648975191723L;
+    /** Name of this package. */
+    private String name; // NOPMD: backward compatibility
 
     /**
      * Creates a new instance of <code>JavaPackage</code>.
@@ -27,6 +29,9 @@ public class JavaPackage extends AnnotationContainer {
     private Object readResolve() {
         setHierarchy(Hierarchy.PACKAGE);
         rebuildMappings();
+        if (name != null) {
+            setName(name);
+        }
         return this;
     }
 }

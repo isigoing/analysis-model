@@ -18,8 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * A container for annotations.
  *
@@ -28,6 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public abstract class AnnotationContainer implements AnnotationProvider, Serializable, Comparable<AnnotationContainer> {
     /** Unique identifier of this class. */
     private static final long serialVersionUID = 855696821788264261L;
+
     /** The hierarchy of a container. */
     public enum Hierarchy {
         /** Project level. */
@@ -167,7 +166,7 @@ public abstract class AnnotationContainer implements AnnotationProvider, Seriali
      *
      * @return the created object
      */
-    @SuppressFBWarnings("Se")
+    @SuppressWarnings("Se")
     private Object readResolve() {
         rebuildMappings();
         return this;
@@ -266,13 +265,7 @@ public abstract class AnnotationContainer implements AnnotationProvider, Seriali
      * @param annotation the new annotation
      */
     private void addPackage(final FileAnnotation annotation) {
-        String packageName;
-        if (annotation.hasPackageName()) {
-            packageName = annotation.getPackageName();
-        }
-        else {
-            packageName = annotation.getPathName();
-        }
+        String packageName = annotation.getPackageName();
         if (StringUtils.isBlank(packageName)) {
             packageName = "-";
         }

@@ -67,16 +67,14 @@ public interface FileAnnotation extends Comparable<FileAnnotation> {
     /**
      * Sets the file name to the specified value.
      *
-     * @param fileName
-     *            the value to set
+     * @param fileName the value to set
      */
     void setFileName(final String fileName);
 
     /**
      * Sets the pathname for this warning.
      *
-     * @param workspacePath
-     *            the workspace path
+     * @param workspacePath the workspace path
      */
     void setPathName(final String workspacePath);
 
@@ -97,8 +95,7 @@ public interface FileAnnotation extends Comparable<FileAnnotation> {
     /**
      * Sets the name of the maven or ant module that contains this annotation.
      *
-     * @param moduleName
-     *            the name of the module that contains this annotation
+     * @param moduleName the name of the module that contains this annotation
      */
     void setModuleName(String moduleName);
 
@@ -152,27 +149,11 @@ public interface FileAnnotation extends Comparable<FileAnnotation> {
     long getContextHashCode();
 
     /**
-     * Returns a hash code of the context of this annotation.
-     *
-     * @return a hash code of the context of this annotation.
-     */
-    String getContextHashCodeSha();
-
-    /**
      * Sets the context hash code to the specified value.
      *
-     * @param contextHashCode
-     *            the value to set
+     * @param contextHashCode the value to set
      */
     void setContextHashCode(long contextHashCode);
-
-    /**
-     * Sets the context hash code to the specified value.
-     *
-     * @param hashCodeSha
-     *            the value to set
-     */
-    void setContextHashCodeSha(String hashCodeSha);
 
     /**
      * Returns the start column of the position of this warning.
@@ -194,7 +175,7 @@ public interface FileAnnotation extends Comparable<FileAnnotation> {
      * Returns whether this annotation is in the console log or in a file in the filesystem.
      *
      * @return <code>true</code> if this annotation is in the console log, or <code>false</code> if this annotation is
-     *         in a file in the filesystem.
+     * in a file in the filesystem.
      * @since 1.53
      */
     boolean isInConsoleLog();

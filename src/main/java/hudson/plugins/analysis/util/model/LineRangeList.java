@@ -60,7 +60,7 @@ public class LineRangeList extends AbstractList<LineRange> implements Serializab
     }
 
     private class Cursor implements ListIterator<LineRange> {
-        private int pos = 0;
+        int pos = 0;
 
         private Cursor(final int pos) {
             this.pos = pos;

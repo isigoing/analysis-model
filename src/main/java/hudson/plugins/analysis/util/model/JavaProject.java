@@ -18,6 +18,7 @@ public class JavaProject extends AnnotationContainer {
     /** The error message that denotes that why project creation has been failed. */
     private String error;
     /** The error messages of the modules. */
+    @SuppressWarnings("Se")
     private final List<String> moduleErrors = new ArrayList<String>();
 
     /**

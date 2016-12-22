@@ -1,5 +1,9 @@
 package hudson.plugins.checkstyle.parser;
 
+import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import hudson.plugins.analysis.util.model.AbstractAnnotation;
 import hudson.plugins.analysis.util.model.Priority;
 import hudson.plugins.checkstyle.rules.CheckStyleRules;
@@ -62,5 +66,11 @@ public class Warning extends AbstractAnnotation {
     public String getToolTip() {
         return CheckStyleRules.getInstance().getDescription(getType());
     }
+
+    /** Not used anymore. @deprecated */
+    @SuppressWarnings("all")
+    @SuppressFBWarnings("")
+    @Deprecated
+    private final transient String tooltip = StringUtils.EMPTY; // backward compatibility NOPMD
 }
 

@@ -12,6 +12,8 @@ public class WorkspaceFile extends AnnotationContainer {
     private static final String UNIX_SLASH = "/";
     /** Unique identifier of this class. */
     private static final long serialVersionUID = 601361940925156719L;
+    /** The absolute filename of this file. */
+    private String name; // NOPMD: backward compatibility
 
     /**
      * Creates a new instance of <code>WorkspaceFile</code>.
@@ -46,6 +48,9 @@ public class WorkspaceFile extends AnnotationContainer {
     private Object readResolve() {
         setHierarchy(Hierarchy.FILE);
         rebuildMappings();
+        if (name != null) {
+            setName(name);
+        }
         return this;
     }
 
