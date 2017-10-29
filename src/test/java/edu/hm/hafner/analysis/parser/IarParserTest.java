@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class IarParserTest extends ParserTester {
     private static final String TYPE = new IarParser().getId();
 
+    // hjalkshdlkajhsd
+
     /**
      * Parses a file with warnings/errors in all styles. it check the amount of error/warnings found
      *
